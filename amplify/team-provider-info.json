@@ -10,6 +10,13 @@
             "StackName": "amplify-zavzdelanim-dev-134605",
             "StackId": "arn:aws:cloudformation:eu-central-1:063392365812:stack/amplify-zavzdelanim-dev-134605/a347d0c0-4d95-11ea-9525-0a24e2904074",
             "AmplifyAppId": "d3i061ekbr8flf"
+        },
+        "categories": {
+            "auth": {
+                "zavzdelanim319b6db7": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"2464686983779813\",\"client_secret\":\"89e6e46838b64aa4420931bf9b83f270\"},{\"ProviderName\":\"Google\",\"client_id\":\"1006764180499-fj3q1a4o92ukbf6ijg3l4q7dh6gm9bcb.apps.googleusercontent.com\",\"client_secret\":\"nLKnvLxiFkIhvdG-o8C_HmZ-\"}]"
+                }
+            }
         }
     }
 }

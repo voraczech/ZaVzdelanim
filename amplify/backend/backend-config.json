@@ -1,1 +1,9 @@
-{}
+{
+	"auth": {
+		"zavzdelanim319b6db7": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	}
+}
