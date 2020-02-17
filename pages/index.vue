@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <div v-if="!signedIn">kkk
-      <amplify-authenticator />
+      <button
+        @click="click"
+        class="bg-purple-400 text-purple-800 py-2 px-3 rounded-lg shadow-md text-xl"
+      >hola</button>
     </div>
     <div v-else>
       <amplify-sign-out />
@@ -19,6 +22,9 @@ export default {
     };
   },
   methods: {
+    click() {
+      return Auth.federatedSignIn({ provider: "Facebook" });
+    },
     async findUser() {
       try {
         const user = await Auth.currentAuthenticatedUser();
@@ -33,7 +39,7 @@ export default {
     this.findUser();
     AmplifyEventBus.$on("authState", info => {
       if (info === "signedIn") {
-        this.findUser();
+        //  this.findUser();
       } else {
         this.signedIn = false;
       }
