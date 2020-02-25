@@ -1,18 +1,21 @@
 <template>
-  <div class="container">
-    <div v-if="!signedIn">kkk
-      <button
-        @click="click"
-        class="bg-purple-400 text-purple-800 py-2 px-3 rounded-lg shadow-md text-xl"
-      >hola</button>
-    </div>
-    <div v-else>
-      <amplify-sign-out />
+  <div>
+    <div class="flex flex-wrap -mx-4">
+      <div
+        v-for="n in 8"
+        :key="n"
+        class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
+      >
+        <a href="info">
+          <VCard />
+        </a>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import VCard from "@/components/molecules/Card";
 import { Auth } from "aws-amplify";
 import { AmplifyEventBus } from "aws-amplify-vue";
 export default {
@@ -21,6 +24,7 @@ export default {
       signedIn: false
     };
   },
+  components: { VCard },
   methods: {
     click() {
       return Auth.federatedSignIn({ provider: "Facebook" });
@@ -47,19 +51,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-.logo {
-  margin-bottom: 30px;
-  max-width: 400px;
-}
-</style>
