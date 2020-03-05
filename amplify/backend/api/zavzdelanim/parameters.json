@@ -1,0 +1,11 @@
+{
+    "AppSyncApiName": "zavzdelanim",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authzavzdelanim319b6db7",
+            "Outputs.UserPoolId"
+        ]
+    }
+}
