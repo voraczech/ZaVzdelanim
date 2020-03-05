@@ -5,7 +5,11 @@
         <button @click="click({provider: 'Facebook'})">Open Facebook</button>
         <button @click="click({provider: 'Google'})">Open Google</button>
         <button @click="click()">Open Hosted UI</button>
-        <button @click="Auth.signOut()">Sign Out</button>
+        <button @click="signout()">Sign Out</button>
+        <div v-if="signedIn"> <img
+            :src="user.attributes.picture"
+            alt=""
+          > {{ user.attributes.name }}</div>
       </div>
       <div
         v-for="n in 8"
@@ -24,7 +28,7 @@
 import VCard from "@/components/molecules/Card";
 import { AmplifyEventBus } from "aws-amplify-vue";
 
-import Amplify, { Auth, Hub } from "aws-amplify";
+import { Auth, Hub } from "aws-amplify";
 
 export default {
   data() {
@@ -34,6 +38,7 @@ export default {
       customState: null
     };
   },
+  mixins: ["auth"],
   components: { VCard },
   methods: {
     click(option) {
@@ -43,17 +48,43 @@ export default {
       try {
         const user = await Auth.currentAuthenticatedUser();
         this.signedIn = true;
-        console.log(user);
+        this.user = user;
+        console.log(this.user);
       } catch (err) {
         this.signedIn = false;
+        console.log("nope");
       }
+    },
+    signout() {
+      Auth.signOut();
     }
+  },
+  mounted() {
+    Hub.listen("auth", ({ payload: { event, data } }) => {
+      switch (event) {
+        case "signIn":
+          this.user = { data };
+          console.log("aa", data);
+          break;
+        case "signOut":
+          this.user = null;
+          console.log("b");
+          break;
+        case "customOAuthState":
+          this.setState({ customState: data });
+          console.log("d");
+      }
+    });
+
+    Auth.currentAuthenticatedUser()
+      .then(user => (this.user = user))
+      .catch(() => console.log("Not signed in"));
   },
   created() {
     this.findUser();
     AmplifyEventBus.$on("authState", info => {
       if (info === "signedIn") {
-        //  this.findUser();
+        this.findUser();
       } else {
         this.signedIn = false;
       }

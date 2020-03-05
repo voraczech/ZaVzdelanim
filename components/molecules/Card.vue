@@ -1,9 +1,6 @@
 <template>
   <div class="bg-white rounded shadow-lg hover:shadow-xl flex flex-col overflow-hidden trans">
-    <VImage
-      publicId="nabor/prednaska"
-      alt=""
-    />
+
     <div class="my-4 mx-4">
       <h3 class="font-bold text-sm">Facebook pro firmy II: Jak nastartovat svoji Facebook strán</h3>
       <div class="text-gray-600 text-xs">
