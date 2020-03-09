@@ -51,12 +51,14 @@
                   Zapomněl jsem heslo 🤦‍♂️
                 </nuxt-link>
                 <button
+                  @click="signIn({provider: 'Facebook'})"
                   type="submit"
                   class="bg-purple-500 mt-6 hover:bg-purple-700 text-white text-sm font-semibold py-2 px-4 rounded"
                 >
                   Facebook login
                 </button>
                 <button
+                  @click="signIn({provider: 'Google'})"
                   type="submit"
                   class="bg-purple-500 mt-2 hover:bg-purple-700 text-white text-sm font-semibold py-2 px-4 rounded"
                 >
@@ -74,3 +76,15 @@
     </div>
   </div>
 </template>
+
+<script>
+import { Auth, Hub } from "aws-amplify";
+
+export default {
+  methods: {
+    signIn(option) {
+      return Auth.federatedSignIn(option);
+    }
+  }
+};
+</script>

@@ -61,18 +61,8 @@ export default {
   },
   mounted() {
     Hub.listen("auth", ({ payload: { event, data } }) => {
-      switch (event) {
-        case "signIn":
-          this.user = { data };
-          console.log("aa", data);
-          break;
-        case "signOut":
-          this.user = null;
-          console.log("b");
-          break;
-        case "customOAuthState":
-          this.setState({ customState: data });
-          console.log("d");
+      if (event === `signIn`) {
+        this.findUser();
       }
     });
 
