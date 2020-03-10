@@ -16,9 +16,9 @@
         :key="n"
         class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
       >
-        <a href="info">
+        <nuxt-link to="event/1">
           <VCard />
-        </a>
+        </nuxt-link>
       </div>
     </div>
   </div>
@@ -49,10 +49,8 @@ export default {
         const user = await Auth.currentAuthenticatedUser();
         this.signedIn = true;
         this.user = user;
-        console.log(this.user);
       } catch (err) {
         this.signedIn = false;
-        console.log("nope");
       }
     },
     signout() {
@@ -65,20 +63,9 @@ export default {
         this.findUser();
       }
     });
-
-    Auth.currentAuthenticatedUser()
-      .then(user => (this.user = user))
-      .catch(() => console.log("Not signed in"));
   },
   created() {
     this.findUser();
-    AmplifyEventBus.$on("authState", info => {
-      if (info === "signedIn") {
-        this.findUser();
-      } else {
-        this.signedIn = false;
-      }
-    });
   }
 };
 </script>
