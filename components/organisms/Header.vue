@@ -8,9 +8,31 @@
       </nuxt-link>
     </header>
     <nav class="px-16 py-5">
-      <nuxt-link to="/">Přednášky</nuxt-link>
-      <nuxt-link to="/">Přednášející</nuxt-link>
-      <nuxt-link to="/">Organizace</nuxt-link>
+      <nuxt-link to="/event">Přednášky</nuxt-link>
+      <nuxt-link to="/speaker">Přednášející</nuxt-link>
+      <nuxt-link to="/organization">Organizace</nuxt-link>
     </nav>
+    {{  }}
   </div>
 </template>
+
+<script>
+import { AmplifyEventBus } from "aws-amplify-vue";
+
+export default {
+  data() {
+    return {
+      signedIn: false,
+    };
+  },
+  created() {
+    AmplifyEventBus.$on("authState", info => {
+      if (info === "signedIn") {
+        this.findUser();
+      } else {
+        this.signedIn = false;
+      }
+    });
+  }
+};
+</script>
