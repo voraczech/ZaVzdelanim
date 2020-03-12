@@ -1,16 +1,76 @@
-type Blog @model {
-  id: ID!
-  name: String!
-  posts: [Post] @connection(name: "BlogPosts")
-}
-type Post @model {
+type Event @model {
   id: ID!
   title: String!
-  blog: Blog @connection(name: "BlogPosts")
-  comments: [Comment] @connection(name: "PostComments")
+  description: String
+  date: AWSTimestamp
+  host: Host @connection(name: "EventHost")
+  attendence: Attendence @connection(name:"EventAttendence")
+  speaking: Speaking @connection(name: "EventSpeaking")
 }
-type Comment @model {
+
+type User @model {
   id: ID!
-  content: String
-  post: Post @connection(name: "PostComments")
+  cognitoId: String!
+  attendence: Attendence @connection(name: "UserAttendence")
+  organizations: Owner @connection(name: "UserOwner")
+  speaker: Speaker @connection(name: "UserSpeaker")
 }
+
+type Organization @model{
+  id: ID!
+  name: String!
+  owner: Owner @connection(name: "OrganizationOwner")
+  host: Host @connection(name:"OrganizationHost")
+}
+
+type Speaker @model{
+  id: ID!
+  name: String!
+  speaking: Speaking @connection(name:"SpeakerSpeaking")
+  user: User @connection(name:"UserSpeaker")
+}
+
+type Attendence @model{
+  id: ID!
+  event: Event @connection(name: "EventAttendence")
+  user: User @connection(name: "UserAttendence")
+}
+
+type Owner @model{
+  id: ID!
+  organization: Organization @connection(name: "OrganizationOwner")
+  user: User @connection(name: "UserOwner")
+}
+
+type Host @model{
+  id: ID!
+  organization: Organization @connection(name: "OrganizationHost")
+  event: Event @connection(name: "EventHost")
+}
+
+type Speaking @model{
+  id: ID!
+  speaker: Speaker @connection(name: "SpeakerSpeaking")
+  event: Event @connection(name: "EventSpeaking")
+}
+
+# type Blog @model {
+#   id: ID!
+#   name: String!
+#   posts: [Post] @connection(name: "BlogPosts")
+# }
+# type Post @model {
+#   id: ID!
+#   title: String!
+#   blog: Blog @connection(name: "BlogPosts")
+#   comments: [Comment] @connection(name: "PostComments")
+# }
+# type Comment @model {
+#   id: ID!
+#   content: String
+#   post: Post @connection(name: "PostComments")
+# }
+# type Posty @model @auth(rules: [{allow: public}]) {
+#   id: ID!
+#   title: String!
+# }
