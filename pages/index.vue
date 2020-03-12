@@ -6,7 +6,7 @@
         <button @click="click({provider: 'Google'})">Open Google</button>
         <button @click="click()">Open Hosted UI</button>
         <button @click="signout()">Sign Out</button>
-        <div v-if="signedIn"> <img
+        <div v-if="signedIn">{{ user.attributes.sub }} <img
             :src="user.attributes.picture"
             alt=""
           > {{ user.attributes.name }}</div>
