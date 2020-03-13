@@ -2,13 +2,24 @@
   <div>
     <amplify-connect :query="ListTodosQuery">
       <template slot-scope="{loading, data, errors}">
-        {{ errors }}
-        <div v-if="loading">Loading...</div>
+        <div v-if="loading">Načítám...</div>
         <div v-if="errors > 0">
           Chyba, to mě mrzí.
         </div>
-        <div v-else-if="data">
-          {{ data }}
+        <div v-else-if="data.listEvents">
+          <div class="flex flex-wrap -mx-4">
+            <div
+              v-for="item in data.listEvents.items"
+              :key="item.id"
+              class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
+            >
+              <nuxt-link :to="`event/${item.id}`">
+                <VCard>
+                  <template slot="title">{{ item.title }}</template>
+                </VCard>
+              </nuxt-link>
+            </div>
+          </div>
         </div>
       </template>
     </amplify-connect>
@@ -16,9 +27,10 @@
 </template>
 
 <script>
-import { components } from "aws-amplify-vue";
-const ListTodoQuery = `query ListPosts {
-  listPosts{
+import VCard from "@/components/molecules/Card";
+
+const ListEvents = `query ListEvents {
+  listEvents{
     items {
       id
       title
@@ -29,11 +41,11 @@ const ListTodoQuery = `query ListPosts {
 
 export default {
   components: {
-    ...components
+    VCard
   },
   computed: {
     ListTodosQuery() {
-      return this.$Amplify.graphqlOperation(ListTodoQuery);
+      return this.$Amplify.graphqlOperation(ListEvents);
     }
   }
 };
