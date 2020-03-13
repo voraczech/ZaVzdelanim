@@ -11,6 +11,7 @@
 import VHeader from "@/components/organisms/Header";
 
 export default {
-  components: { VHeader }
+  components: { VHeader },
+  middleware: "authenticated"
 };
 </script>

@@ -78,13 +78,14 @@
 </template>
 
 <script>
-import { Auth, Hub } from "aws-amplify";
+import Auth from "@aws-amplify/auth";
 
 export default {
   methods: {
     signIn(option) {
       return Auth.federatedSignIn(option);
     }
-  }
+  },
+  middleware: "signin"
 };
 </script>
