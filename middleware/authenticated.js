@@ -12,11 +12,8 @@ export default async function ({ store, redirect }) {
 
     try {
       const user = await Auth.currentAuthenticatedUser();
-      console.log(user)
-
       store.commit(`setUser`, user.attributes)
     } catch (err) {
-      console.log(err)
       return redirect("/signin");
     }
   }
