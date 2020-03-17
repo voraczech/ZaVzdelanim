@@ -3,7 +3,7 @@
     <amplify-connect :query="ListTodosQuery">
       <template slot-scope="{loading, data, errors}">
         <div v-if="loading">Načítám...</div>
-        <div v-if="errors > 0">
+        <div v-if="errors.length > 0">
           Chyba, to mě mrzí.
         </div>
         <div v-else-if="data.listEvents">
