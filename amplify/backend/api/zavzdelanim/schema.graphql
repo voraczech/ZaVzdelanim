@@ -1,74 +1,82 @@
-type Event @model {
+  # @auth(rules: [{allow: groups, groupsField: "groups"}])
+
+type Event @model
+ {
   id: ID!
   title: String!
   description: String
   date: AWSTimestamp
-  host: Host @connection(name: "EventHost")
-  attendence: Attendence @connection(name:"EventAttendence")
-  speaking: Speaking @connection(name: "EventSpeaking")
+  # new attempt
+  host: [Host] @connection(keyName: "byEvent", fields: ["id"])
+  attendence: Attendence @connection(keyName:"EventAttendence")
+  speaking: Speaking @connection(keyName: "EventSpeaking")
 }
 
 type User @model {
   id: ID!
   cognitoId: String!
-  attendence: Attendence @connection(name: "UserAttendence")
-  organizations: Owner @connection(name: "UserOwner")
-  speaker: Speaker @connection(name: "UserSpeaker")
+  attendence: Attendence @connection(keyName: "UserAttendence")
+  organizations: Owner @connection(keyName: "UserOwner")
+  speaker: Speaker @connection(keyName: "UserSpeaker")
 }
 
 type Organization @model{
   id: ID!
   name: String!
-  owner: Owner @connection(name: "OrganizationOwner")
-  host: Host @connection(name:"OrganizationHost")
+  owner: Owner @connection(keyName: "OrganizationOwner")
+  host: [Host] @connection(keyName:"byOrganization", fields: ["id"])
 }
 
 type Speaker @model{
   id: ID!
   name: String!
-  speaking: Speaking @connection(name:"SpeakerSpeaking")
-  user: User @connection(name:"UserSpeaker")
+  speaking: Speaking @connection(keyName:"SpeakerSpeaking")
+  user: User @connection(keyName:"UserSpeaker")
 }
 
 type Attendence @model{
   id: ID!
-  event: Event @connection(name: "EventAttendence")
-  user: User @connection(name: "UserAttendence")
+  event: Event @connection(keyName: "EventAttendence")
+  user: User @connection(keyName: "UserAttendence")
 }
 
 type Owner @model{
   id: ID!
-  organization: Organization @connection(name: "OrganizationOwner")
-  user: User @connection(name: "UserOwner")
+  organization: Organization @connection(keyName: "OrganizationOwner")
+  user: User @connection(keyName: "UserOwner")
 }
 
-type Host @model{
+type Host  @model(queries: null)
+  @key(name: "byEvent", fields: ["postID", "editorID"])
+  @key(name: "byOrganization", fields: ["editorID", "postID"]) {
   id: ID!
-  organization: Organization @connection(name: "OrganizationHost")
-  event: Event @connection(name: "EventHost")
+  organizationID: ID!
+  eventID: ID!
+  organization: Organization @connection(fields: ["organizationID"])
+  event: Event @connection(fields: ["eventID"])
 }
 
 type Speaking @model{
   id: ID!
-  speaker: Speaker @connection(name: "SpeakerSpeaking")
-  event: Event @connection(name: "EventSpeaking")
+  speaker: Speaker @connection(keyName: "SpeakerSpeaking")
+  event: Event @connection(keyName: "EventSpeaking")
 }
 
 # type Blog @model {
 #   id: ID!
 #   name: String!
-#   posts: [Post] @connection(name: "BlogPosts")
+#   posts: [Post] @connection(keyName: "BlogPosts")
 # }
 # type Post @model {
 #   id: ID!
 #   title: String!
-#   blog: Blog @connection(name: "BlogPosts")
-#   comments: [Comment] @connection(name: "PostComments")
+#   blog: Blog @connection(keyName: "BlogPosts")
+#   comments: [Comment] @connection(keyName: "PostComments")
 # }
 # type Comment @model {
 #   id: ID!
 #   content: String
-#   post: Post @connection(name: "PostComments")
+#   post: Post @connection(keyName: "PostComments")
 # }
 # type Posty @model @auth(rules: [{allow: public}]) {
 #   id: ID!
