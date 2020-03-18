@@ -6,6 +6,7 @@ type Event @model
   title: String!
   description: String
   date: AWSTimestamp
+  place: String
   # new attempt
   host: [Host] @connection(keyName: "byEvent", fields: ["id"])
   attendence: Attendence @connection(keyName:"EventAttendence")
@@ -20,10 +21,14 @@ type User @model {
   speaker: Speaker @connection(keyName: "UserSpeaker")
 }
 
-type Organization @model{
+type Organization @model @auth(rules: [
+   { allow: owner },
+   { allow: owner, ownerField: "admins", operations: [update] }
+]){
   id: ID!
   name: String!
-  owner: Owner @connection(keyName: "OrganizationOwner")
+  owner: String
+  admins: [String]
   host: [Host] @connection(keyName:"byOrganization", fields: ["id"])
 }
 
@@ -40,10 +45,11 @@ type Attendence @model{
   user: User @connection(keyName: "UserAttendence")
 }
 
-type Owner @model{
+type Owner @model {
   id: ID!
   organization: Organization @connection(keyName: "OrganizationOwner")
-  user: User @connection(keyName: "UserOwner")
+  owner: String
+  admins: [String]
 }
 
 type Host  @model(queries: null)
@@ -56,7 +62,7 @@ type Host  @model(queries: null)
   event: Event @connection(fields: ["eventID"])
 }
 
-type Speaking @model{
+type Speaking @model(queries: null){
   id: ID!
   speaker: Speaker @connection(keyName: "SpeakerSpeaking")
   event: Event @connection(keyName: "EventSpeaking")
