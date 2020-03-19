@@ -8,64 +8,79 @@ type Event @model
   date: AWSTimestamp
   place: String
   # new attempt
-  host: [Host] @connection(keyName: "byEvent", fields: ["id"])
-  attendence: Attendence @connection(keyName:"EventAttendence")
-  speaking: Speaking @connection(keyName: "EventSpeaking")
+  host: [Host] @connection(keyName: "HostEvent", fields: ["id"])
+  attendence: [Attendence] @connection(keyName:"AttendenceEvent", fields: ["id"])
+  speaking: [Speaking] @connection(keyName: "SpeakingEvent", fields: ["id"])
 }
 
 type User @model {
   id: ID!
   cognitoId: String!
-  attendence: Attendence @connection(keyName: "UserAttendence")
-  organizations: Owner @connection(keyName: "UserOwner")
-  speaker: Speaker @connection(keyName: "UserSpeaker")
+  attendence: [Attendence] @connection(keyName:"AttendenceUser", fields: ["id"])
+  speaker: Speaker @connection(fields: ["speakerID"])
+  speakerID: ID!
+  creator: [Organization] @connection(keyName: "CreatorUser", fields: ["id"])
+  admin: [Admin] @connection(keyName: "AdminUser", fields: ["id"])
 }
 
 type Organization @model @auth(rules: [
    { allow: owner },
    { allow: owner, ownerField: "admins", operations: [update] }
-]){
+])
+@key(name: "CreatorUser", fields: ["creatorID", "name"])
+{
   id: ID!
   name: String!
-  owner: String
-  admins: [String]
-  host: [Host] @connection(keyName:"byOrganization", fields: ["id"])
+  creatorID: ID!
+  creator: User @connection(fields: ["creatorID"])
+  host: [Host] @connection(keyName:"HostOrganization", fields: ["id"])
+  admins: [Admin] @connection(keyName: "AdminOrganization", fields: ["id"])
 }
 
 type Speaker @model{
   id: ID!
   name: String!
-  speaking: Speaking @connection(keyName:"SpeakerSpeaking")
-  user: User @connection(keyName:"UserSpeaker")
+  speaking: [Speaking] @connection(keyName: "SpeakingSpeaker", fields: ["id"])
 }
 
-type Attendence @model{
+type Admin @model(queries: null)
+  @key(name: "AdminOrganization", fields: ["organizationID", "userID"])
+  @key(name: "AdminUser", fields: ["userID", "organizationID"]) {
   id: ID!
-  event: Event @connection(keyName: "EventAttendence")
-  user: User @connection(keyName: "UserAttendence")
+  organizationID: ID!
+  userID: ID!
+  organization: Organization! @connection(fields: ["organizationID"])
+  user: User! @connection(fields: ["userID"])
 }
 
-type Owner @model {
+type Attendence @model(queries: null)
+  @key(name: "AttendenceEvent", fields: ["eventID", "userID"])
+  @key(name: "AttendenceUser", fields: ["userID", "eventID"]) {
   id: ID!
-  organization: Organization @connection(keyName: "OrganizationOwner")
-  owner: String
-  admins: [String]
+  eventID: ID!
+  userID: ID!
+  event: Event! @connection(fields: ["eventID"])
+  user: User! @connection(fields: ["userID"])
 }
 
-type Host  @model(queries: null)
-  @key(name: "byEvent", fields: ["postID", "editorID"])
-  @key(name: "byOrganization", fields: ["editorID", "postID"]) {
+type Host @model(queries: null)
+  @key(name: "HostEvent", fields: ["eventID", "organizationID"])
+  @key(name: "HostOrganization", fields: ["organizationID", "eventID"]) {
   id: ID!
   organizationID: ID!
   eventID: ID!
-  organization: Organization @connection(fields: ["organizationID"])
-  event: Event @connection(fields: ["eventID"])
+  organization: Organization! @connection(fields: ["organizationID"])
+  event: Event! @connection(fields: ["eventID"])
 }
 
-type Speaking @model(queries: null){
+type Speaking @model(queries: null)
+  @key(name: "SpeakingEvent", fields: ["eventID", "speakerID"])
+  @key(name: "SpeakingSpeaker", fields: ["speakerID", "eventID"]) {
   id: ID!
-  speaker: Speaker @connection(keyName: "SpeakerSpeaking")
-  event: Event @connection(keyName: "EventSpeaking")
+  eventID: ID!
+  speakerID: ID!
+  event: Event! @connection(fields: ["eventID"])
+  speaker: Speaker! @connection(fields: ["speakerID"])
 }
 
 # type Blog @model {
