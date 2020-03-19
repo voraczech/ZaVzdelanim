@@ -10,41 +10,31 @@ export const createEvent = /* GraphQL */ `
       id
       title
       description
+      date
+      place
       host {
-        id
-        organization {
+        items {
           id
-          name
+          organizationID
+          eventID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
       attendence {
-        id
-        event {
+        items {
           id
-          title
-          description
+          eventID
+          userID
         }
-        user {
-          id
-          cognitoId
-        }
+        nextToken
       }
       speaking {
-        id
-        speaker {
+        items {
           id
-          name
+          eventID
+          speakerID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
     }
   }
@@ -58,41 +48,31 @@ export const updateEvent = /* GraphQL */ `
       id
       title
       description
+      date
+      place
       host {
-        id
-        organization {
+        items {
           id
-          name
+          organizationID
+          eventID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
       attendence {
-        id
-        event {
+        items {
           id
-          title
-          description
+          eventID
+          userID
         }
-        user {
-          id
-          cognitoId
-        }
+        nextToken
       }
       speaking {
-        id
-        speaker {
+        items {
           id
-          name
+          eventID
+          speakerID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
     }
   }
@@ -106,41 +86,31 @@ export const deleteEvent = /* GraphQL */ `
       id
       title
       description
+      date
+      place
       host {
-        id
-        organization {
+        items {
           id
-          name
+          organizationID
+          eventID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
       attendence {
-        id
-        event {
+        items {
           id
-          title
-          description
+          eventID
+          userID
         }
-        user {
-          id
-          cognitoId
-        }
+        nextToken
       }
       speaking {
-        id
-        speaker {
+        items {
           id
-          name
+          eventID
+          speakerID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
     }
   }
@@ -154,38 +124,37 @@ export const createUser = /* GraphQL */ `
       id
       cognitoId
       attendence {
-        id
-        event {
+        items {
           id
-          title
-          description
+          eventID
+          userID
         }
-        user {
-          id
-          cognitoId
-        }
-      }
-      organizations {
-        id
-        organization {
-          id
-          name
-        }
-        user {
-          id
-          cognitoId
-        }
+        nextToken
       }
       speaker {
         id
         name
         speaking {
-          id
+          nextToken
         }
-        user {
+      }
+      speakerID
+      creator {
+        items {
           id
-          cognitoId
+          name
+          creatorID
+          owner
         }
+        nextToken
+      }
+      admin {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
       }
     }
   }
@@ -199,38 +168,37 @@ export const updateUser = /* GraphQL */ `
       id
       cognitoId
       attendence {
-        id
-        event {
+        items {
           id
-          title
-          description
+          eventID
+          userID
         }
-        user {
-          id
-          cognitoId
-        }
-      }
-      organizations {
-        id
-        organization {
-          id
-          name
-        }
-        user {
-          id
-          cognitoId
-        }
+        nextToken
       }
       speaker {
         id
         name
         speaking {
-          id
+          nextToken
         }
-        user {
+      }
+      speakerID
+      creator {
+        items {
           id
-          cognitoId
+          name
+          creatorID
+          owner
         }
+        nextToken
+      }
+      admin {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
       }
     }
   }
@@ -244,38 +212,37 @@ export const deleteUser = /* GraphQL */ `
       id
       cognitoId
       attendence {
-        id
-        event {
+        items {
           id
-          title
-          description
+          eventID
+          userID
         }
-        user {
-          id
-          cognitoId
-        }
-      }
-      organizations {
-        id
-        organization {
-          id
-          name
-        }
-        user {
-          id
-          cognitoId
-        }
+        nextToken
       }
       speaker {
         id
         name
         speaking {
-          id
+          nextToken
         }
-        user {
+      }
+      speakerID
+      creator {
+        items {
           id
-          cognitoId
+          name
+          creatorID
+          owner
         }
+        nextToken
+      }
+      admin {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
       }
     }
   }
@@ -288,29 +255,42 @@ export const createOrganization = /* GraphQL */ `
     createOrganization(input: $input, condition: $condition) {
       id
       name
-      owner {
+      creatorID
+      creator {
         id
-        organization {
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
           id
           name
         }
-        user {
-          id
-          cognitoId
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
         }
       }
       host {
-        id
-        organization {
+        items {
           id
-          name
+          organizationID
+          eventID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
+      admins {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      owner
     }
   }
 `;
@@ -322,29 +302,42 @@ export const updateOrganization = /* GraphQL */ `
     updateOrganization(input: $input, condition: $condition) {
       id
       name
-      owner {
+      creatorID
+      creator {
         id
-        organization {
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
           id
           name
         }
-        user {
-          id
-          cognitoId
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
         }
       }
       host {
-        id
-        organization {
+        items {
           id
-          name
+          organizationID
+          eventID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
+      admins {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      owner
     }
   }
 `;
@@ -356,29 +349,42 @@ export const deleteOrganization = /* GraphQL */ `
     deleteOrganization(input: $input, condition: $condition) {
       id
       name
-      owner {
+      creatorID
+      creator {
         id
-        organization {
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
           id
           name
         }
-        user {
-          id
-          cognitoId
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
         }
       }
       host {
-        id
-        organization {
+        items {
           id
-          name
+          organizationID
+          eventID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
+      admins {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      owner
     }
   }
 `;
@@ -391,30 +397,12 @@ export const createSpeaker = /* GraphQL */ `
       id
       name
       speaking {
-        id
-        speaker {
+        items {
           id
-          name
+          eventID
+          speakerID
         }
-        event {
-          id
-          title
-          description
-        }
-      }
-      user {
-        id
-        cognitoId
-        attendence {
-          id
-        }
-        organizations {
-          id
-        }
-        speaker {
-          id
-          name
-        }
+        nextToken
       }
     }
   }
@@ -428,30 +416,12 @@ export const updateSpeaker = /* GraphQL */ `
       id
       name
       speaking {
-        id
-        speaker {
+        items {
           id
-          name
+          eventID
+          speakerID
         }
-        event {
-          id
-          title
-          description
-        }
-      }
-      user {
-        id
-        cognitoId
-        attendence {
-          id
-        }
-        organizations {
-          id
-        }
-        speaker {
-          id
-          name
-        }
+        nextToken
       }
     }
   }
@@ -465,29 +435,152 @@ export const deleteSpeaker = /* GraphQL */ `
       id
       name
       speaking {
+        items {
+          id
+          eventID
+          speakerID
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const createAdmin = /* GraphQL */ `
+  mutation CreateAdmin(
+    $input: CreateAdminInput!
+    $condition: ModelAdminConditionInput
+  ) {
+    createAdmin(input: $input, condition: $condition) {
+      id
+      organizationID
+      userID
+      organization {
         id
-        speaker {
+        name
+        creatorID
+        creator {
           id
-          name
+          cognitoId
+          speakerID
         }
-        event {
-          id
-          title
-          description
+        host {
+          nextToken
         }
+        admins {
+          nextToken
+        }
+        owner
       }
       user {
         id
         cognitoId
         attendence {
-          id
-        }
-        organizations {
-          id
+          nextToken
         }
         speaker {
           id
           name
+        }
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const updateAdmin = /* GraphQL */ `
+  mutation UpdateAdmin(
+    $input: UpdateAdminInput!
+    $condition: ModelAdminConditionInput
+  ) {
+    updateAdmin(input: $input, condition: $condition) {
+      id
+      organizationID
+      userID
+      organization {
+        id
+        name
+        creatorID
+        creator {
+          id
+          cognitoId
+          speakerID
+        }
+        host {
+          nextToken
+        }
+        admins {
+          nextToken
+        }
+        owner
+      }
+      user {
+        id
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+        }
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const deleteAdmin = /* GraphQL */ `
+  mutation DeleteAdmin(
+    $input: DeleteAdminInput!
+    $condition: ModelAdminConditionInput
+  ) {
+    deleteAdmin(input: $input, condition: $condition) {
+      id
+      organizationID
+      userID
+      organization {
+        id
+        name
+        creatorID
+        creator {
+          id
+          cognitoId
+          speakerID
+        }
+        host {
+          nextToken
+        }
+        admins {
+          nextToken
+        }
+        owner
+      }
+      user {
+        id
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+        }
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
         }
       }
     }
@@ -500,32 +593,40 @@ export const createAttendence = /* GraphQL */ `
   ) {
     createAttendence(input: $input, condition: $condition) {
       id
+      eventID
+      userID
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
         }
       }
       user {
         id
         cognitoId
         attendence {
-          id
-        }
-        organizations {
-          id
+          nextToken
         }
         speaker {
           id
           name
+        }
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
         }
       }
     }
@@ -538,32 +639,40 @@ export const updateAttendence = /* GraphQL */ `
   ) {
     updateAttendence(input: $input, condition: $condition) {
       id
+      eventID
+      userID
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
         }
       }
       user {
         id
         cognitoId
         attendence {
-          id
-        }
-        organizations {
-          id
+          nextToken
         }
         speaker {
           id
           name
+        }
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
         }
       }
     }
@@ -576,134 +685,40 @@ export const deleteAttendence = /* GraphQL */ `
   ) {
     deleteAttendence(input: $input, condition: $condition) {
       id
+      eventID
+      userID
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
         }
       }
       user {
         id
         cognitoId
         attendence {
-          id
-        }
-        organizations {
-          id
+          nextToken
         }
         speaker {
           id
           name
         }
-      }
-    }
-  }
-`;
-export const createOwner = /* GraphQL */ `
-  mutation CreateOwner(
-    $input: CreateOwnerInput!
-    $condition: ModelOwnerConditionInput
-  ) {
-    createOwner(input: $input, condition: $condition) {
-      id
-      organization {
-        id
-        name
-        owner {
-          id
+        speakerID
+        creator {
+          nextToken
         }
-        host {
-          id
-        }
-      }
-      user {
-        id
-        cognitoId
-        attendence {
-          id
-        }
-        organizations {
-          id
-        }
-        speaker {
-          id
-          name
-        }
-      }
-    }
-  }
-`;
-export const updateOwner = /* GraphQL */ `
-  mutation UpdateOwner(
-    $input: UpdateOwnerInput!
-    $condition: ModelOwnerConditionInput
-  ) {
-    updateOwner(input: $input, condition: $condition) {
-      id
-      organization {
-        id
-        name
-        owner {
-          id
-        }
-        host {
-          id
-        }
-      }
-      user {
-        id
-        cognitoId
-        attendence {
-          id
-        }
-        organizations {
-          id
-        }
-        speaker {
-          id
-          name
-        }
-      }
-    }
-  }
-`;
-export const deleteOwner = /* GraphQL */ `
-  mutation DeleteOwner(
-    $input: DeleteOwnerInput!
-    $condition: ModelOwnerConditionInput
-  ) {
-    deleteOwner(input: $input, condition: $condition) {
-      id
-      organization {
-        id
-        name
-        owner {
-          id
-        }
-        host {
-          id
-        }
-      }
-      user {
-        id
-        cognitoId
-        attendence {
-          id
-        }
-        organizations {
-          id
-        }
-        speaker {
-          id
-          name
+        admin {
+          nextToken
         }
       }
     }
@@ -716,28 +731,39 @@ export const createHost = /* GraphQL */ `
   ) {
     createHost(input: $input, condition: $condition) {
       id
+      organizationID
+      eventID
       organization {
         id
         name
-        owner {
+        creatorID
+        creator {
           id
+          cognitoId
+          speakerID
         }
         host {
-          id
+          nextToken
         }
+        admins {
+          nextToken
+        }
+        owner
       }
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
         }
       }
     }
@@ -750,28 +776,39 @@ export const updateHost = /* GraphQL */ `
   ) {
     updateHost(input: $input, condition: $condition) {
       id
+      organizationID
+      eventID
       organization {
         id
         name
-        owner {
+        creatorID
+        creator {
           id
+          cognitoId
+          speakerID
         }
         host {
-          id
+          nextToken
         }
+        admins {
+          nextToken
+        }
+        owner
       }
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
         }
       }
     }
@@ -784,28 +821,39 @@ export const deleteHost = /* GraphQL */ `
   ) {
     deleteHost(input: $input, condition: $condition) {
       id
+      organizationID
+      eventID
       organization {
         id
         name
-        owner {
+        creatorID
+        creator {
           id
+          cognitoId
+          speakerID
         }
         host {
-          id
+          nextToken
         }
+        admins {
+          nextToken
+        }
+        owner
       }
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
         }
       }
     }
@@ -818,29 +866,29 @@ export const createSpeaking = /* GraphQL */ `
   ) {
     createSpeaking(input: $input, condition: $condition) {
       id
-      speaker {
-        id
-        name
-        speaking {
-          id
-        }
-        user {
-          id
-          cognitoId
-        }
-      }
+      eventID
+      speakerID
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
+        }
+      }
+      speaker {
+        id
+        name
+        speaking {
+          nextToken
         }
       }
     }
@@ -853,29 +901,29 @@ export const updateSpeaking = /* GraphQL */ `
   ) {
     updateSpeaking(input: $input, condition: $condition) {
       id
-      speaker {
-        id
-        name
-        speaking {
-          id
-        }
-        user {
-          id
-          cognitoId
-        }
-      }
+      eventID
+      speakerID
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
+        }
+      }
+      speaker {
+        id
+        name
+        speaking {
+          nextToken
         }
       }
     }
@@ -888,29 +936,29 @@ export const deleteSpeaking = /* GraphQL */ `
   ) {
     deleteSpeaking(input: $input, condition: $condition) {
       id
-      speaker {
-        id
-        name
-        speaking {
-          id
-        }
-        user {
-          id
-          cognitoId
-        }
-      }
+      eventID
+      speakerID
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
+        }
+      }
+      speaker {
+        id
+        name
+        speaking {
+          nextToken
         }
       }
     }

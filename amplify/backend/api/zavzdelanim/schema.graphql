@@ -1,5 +1,3 @@
-  # @auth(rules: [{allow: groups, groupsField: "groups"}])
-
 type Event @model
  {
   id: ID!
@@ -7,7 +5,6 @@ type Event @model
   description: String
   date: AWSTimestamp
   place: String
-  # new attempt
   host: [Host] @connection(keyName: "HostEvent", fields: ["id"])
   attendence: [Attendence] @connection(keyName:"AttendenceEvent", fields: ["id"])
   speaking: [Speaking] @connection(keyName: "SpeakingEvent", fields: ["id"])
@@ -27,7 +24,7 @@ type Organization @model @auth(rules: [
    { allow: owner },
    { allow: owner, ownerField: "admins", operations: [update] }
 ])
-@key(name: "CreatorUser", fields: ["creatorID", "name"])
+  @key(name: "CreatorUser", fields: ["creatorID", "name"])
 {
   id: ID!
   name: String!
@@ -82,24 +79,3 @@ type Speaking @model(queries: null)
   event: Event! @connection(fields: ["eventID"])
   speaker: Speaker! @connection(fields: ["speakerID"])
 }
-
-# type Blog @model {
-#   id: ID!
-#   name: String!
-#   posts: [Post] @connection(keyName: "BlogPosts")
-# }
-# type Post @model {
-#   id: ID!
-#   title: String!
-#   blog: Blog @connection(keyName: "BlogPosts")
-#   comments: [Comment] @connection(keyName: "PostComments")
-# }
-# type Comment @model {
-#   id: ID!
-#   content: String
-#   post: Post @connection(keyName: "PostComments")
-# }
-# type Posty @model @auth(rules: [{allow: public}]) {
-#   id: ID!
-#   title: String!
-# }

@@ -7,41 +7,31 @@ export const onCreateEvent = /* GraphQL */ `
       id
       title
       description
+      date
+      place
       host {
-        id
-        organization {
+        items {
           id
-          name
+          organizationID
+          eventID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
       attendence {
-        id
-        event {
+        items {
           id
-          title
-          description
+          eventID
+          userID
         }
-        user {
-          id
-          cognitoId
-        }
+        nextToken
       }
       speaking {
-        id
-        speaker {
+        items {
           id
-          name
+          eventID
+          speakerID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
     }
   }
@@ -52,41 +42,31 @@ export const onUpdateEvent = /* GraphQL */ `
       id
       title
       description
+      date
+      place
       host {
-        id
-        organization {
+        items {
           id
-          name
+          organizationID
+          eventID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
       attendence {
-        id
-        event {
+        items {
           id
-          title
-          description
+          eventID
+          userID
         }
-        user {
-          id
-          cognitoId
-        }
+        nextToken
       }
       speaking {
-        id
-        speaker {
+        items {
           id
-          name
+          eventID
+          speakerID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
     }
   }
@@ -97,41 +77,31 @@ export const onDeleteEvent = /* GraphQL */ `
       id
       title
       description
+      date
+      place
       host {
-        id
-        organization {
+        items {
           id
-          name
+          organizationID
+          eventID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
       attendence {
-        id
-        event {
+        items {
           id
-          title
-          description
+          eventID
+          userID
         }
-        user {
-          id
-          cognitoId
-        }
+        nextToken
       }
       speaking {
-        id
-        speaker {
+        items {
           id
-          name
+          eventID
+          speakerID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
     }
   }
@@ -142,38 +112,37 @@ export const onCreateUser = /* GraphQL */ `
       id
       cognitoId
       attendence {
-        id
-        event {
+        items {
           id
-          title
-          description
+          eventID
+          userID
         }
-        user {
-          id
-          cognitoId
-        }
-      }
-      organizations {
-        id
-        organization {
-          id
-          name
-        }
-        user {
-          id
-          cognitoId
-        }
+        nextToken
       }
       speaker {
         id
         name
         speaking {
-          id
+          nextToken
         }
-        user {
+      }
+      speakerID
+      creator {
+        items {
           id
-          cognitoId
+          name
+          creatorID
+          owner
         }
+        nextToken
+      }
+      admin {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
       }
     }
   }
@@ -184,38 +153,37 @@ export const onUpdateUser = /* GraphQL */ `
       id
       cognitoId
       attendence {
-        id
-        event {
+        items {
           id
-          title
-          description
+          eventID
+          userID
         }
-        user {
-          id
-          cognitoId
-        }
-      }
-      organizations {
-        id
-        organization {
-          id
-          name
-        }
-        user {
-          id
-          cognitoId
-        }
+        nextToken
       }
       speaker {
         id
         name
         speaking {
-          id
+          nextToken
         }
-        user {
+      }
+      speakerID
+      creator {
+        items {
           id
-          cognitoId
+          name
+          creatorID
+          owner
         }
+        nextToken
+      }
+      admin {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
       }
     }
   }
@@ -226,132 +194,170 @@ export const onDeleteUser = /* GraphQL */ `
       id
       cognitoId
       attendence {
-        id
-        event {
+        items {
           id
-          title
-          description
+          eventID
+          userID
         }
-        user {
-          id
-          cognitoId
-        }
-      }
-      organizations {
-        id
-        organization {
-          id
-          name
-        }
-        user {
-          id
-          cognitoId
-        }
+        nextToken
       }
       speaker {
         id
         name
         speaking {
-          id
+          nextToken
         }
-        user {
+      }
+      speakerID
+      creator {
+        items {
           id
-          cognitoId
+          name
+          creatorID
+          owner
         }
+        nextToken
+      }
+      admin {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
       }
     }
   }
 `;
 export const onCreateOrganization = /* GraphQL */ `
-  subscription OnCreateOrganization {
-    onCreateOrganization {
+  subscription OnCreateOrganization($owner: String!) {
+    onCreateOrganization(owner: $owner) {
       id
       name
-      owner {
+      creatorID
+      creator {
         id
-        organization {
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
           id
           name
         }
-        user {
-          id
-          cognitoId
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
         }
       }
       host {
-        id
-        organization {
+        items {
           id
-          name
+          organizationID
+          eventID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
+      admins {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      owner
     }
   }
 `;
 export const onUpdateOrganization = /* GraphQL */ `
-  subscription OnUpdateOrganization {
-    onUpdateOrganization {
+  subscription OnUpdateOrganization($owner: String!, $admins: String!) {
+    onUpdateOrganization(owner: $owner, admins: $admins) {
       id
       name
-      owner {
+      creatorID
+      creator {
         id
-        organization {
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
           id
           name
         }
-        user {
-          id
-          cognitoId
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
         }
       }
       host {
-        id
-        organization {
+        items {
           id
-          name
+          organizationID
+          eventID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
+      admins {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      owner
     }
   }
 `;
 export const onDeleteOrganization = /* GraphQL */ `
-  subscription OnDeleteOrganization {
-    onDeleteOrganization {
+  subscription OnDeleteOrganization($owner: String!) {
+    onDeleteOrganization(owner: $owner) {
       id
       name
-      owner {
+      creatorID
+      creator {
         id
-        organization {
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
           id
           name
         }
-        user {
-          id
-          cognitoId
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
         }
       }
       host {
-        id
-        organization {
+        items {
           id
-          name
+          organizationID
+          eventID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
+      admins {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      owner
     }
   }
 `;
@@ -361,30 +367,12 @@ export const onCreateSpeaker = /* GraphQL */ `
       id
       name
       speaking {
-        id
-        speaker {
+        items {
           id
-          name
+          eventID
+          speakerID
         }
-        event {
-          id
-          title
-          description
-        }
-      }
-      user {
-        id
-        cognitoId
-        attendence {
-          id
-        }
-        organizations {
-          id
-        }
-        speaker {
-          id
-          name
-        }
+        nextToken
       }
     }
   }
@@ -395,30 +383,12 @@ export const onUpdateSpeaker = /* GraphQL */ `
       id
       name
       speaking {
-        id
-        speaker {
+        items {
           id
-          name
+          eventID
+          speakerID
         }
-        event {
-          id
-          title
-          description
-        }
-      }
-      user {
-        id
-        cognitoId
-        attendence {
-          id
-        }
-        organizations {
-          id
-        }
-        speaker {
-          id
-          name
-        }
+        nextToken
       }
     }
   }
@@ -429,29 +399,143 @@ export const onDeleteSpeaker = /* GraphQL */ `
       id
       name
       speaking {
+        items {
+          id
+          eventID
+          speakerID
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const onCreateAdmin = /* GraphQL */ `
+  subscription OnCreateAdmin {
+    onCreateAdmin {
+      id
+      organizationID
+      userID
+      organization {
         id
-        speaker {
+        name
+        creatorID
+        creator {
           id
-          name
+          cognitoId
+          speakerID
         }
-        event {
-          id
-          title
-          description
+        host {
+          nextToken
         }
+        admins {
+          nextToken
+        }
+        owner
       }
       user {
         id
         cognitoId
         attendence {
-          id
-        }
-        organizations {
-          id
+          nextToken
         }
         speaker {
           id
           name
+        }
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onUpdateAdmin = /* GraphQL */ `
+  subscription OnUpdateAdmin {
+    onUpdateAdmin {
+      id
+      organizationID
+      userID
+      organization {
+        id
+        name
+        creatorID
+        creator {
+          id
+          cognitoId
+          speakerID
+        }
+        host {
+          nextToken
+        }
+        admins {
+          nextToken
+        }
+        owner
+      }
+      user {
+        id
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+        }
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onDeleteAdmin = /* GraphQL */ `
+  subscription OnDeleteAdmin {
+    onDeleteAdmin {
+      id
+      organizationID
+      userID
+      organization {
+        id
+        name
+        creatorID
+        creator {
+          id
+          cognitoId
+          speakerID
+        }
+        host {
+          nextToken
+        }
+        admins {
+          nextToken
+        }
+        owner
+      }
+      user {
+        id
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+        }
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
         }
       }
     }
@@ -461,32 +545,40 @@ export const onCreateAttendence = /* GraphQL */ `
   subscription OnCreateAttendence {
     onCreateAttendence {
       id
+      eventID
+      userID
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
         }
       }
       user {
         id
         cognitoId
         attendence {
-          id
-        }
-        organizations {
-          id
+          nextToken
         }
         speaker {
           id
           name
+        }
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
         }
       }
     }
@@ -496,32 +588,40 @@ export const onUpdateAttendence = /* GraphQL */ `
   subscription OnUpdateAttendence {
     onUpdateAttendence {
       id
+      eventID
+      userID
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
         }
       }
       user {
         id
         cognitoId
         attendence {
-          id
-        }
-        organizations {
-          id
+          nextToken
         }
         speaker {
           id
           name
+        }
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
         }
       }
     }
@@ -531,125 +631,40 @@ export const onDeleteAttendence = /* GraphQL */ `
   subscription OnDeleteAttendence {
     onDeleteAttendence {
       id
+      eventID
+      userID
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
         }
       }
       user {
         id
         cognitoId
         attendence {
-          id
-        }
-        organizations {
-          id
+          nextToken
         }
         speaker {
           id
           name
         }
-      }
-    }
-  }
-`;
-export const onCreateOwner = /* GraphQL */ `
-  subscription OnCreateOwner {
-    onCreateOwner {
-      id
-      organization {
-        id
-        name
-        owner {
-          id
+        speakerID
+        creator {
+          nextToken
         }
-        host {
-          id
-        }
-      }
-      user {
-        id
-        cognitoId
-        attendence {
-          id
-        }
-        organizations {
-          id
-        }
-        speaker {
-          id
-          name
-        }
-      }
-    }
-  }
-`;
-export const onUpdateOwner = /* GraphQL */ `
-  subscription OnUpdateOwner {
-    onUpdateOwner {
-      id
-      organization {
-        id
-        name
-        owner {
-          id
-        }
-        host {
-          id
-        }
-      }
-      user {
-        id
-        cognitoId
-        attendence {
-          id
-        }
-        organizations {
-          id
-        }
-        speaker {
-          id
-          name
-        }
-      }
-    }
-  }
-`;
-export const onDeleteOwner = /* GraphQL */ `
-  subscription OnDeleteOwner {
-    onDeleteOwner {
-      id
-      organization {
-        id
-        name
-        owner {
-          id
-        }
-        host {
-          id
-        }
-      }
-      user {
-        id
-        cognitoId
-        attendence {
-          id
-        }
-        organizations {
-          id
-        }
-        speaker {
-          id
-          name
+        admin {
+          nextToken
         }
       }
     }
@@ -659,28 +674,39 @@ export const onCreateHost = /* GraphQL */ `
   subscription OnCreateHost {
     onCreateHost {
       id
+      organizationID
+      eventID
       organization {
         id
         name
-        owner {
+        creatorID
+        creator {
           id
+          cognitoId
+          speakerID
         }
         host {
-          id
+          nextToken
         }
+        admins {
+          nextToken
+        }
+        owner
       }
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
         }
       }
     }
@@ -690,28 +716,39 @@ export const onUpdateHost = /* GraphQL */ `
   subscription OnUpdateHost {
     onUpdateHost {
       id
+      organizationID
+      eventID
       organization {
         id
         name
-        owner {
+        creatorID
+        creator {
           id
+          cognitoId
+          speakerID
         }
         host {
-          id
+          nextToken
         }
+        admins {
+          nextToken
+        }
+        owner
       }
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
         }
       }
     }
@@ -721,28 +758,39 @@ export const onDeleteHost = /* GraphQL */ `
   subscription OnDeleteHost {
     onDeleteHost {
       id
+      organizationID
+      eventID
       organization {
         id
         name
-        owner {
+        creatorID
+        creator {
           id
+          cognitoId
+          speakerID
         }
         host {
-          id
+          nextToken
         }
+        admins {
+          nextToken
+        }
+        owner
       }
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
         }
       }
     }
@@ -752,29 +800,29 @@ export const onCreateSpeaking = /* GraphQL */ `
   subscription OnCreateSpeaking {
     onCreateSpeaking {
       id
-      speaker {
-        id
-        name
-        speaking {
-          id
-        }
-        user {
-          id
-          cognitoId
-        }
-      }
+      eventID
+      speakerID
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
+        }
+      }
+      speaker {
+        id
+        name
+        speaking {
+          nextToken
         }
       }
     }
@@ -784,29 +832,29 @@ export const onUpdateSpeaking = /* GraphQL */ `
   subscription OnUpdateSpeaking {
     onUpdateSpeaking {
       id
-      speaker {
-        id
-        name
-        speaking {
-          id
-        }
-        user {
-          id
-          cognitoId
-        }
-      }
+      eventID
+      speakerID
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
+        }
+      }
+      speaker {
+        id
+        name
+        speaking {
+          nextToken
         }
       }
     }
@@ -816,29 +864,29 @@ export const onDeleteSpeaking = /* GraphQL */ `
   subscription OnDeleteSpeaking {
     onDeleteSpeaking {
       id
-      speaker {
-        id
-        name
-        speaking {
-          id
-        }
-        user {
-          id
-          cognitoId
-        }
-      }
+      eventID
+      speakerID
       event {
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
+        }
+      }
+      speaker {
+        id
+        name
+        speaking {
+          nextToken
         }
       }
     }

@@ -7,41 +7,31 @@ export const getEvent = /* GraphQL */ `
       id
       title
       description
+      date
+      place
       host {
-        id
-        organization {
+        items {
           id
-          name
+          organizationID
+          eventID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
       attendence {
-        id
-        event {
+        items {
           id
-          title
-          description
+          eventID
+          userID
         }
-        user {
-          id
-          cognitoId
-        }
+        nextToken
       }
       speaking {
-        id
-        speaker {
+        items {
           id
-          name
+          eventID
+          speakerID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
     }
   }
@@ -57,14 +47,16 @@ export const listEvents = /* GraphQL */ `
         id
         title
         description
+        date
+        place
         host {
-          id
+          nextToken
         }
         attendence {
-          id
+          nextToken
         }
         speaking {
-          id
+          nextToken
         }
       }
       nextToken
@@ -77,38 +69,37 @@ export const getUser = /* GraphQL */ `
       id
       cognitoId
       attendence {
-        id
-        event {
+        items {
           id
-          title
-          description
+          eventID
+          userID
         }
-        user {
-          id
-          cognitoId
-        }
-      }
-      organizations {
-        id
-        organization {
-          id
-          name
-        }
-        user {
-          id
-          cognitoId
-        }
+        nextToken
       }
       speaker {
         id
         name
         speaking {
-          id
+          nextToken
         }
-        user {
+      }
+      speakerID
+      creator {
+        items {
           id
-          cognitoId
+          name
+          creatorID
+          owner
         }
+        nextToken
+      }
+      admin {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
       }
     }
   }
@@ -124,14 +115,18 @@ export const listUsers = /* GraphQL */ `
         id
         cognitoId
         attendence {
-          id
-        }
-        organizations {
-          id
+          nextToken
         }
         speaker {
           id
           name
+        }
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
         }
       }
       nextToken
@@ -143,29 +138,42 @@ export const getOrganization = /* GraphQL */ `
     getOrganization(id: $id) {
       id
       name
-      owner {
+      creatorID
+      creator {
         id
-        organization {
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
           id
           name
         }
-        user {
-          id
-          cognitoId
+        speakerID
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
         }
       }
       host {
-        id
-        organization {
+        items {
           id
-          name
+          organizationID
+          eventID
         }
-        event {
-          id
-          title
-          description
-        }
+        nextToken
       }
+      admins {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      owner
     }
   }
 `;
@@ -179,12 +187,19 @@ export const listOrganizations = /* GraphQL */ `
       items {
         id
         name
-        owner {
+        creatorID
+        creator {
           id
+          cognitoId
+          speakerID
         }
         host {
-          id
+          nextToken
         }
+        admins {
+          nextToken
+        }
+        owner
       }
       nextToken
     }
@@ -196,30 +211,12 @@ export const getSpeaker = /* GraphQL */ `
       id
       name
       speaking {
-        id
-        speaker {
+        items {
           id
-          name
+          eventID
+          speakerID
         }
-        event {
-          id
-          title
-          description
-        }
-      }
-      user {
-        id
-        cognitoId
-        attendence {
-          id
-        }
-        organizations {
-          id
-        }
-        speaker {
-          id
-          name
-        }
+        nextToken
       }
     }
   }
@@ -235,231 +232,7 @@ export const listSpeakers = /* GraphQL */ `
         id
         name
         speaking {
-          id
-        }
-        user {
-          id
-          cognitoId
-        }
-      }
-      nextToken
-    }
-  }
-`;
-export const getAttendence = /* GraphQL */ `
-  query GetAttendence($id: ID!) {
-    getAttendence(id: $id) {
-      id
-      event {
-        id
-        title
-        description
-        host {
-          id
-        }
-        attendence {
-          id
-        }
-        speaking {
-          id
-        }
-      }
-      user {
-        id
-        cognitoId
-        attendence {
-          id
-        }
-        organizations {
-          id
-        }
-        speaker {
-          id
-          name
-        }
-      }
-    }
-  }
-`;
-export const listAttendences = /* GraphQL */ `
-  query ListAttendences(
-    $filter: ModelAttendenceFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listAttendences(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        event {
-          id
-          title
-          description
-        }
-        user {
-          id
-          cognitoId
-        }
-      }
-      nextToken
-    }
-  }
-`;
-export const getOwner = /* GraphQL */ `
-  query GetOwner($id: ID!) {
-    getOwner(id: $id) {
-      id
-      organization {
-        id
-        name
-        owner {
-          id
-        }
-        host {
-          id
-        }
-      }
-      user {
-        id
-        cognitoId
-        attendence {
-          id
-        }
-        organizations {
-          id
-        }
-        speaker {
-          id
-          name
-        }
-      }
-    }
-  }
-`;
-export const listOwners = /* GraphQL */ `
-  query ListOwners(
-    $filter: ModelOwnerFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listOwners(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        organization {
-          id
-          name
-        }
-        user {
-          id
-          cognitoId
-        }
-      }
-      nextToken
-    }
-  }
-`;
-export const getHost = /* GraphQL */ `
-  query GetHost($id: ID!) {
-    getHost(id: $id) {
-      id
-      organization {
-        id
-        name
-        owner {
-          id
-        }
-        host {
-          id
-        }
-      }
-      event {
-        id
-        title
-        description
-        host {
-          id
-        }
-        attendence {
-          id
-        }
-        speaking {
-          id
-        }
-      }
-    }
-  }
-`;
-export const listHosts = /* GraphQL */ `
-  query ListHosts(
-    $filter: ModelHostFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listHosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        organization {
-          id
-          name
-        }
-        event {
-          id
-          title
-          description
-        }
-      }
-      nextToken
-    }
-  }
-`;
-export const getSpeaking = /* GraphQL */ `
-  query GetSpeaking($id: ID!) {
-    getSpeaking(id: $id) {
-      id
-      speaker {
-        id
-        name
-        speaking {
-          id
-        }
-        user {
-          id
-          cognitoId
-        }
-      }
-      event {
-        id
-        title
-        description
-        host {
-          id
-        }
-        attendence {
-          id
-        }
-        speaking {
-          id
-        }
-      }
-    }
-  }
-`;
-export const listSpeakings = /* GraphQL */ `
-  query ListSpeakings(
-    $filter: ModelSpeakingFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listSpeakings(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        speaker {
-          id
-          name
-        }
-        event {
-          id
-          title
-          description
+          nextToken
         }
       }
       nextToken
