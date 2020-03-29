@@ -45,8 +45,8 @@
 import VCard from "@/components/molecules/Card";
 
 import { components } from "aws-amplify-vue";
-const ListEvents = `query getEvent {
-  getEvent(id: "fedfb9e6-35d5-4e0c-963e-600c2825e9c6"){
+const ListEvents = `query getEvent($id: ID!) {
+  getEvent(id: $id){
       id
       title
   }
@@ -64,7 +64,7 @@ export default {
 
   computed: {
     ListTodosQuery() {
-      return this.$Amplify.graphqlOperation(ListEvents);
+      return this.$Amplify.graphqlOperation(ListEvents, { id: this.eventId });
     }
   }
 };
