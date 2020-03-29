@@ -9,47 +9,7 @@
           <div class="flex flex-col flex-1 justify-center mb-8">
             <h1 class="text-4xl text-center font-thin">Vítej! 👋</h1>
             <div class="w-full mt-4">
-              <form
-                class="form-horizontal w-3/4 mx-auto"
-                method="POST"
-                action="#"
-              >
-                <div class="flex flex-col mt-4">
-                  <input
-                    id="email"
-                    type="text"
-                    class="flex-grow h-8 px-2 border rounded border-grey-400"
-                    name="email"
-                    value=""
-                    placeholder="E-mail 📧"
-                  >
-                </div>
-                <div class="flex flex-col mt-4">
-                  <input
-                    id="password"
-                    type="password"
-                    class="flex-grow h-8 px-2 rounded border border-grey-400"
-                    name="password"
-                    required
-                    placeholder="Heslo 🙈"
-                  >
-                </div>
-                <div class="flex flex-col mt-8">
-                  <button
-                    type="submit"
-                    class="bg-purple-500 hover:bg-purple-700 text-white text-sm font-semibold py-2 px-4 rounded"
-                  >
-                    Přihlásit se
-                  </button>
-                </div>
-              </form>
               <div class="text-center mt-4 flex flex-col justify-center items-center">
-                <nuxt-link
-                  to="forgotten-password"
-                  class="no-underline hover:underline text-purple-dark text-xs"
-                >
-                  Zapomněl jsem heslo 🤦‍♂️
-                </nuxt-link>
                 <button
                   @click="signIn({provider: 'Facebook'})"
                   type="submit"
@@ -60,7 +20,7 @@
                 <button
                   @click="signIn({provider: 'Google'})"
                   type="submit"
-                  class="bg-purple-500 mt-2 hover:bg-purple-700 text-white text-sm font-semibold py-2 px-4 rounded"
+                  class="bg-purple-500 mt-4 hover:bg-purple-700 text-white text-sm font-semibold py-2 px-4 rounded"
                 >
                   Google login
                 </button>

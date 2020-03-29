@@ -20,6 +20,7 @@
 </template>
 
 <script>
+
 const CreateEvent = `mutation CreateOrganization($name: String!) {
 createEvent(name: $name, when: $when, where: $where, description: $description) {
   id
