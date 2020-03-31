@@ -30,6 +30,8 @@ type Organization @model @auth(rules: [
   name: String!
   creatorID: ID!
   creator: User @connection(fields: ["creatorID"])
+  description: String
+  links: AWSJSON
   host: [Host] @connection(keyName:"HostOrganization", fields: ["id"])
   admins: [Admin] @connection(keyName: "AdminOrganization", fields: ["id"])
 }

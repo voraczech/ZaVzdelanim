@@ -144,6 +144,8 @@ export const createUser = /* GraphQL */ `
           id
           name
           creatorID
+          description
+          links
           owner
         }
         nextToken
@@ -188,6 +190,8 @@ export const updateUser = /* GraphQL */ `
           id
           name
           creatorID
+          description
+          links
           owner
         }
         nextToken
@@ -232,6 +236,8 @@ export const deleteUser = /* GraphQL */ `
           id
           name
           creatorID
+          description
+          links
           owner
         }
         nextToken
@@ -274,6 +280,8 @@ export const createOrganization = /* GraphQL */ `
           nextToken
         }
       }
+      description
+      links
       host {
         items {
           id
@@ -321,6 +329,8 @@ export const updateOrganization = /* GraphQL */ `
           nextToken
         }
       }
+      description
+      links
       host {
         items {
           id
@@ -368,6 +378,8 @@ export const deleteOrganization = /* GraphQL */ `
           nextToken
         }
       }
+      description
+      links
       host {
         items {
           id
@@ -463,6 +475,8 @@ export const createAdmin = /* GraphQL */ `
           cognitoId
           speakerID
         }
+        description
+        links
         host {
           nextToken
         }
@@ -510,6 +524,8 @@ export const updateAdmin = /* GraphQL */ `
           cognitoId
           speakerID
         }
+        description
+        links
         host {
           nextToken
         }
@@ -557,6 +573,8 @@ export const deleteAdmin = /* GraphQL */ `
           cognitoId
           speakerID
         }
+        description
+        links
         host {
           nextToken
         }
@@ -742,6 +760,8 @@ export const createHost = /* GraphQL */ `
           cognitoId
           speakerID
         }
+        description
+        links
         host {
           nextToken
         }
@@ -787,6 +807,8 @@ export const updateHost = /* GraphQL */ `
           cognitoId
           speakerID
         }
+        description
+        links
         host {
           nextToken
         }
@@ -832,6 +854,8 @@ export const deleteHost = /* GraphQL */ `
           cognitoId
           speakerID
         }
+        description
+        links
         host {
           nextToken
         }

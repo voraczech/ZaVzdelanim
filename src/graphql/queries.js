@@ -89,6 +89,8 @@ export const getUser = /* GraphQL */ `
           id
           name
           creatorID
+          description
+          links
           owner
         }
         nextToken
@@ -157,6 +159,8 @@ export const getOrganization = /* GraphQL */ `
           nextToken
         }
       }
+      description
+      links
       host {
         items {
           id
@@ -193,6 +197,8 @@ export const listOrganizations = /* GraphQL */ `
           cognitoId
           speakerID
         }
+        description
+        links
         host {
           nextToken
         }
