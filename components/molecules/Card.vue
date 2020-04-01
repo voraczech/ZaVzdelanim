@@ -1,8 +1,13 @@
 <template>
   <div class="bg-white rounded shadow-lg hover:shadow-xl flex flex-col overflow-hidden trans">
-
     <div class="my-4 mx-4">
-      <h3 class="font-bold text-sm"><slot name="title"/></h3>
+      <img
+        src="/icons/user.png"
+        class="w-full"
+      />
+      <h3 class="font-bold text-sm">
+        <slot name="title" />
+      </h3>
       <div class="text-gray-600 text-xs">
         <div class="mt-3 flex">
           <div class="px-1 mr-3 flex items-center justify-center">
