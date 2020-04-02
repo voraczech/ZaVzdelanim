@@ -12,6 +12,7 @@ export const createEvent = /* GraphQL */ `
       description
       date
       place
+      tags
       host {
         items {
           id
@@ -50,6 +51,7 @@ export const updateEvent = /* GraphQL */ `
       description
       date
       place
+      tags
       host {
         items {
           id
@@ -88,6 +90,7 @@ export const deleteEvent = /* GraphQL */ `
       description
       date
       place
+      tags
       host {
         items {
           id
@@ -619,6 +622,7 @@ export const createAttendence = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -665,6 +669,7 @@ export const updateAttendence = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -711,6 +716,7 @@ export const deleteAttendence = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -776,6 +782,7 @@ export const createHost = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -823,6 +830,7 @@ export const updateHost = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -870,6 +878,7 @@ export const deleteHost = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -898,6 +907,7 @@ export const createSpeaking = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -933,6 +943,7 @@ export const updateSpeaking = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -968,6 +979,7 @@ export const deleteSpeaking = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }

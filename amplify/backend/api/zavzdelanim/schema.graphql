@@ -1,10 +1,11 @@
-type Event @model
+type Event @model @searchable
  {
   id: ID!
   title: String!
   description: String
   date: AWSTimestamp
   place: String
+  tags: String
   host: [Host] @connection(keyName: "HostEvent", fields: ["id"])
   attendence: [Attendence] @connection(keyName:"AttendenceEvent", fields: ["id"])
   speaking: [Speaking] @connection(keyName: "SpeakingEvent", fields: ["id"])
@@ -20,7 +21,7 @@ type User @model {
   admin: [Admin] @connection(keyName: "AdminUser", fields: ["id"])
 }
 
-type Organization @model @auth(rules: [
+type Organization @model @searchable @auth(rules: [
    { allow: owner },
    { allow: owner, ownerField: "admins", operations: [update] }
 ])
@@ -36,7 +37,7 @@ type Organization @model @auth(rules: [
   admins: [Admin] @connection(keyName: "AdminOrganization", fields: ["id"])
 }
 
-type Speaker @model{
+type Speaker @model @searchable{
   id: ID!
   name: String!
   speaking: [Speaking] @connection(keyName: "SpeakingSpeaker", fields: ["id"])

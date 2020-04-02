@@ -9,6 +9,7 @@ export const getEvent = /* GraphQL */ `
       description
       date
       place
+      tags
       host {
         items {
           id
@@ -49,6 +50,7 @@ export const listEvents = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -242,6 +244,103 @@ export const listSpeakers = /* GraphQL */ `
         }
       }
       nextToken
+    }
+  }
+`;
+export const searchEvents = /* GraphQL */ `
+  query SearchEvents(
+    $filter: SearchableEventFilterInput
+    $sort: SearchableEventSortInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    searchEvents(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        title
+        description
+        date
+        place
+        tags
+        host {
+          nextToken
+        }
+        attendence {
+          nextToken
+        }
+        speaking {
+          nextToken
+        }
+      }
+      nextToken
+      total
+    }
+  }
+`;
+export const searchOrganizations = /* GraphQL */ `
+  query SearchOrganizations(
+    $filter: SearchableOrganizationFilterInput
+    $sort: SearchableOrganizationSortInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    searchOrganizations(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        creatorID
+        creator {
+          id
+          cognitoId
+          speakerID
+        }
+        description
+        links
+        host {
+          nextToken
+        }
+        admins {
+          nextToken
+        }
+        owner
+      }
+      nextToken
+      total
+    }
+  }
+`;
+export const searchSpeakers = /* GraphQL */ `
+  query SearchSpeakers(
+    $filter: SearchableSpeakerFilterInput
+    $sort: SearchableSpeakerSortInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    searchSpeakers(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        speaking {
+          nextToken
+        }
+      }
+      nextToken
+      total
     }
   }
 `;

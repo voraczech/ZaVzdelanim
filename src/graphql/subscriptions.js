@@ -9,6 +9,7 @@ export const onCreateEvent = /* GraphQL */ `
       description
       date
       place
+      tags
       host {
         items {
           id
@@ -44,6 +45,7 @@ export const onUpdateEvent = /* GraphQL */ `
       description
       date
       place
+      tags
       host {
         items {
           id
@@ -79,6 +81,7 @@ export const onDeleteEvent = /* GraphQL */ `
       description
       date
       place
+      tags
       host {
         items {
           id
@@ -571,6 +574,7 @@ export const onCreateAttendence = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -614,6 +618,7 @@ export const onUpdateAttendence = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -657,6 +662,7 @@ export const onDeleteAttendence = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -719,6 +725,7 @@ export const onCreateHost = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -763,6 +770,7 @@ export const onUpdateHost = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -807,6 +815,7 @@ export const onDeleteHost = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -832,6 +841,7 @@ export const onCreateSpeaking = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -864,6 +874,7 @@ export const onUpdateSpeaking = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
@@ -896,6 +907,7 @@ export const onDeleteSpeaking = /* GraphQL */ `
         description
         date
         place
+        tags
         host {
           nextToken
         }
