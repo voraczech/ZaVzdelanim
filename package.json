@@ -14,7 +14,8 @@
     "aws-amplify": "^2.2.4",
     "aws-amplify-vue": "^1.1.4",
     "nuxt": "^2.0.0",
-    "uuid": "^7.0.2"
+    "uuid": "^7.0.2",
+    "vue-unicons": "^2.1.0"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^1.0.0"
