@@ -22,7 +22,7 @@ type User @model {
 }
 
 type Organization @model @searchable @auth(rules: [
-   { allow: owner },
+   { allow: owner, operations: [create, update, delete] },
    { allow: owner, ownerField: "admins", operations: [update] }
 ])
   @key(name: "CreatorUser", fields: ["creatorID", "name"])
