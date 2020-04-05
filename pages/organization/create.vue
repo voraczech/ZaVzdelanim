@@ -20,30 +20,39 @@
 </template>
 
 <script>
+import { v4 as uuidv4 } from "uuid";
+import { mapState } from "vuex";
 
-const CreateEvent = `mutation CreateOrganization($name: String!) {
-createEvent(name: $name, when: $when, where: $where, description: $description) {
+const uuid = uuidv4();
+
+const CreateEvent = `mutation CreateOrganization($id: ID!, $name: String!, $creatorID: ID!) {
+createOrganization(input: {id: $id, name: $name, creatorID: $creatorID}) {
   id
-  name
-  where
-  when
-  description
 }
 }`;
 
-// Mutation
-const eventDetails = {
-  name: "Party tonight!",
-  when: "8:00pm",
-  where: "Ballroom",
-  description: "Coming together as a team!"
-};
-
 export default {
+  data() {
+    return {
+      name: ""
+    };
+  },
   computed: {
-    ListTodosQuery() {
-      this.$Amplify.graphqlOperation(CreateEvent, eventDetails)
-      //return this.$Amplify.graphqlOperation(CreateEvent, eventDetails);
+    createOrganizationMutation() {
+      return this.$Amplify.graphqlOperation(CreateEvent, {
+        id: this.uuidv4,
+        name: this.name,
+        creatorID: this.user.sub
+      });
+    },
+    uuidv4() {
+      return uuid;
+    },
+    ...mapState(["user"])
+  },
+  methods: {
+    onCreateFinished(result) {
+      this.$router.push(`/organization/${result.data.createOrganization.id}`)
     }
   }
 };

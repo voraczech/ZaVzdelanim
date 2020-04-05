@@ -14,11 +14,11 @@ import { Auth, Hub } from "aws-amplify";
 export default {
   data() {
     return {
-      signedIn: false,
+      signedIn: true,
       user: null,
       customState: null
     };
   },
-  components: { VCard },
+  components: { VCard }
 };
 </script>

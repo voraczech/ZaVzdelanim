@@ -26,6 +26,7 @@
       <nuxt-link to="/event">Přednášky</nuxt-link>
       <nuxt-link to="/speaker">Přednášející</nuxt-link>
       <nuxt-link to="/organization">Organizace</nuxt-link>
+      <nuxt-link to="/settings">Nastavení</nuxt-link>
     </nav>
   </div>
 </template>

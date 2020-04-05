@@ -1,20 +1,19 @@
 <template>
   <div>
-    <nuxt-link to="organization/create">Vytvořit</nuxt-link>
     <amplify-connect :query="ListTodosQuery">
       <template slot-scope="{loading, data, errors}">
         <div v-if="loading">Načítám...</div>
         <div v-if="errors.length > 0">
           Chyba, to mě mrzí.
         </div>
-        <div v-else-if="data.listOrganizations">
+        <div v-else-if="data.listSpeakers">
           <div class="flex flex-wrap -mx-4">
             <div
-              v-for="item in data.listOrganizations.items"
+              v-for="item in data.listSpeakers.items"
               :key="item.id"
               class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
             >
-              <nuxt-link :to="`organization/${item.id}`">
+              <nuxt-link :to="`speaker/${item.id}`">
                 <VCard>
                   <template slot="title">{{ item.name }}</template>
                 </VCard>
@@ -27,12 +26,11 @@
   </div>
 </template>
 
-
 <script>
 import VCard from "@/components/molecules/Card";
 
-const ListEvents = `query ListOrganization {
-  listOrganizations {
+const ListEvents = `query ListSpeakers {
+  listSpeakers{
     items {
       id
       name
@@ -52,4 +50,3 @@ export default {
   }
 };
 </script>
-
