@@ -10,6 +10,9 @@ export default async function ({ store, redirect }) {
     if (event === `signIn`) {
       return redirect("/");
     }
+    else if (event === `signUp`){
+      
+    }
   });
 
   try {

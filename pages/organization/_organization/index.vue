@@ -17,6 +17,13 @@
           >
             Upravit
           </nuxt-link>
+          <nuxt-link
+            :to="`/organization/${data.getOrganization.id}/new-event`"
+            class="bg-white shadow rounded-lg px-5 py-4 w-1/2 my-15 w-6"
+            v-if="isOwner(data.getOrganization.owner)"
+          >
+            Přidat událost
+          </nuxt-link>
         </div>
         <img
           src=""
@@ -43,10 +50,9 @@
 
 <script>
 import VCard from "@/components/molecules/Card";
-
 import { mapState } from "vuex";
-
 import { components } from "aws-amplify-vue";
+
 const getOrg = `query getOrganization($id: ID!) {
   getOrganization(id: $id){
       id

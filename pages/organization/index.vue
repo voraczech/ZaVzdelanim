@@ -31,7 +31,7 @@
 <script>
 import VCard from "@/components/molecules/Card";
 
-const ListEvents = `query ListOrganization {
+const ListOrg = `query ListOrganization {
   listOrganizations {
     items {
       id
@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     ListTodosQuery() {
-      return this.$Amplify.graphqlOperation(ListEvents);
+      return this.$Amplify.graphqlOperation(ListOrg);
     }
   }
 };

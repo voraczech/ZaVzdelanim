@@ -25,7 +25,8 @@ import { mapState } from "vuex";
 
 const uuid = uuidv4();
 
-const CreateEvent = `mutation CreateOrganization($id: ID!, $name: String!, $creatorID: ID!) {
+const CreateOrg = `
+mutation CreateOrganization($id: ID!, $name: String!, $creatorID: ID!) {
 createOrganization(input: {id: $id, name: $name, creatorID: $creatorID}) {
   id
 }
@@ -38,8 +39,9 @@ export default {
     };
   },
   computed: {
+    ...mapState(["user"]),
     createOrganizationMutation() {
-      return this.$Amplify.graphqlOperation(CreateEvent, {
+      return this.$Amplify.graphqlOperation(CreateOrg, {
         id: this.uuidv4,
         name: this.name,
         creatorID: this.user.sub
@@ -47,12 +49,11 @@ export default {
     },
     uuidv4() {
       return uuid;
-    },
-    ...mapState(["user"])
+    }
   },
   methods: {
     onCreateFinished(result) {
-      this.$router.push(`/organization/${result.data.createOrganization.id}`)
+      this.$router.push(`/organization/${result.data.createOrganization.id}`);
     }
   }
 };
