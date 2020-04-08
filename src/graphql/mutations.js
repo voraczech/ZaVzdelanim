@@ -141,7 +141,6 @@ export const createUser = /* GraphQL */ `
           nextToken
         }
       }
-      speakerID
       creator {
         items {
           id
@@ -187,7 +186,6 @@ export const updateUser = /* GraphQL */ `
           nextToken
         }
       }
-      speakerID
       creator {
         items {
           id
@@ -233,7 +231,6 @@ export const deleteUser = /* GraphQL */ `
           nextToken
         }
       }
-      speakerID
       creator {
         items {
           id
@@ -275,7 +272,6 @@ export const createOrganization = /* GraphQL */ `
           id
           name
         }
-        speakerID
         creator {
           nextToken
         }
@@ -324,7 +320,6 @@ export const updateOrganization = /* GraphQL */ `
           id
           name
         }
-        speakerID
         creator {
           nextToken
         }
@@ -373,7 +368,6 @@ export const deleteOrganization = /* GraphQL */ `
           id
           name
         }
-        speakerID
         creator {
           nextToken
         }
@@ -476,7 +470,6 @@ export const createAdmin = /* GraphQL */ `
         creator {
           id
           cognitoId
-          speakerID
         }
         description
         links
@@ -498,7 +491,6 @@ export const createAdmin = /* GraphQL */ `
           id
           name
         }
-        speakerID
         creator {
           nextToken
         }
@@ -525,7 +517,6 @@ export const updateAdmin = /* GraphQL */ `
         creator {
           id
           cognitoId
-          speakerID
         }
         description
         links
@@ -547,7 +538,6 @@ export const updateAdmin = /* GraphQL */ `
           id
           name
         }
-        speakerID
         creator {
           nextToken
         }
@@ -574,7 +564,6 @@ export const deleteAdmin = /* GraphQL */ `
         creator {
           id
           cognitoId
-          speakerID
         }
         description
         links
@@ -596,7 +585,6 @@ export const deleteAdmin = /* GraphQL */ `
           id
           name
         }
-        speakerID
         creator {
           nextToken
         }
@@ -643,7 +631,6 @@ export const createAttendence = /* GraphQL */ `
           id
           name
         }
-        speakerID
         creator {
           nextToken
         }
@@ -690,7 +677,6 @@ export const updateAttendence = /* GraphQL */ `
           id
           name
         }
-        speakerID
         creator {
           nextToken
         }
@@ -737,7 +723,6 @@ export const deleteAttendence = /* GraphQL */ `
           id
           name
         }
-        speakerID
         creator {
           nextToken
         }
@@ -764,7 +749,6 @@ export const createHost = /* GraphQL */ `
         creator {
           id
           cognitoId
-          speakerID
         }
         description
         links
@@ -812,7 +796,6 @@ export const updateHost = /* GraphQL */ `
         creator {
           id
           cognitoId
-          speakerID
         }
         description
         links
@@ -860,7 +843,6 @@ export const deleteHost = /* GraphQL */ `
         creator {
           id
           cognitoId
-          speakerID
         }
         description
         links

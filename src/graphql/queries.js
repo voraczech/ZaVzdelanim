@@ -85,7 +85,6 @@ export const getUser = /* GraphQL */ `
           nextToken
         }
       }
-      speakerID
       creator {
         items {
           id
@@ -125,7 +124,6 @@ export const listUsers = /* GraphQL */ `
           id
           name
         }
-        speakerID
         creator {
           nextToken
         }
@@ -153,7 +151,6 @@ export const getOrganization = /* GraphQL */ `
           id
           name
         }
-        speakerID
         creator {
           nextToken
         }
@@ -197,7 +194,6 @@ export const listOrganizations = /* GraphQL */ `
         creator {
           id
           cognitoId
-          speakerID
         }
         description
         links
@@ -302,7 +298,6 @@ export const searchOrganizations = /* GraphQL */ `
         creator {
           id
           cognitoId
-          speakerID
         }
         description
         links
