@@ -15,8 +15,7 @@ type User @model {
   id: ID!
   cognitoId: String!
   attendence: [Attendence] @connection(keyName:"AttendenceUser", fields: ["id"])
-  speaker: Speaker @connection(fields: ["speakerID"])
-  speakerID: ID!
+  speaker: Speaker @connection
   creator: [Organization] @connection(keyName: "CreatorUser", fields: ["id"])
   admin: [Admin] @connection(keyName: "AdminUser", fields: ["id"])
 }
