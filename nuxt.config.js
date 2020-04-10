@@ -12,7 +12,10 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+    ],
+    script: [
+      { src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyByTicvCNAamYAoCS96ebLnFJIKXXcDmCI&libraries=places", async: true, defer: true }
     ]
   },
   /*
