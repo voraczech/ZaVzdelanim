@@ -10,18 +10,23 @@
       <div v-else-if="data.getEvent">
         <div class="flex justify-between items-center">
           <h1 class="text-2xl font-bold bg-white shadow rounded-lg px-5 py-4">{{ data.getEvent.title }}</h1>
-          <div class="rounded">
-            <button class="bg-purple-100 text-purple-800 rounded-l px-4 py-2">Zúčastním se</button><button
-              class="bg-purple-800 text-purple-100 rounded-r px-4 py-2"
-            >Nezúčastním se</button>
-          </div>
+          <button
+            class="rounded px-4 py-2 shadow-sm hover:shadow-lg transition-shadow duration-200"
+            :class="!!data.getEvent.attendence.items ? `bg-purple-100 text-purple-800` : `bg-purple-800 text-purple-100`"
+          >{{ !!data.getEvent.attendence.items ? `Zúčastnit se` : `Účastním se` }}</button>
         </div>
         <img
           src=""
           alt=""
         />
         <div class="bg-white shadow rounded-lg px-5 py-4 w-1/2 my-5">{{ data.getEvent.description }}</div>
-        <div class="bg-white shadow rounded-lg px-5 py-4">Klub investorů</div>
+        <div class="bg-white shadow rounded-lg px-5 py-4">
+          Pořádá <span
+            v-for="(host, key) in data.getEvent.host.items"
+            :key="key"
+          >{{host.organization.name}}
+          </span>
+        </div>
 
         <h2 class="text-2xl font-bold bg-white shadow rounded-lg px-5 py-4 mt-8">Podobné události</h2>
         <div class="flex flex-wrap -mx-4">
@@ -41,15 +46,28 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import VCard from "@/components/molecules/Card";
 
 import { components } from "aws-amplify-vue";
-const ListEvents = `query getEvent($id: ID!) {
+const ListEvents = `query getEvent($id: ID!, $userID: ID) {
   getEvent(id: $id){
       id
       title
+      description
+      host {
+        items{
+          organization{
+            name
+          }
+        }
+      }
+      attendence(userID: {eq: $userID}){
+			  items{ id }
+      }
+    }
   }
-}
 `;
 
 export default {
@@ -63,8 +81,12 @@ export default {
 
   computed: {
     ListTodosQuery() {
-      return this.$Amplify.graphqlOperation(ListEvents, { id: this.eventId });
-    }
+      return this.$Amplify.graphqlOperation(ListEvents, {
+        id: this.eventId,
+        userID: this.userID
+      });
+    },
+    ...mapState(["user"])
   }
 };
 </script>
