@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.0.0-beta.20",
+    "@nuxtjs/toast": "^3.3.0",
     "aws-amplify": "^2.2.4",
     "aws-amplify-vue": "^1.1.4",
     "moment": "^2.24.0",
