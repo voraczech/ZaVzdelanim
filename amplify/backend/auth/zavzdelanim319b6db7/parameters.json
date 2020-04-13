@@ -1,6 +1,6 @@
 {
     "identityPoolName": "zavzdelanim319b6db7_identitypool_319b6db7",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "zavzde319b6db7",
     "userPoolName": "zavzdelanim319b6db7_userpool_319b6db7",
     "autoVerifiedAttributes": [

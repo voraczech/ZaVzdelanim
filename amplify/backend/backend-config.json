@@ -22,5 +22,11 @@
 				}
 			}
 		}
+	},
+	"storage": {
+		"heroImages": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
 	}
 }
