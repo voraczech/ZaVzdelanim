@@ -13,6 +13,7 @@
           <button
             class="rounded px-4 py-2 shadow-sm hover:shadow-lg transition-shadow duration-200"
             :class="!!data.getEvent.attendence.items ? `bg-purple-100 text-purple-800` : `bg-purple-800 text-purple-100`"
+            @click="attend"
           >{{ !!data.getEvent.attendence.items ? `Zúčastnit se` : `Účastním se` }}</button>
         </div>
         <img
@@ -87,6 +88,11 @@ export default {
       });
     },
     ...mapState(["user"])
+  },
+  methods: {
+    attend() {
+      this.$toast.show("beru v potaz");
+    }
   }
 };
 </script>

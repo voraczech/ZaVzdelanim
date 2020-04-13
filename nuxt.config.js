@@ -47,6 +47,10 @@ export default {
     '@nuxtjs/pwa',
     '@nuxtjs/toast',
   ],
+
+  toast: {
+    position: 'bottom-right',
+  },
   /*
   ** Build configuration
   */
