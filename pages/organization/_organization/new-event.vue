@@ -12,11 +12,13 @@
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { mapState } from "vuex";
 
+import { v4 as uuidv4 } from "uuid";
+
 import moment from "moment";
 import Pikaday from "pikaday";
 import "pikaday/css/pikaday.css";
-window.moment = moment; // Required because vue-form-generator sucks
-window.Pikaday = Pikaday; // Required before vue-form-generator sucks
+window.moment = moment; // Required because of vue-form-generator
+window.Pikaday = Pikaday; // Required before of vue-form-generator
 
 import { validators } from "vue-form-generator";
 
@@ -41,6 +43,33 @@ const getOrg = `query getOrganization($id: ID!) {
 }
 `;
 
+const CreateEvent = `
+mutation CreateEvent(
+  $organizationID: ID!
+  $eventID: ID!
+  $title: String!
+  $description: String
+  $date: AWSTimestamp
+  $place: String
+  $tags: String
+  ) {
+    createEvent(input: {
+      id: $eventID
+      title: $title
+      description: $description
+      date: $date
+      place: $place
+      tags: $tags}) {
+      id
+    }
+    createHost(input: {
+      organizationID: $organizationID
+      eventID: $eventID
+    }){
+      id
+    }
+}`;
+
 export default {
   async asyncData({ params, redirect }) {
     const orgId = params.organization;
@@ -57,12 +86,15 @@ export default {
     if (userCred.sub !== getOrganization.creatorID) {
       return redirect("/");
     }
+
+    return { organizationID: getOrganization.id };
   },
   data() {
     return {
+      event: null,
       model: {
         title: "",
-        desc: "",
+        description: "",
         date: null,
         isOnline: true,
         url: "",
@@ -77,15 +109,15 @@ export default {
             label: "Název akce",
             model: "title",
             placeholder: "Moje úžasná akce",
-            featured: true,
-            required: true
+            required: true,
+            featured: true
           },
           {
             type: "textArea",
             label: "Popis",
             placeholder:
               "Informace o přednášejícím, místě, organizaci, registracích…",
-            model: "desc"
+            model: "description"
           },
           {
             type: "pikaday",
@@ -133,8 +165,8 @@ export default {
           {
             type: "vueMultiSelect",
             model: "tags",
-            label: "Libraries",
-            placeholder: "Type to search or add tag",
+            label: "Tagy",
+            placeholder: "Přidej tag z nabídky, nebo vytvoř vlastní",
             required: true,
             validator: validators.required,
             selectOptions: {
@@ -157,16 +189,51 @@ export default {
             ]
           },
           {
-            type: "input",
-            inputType: "submit"
+            type: "submit",
+            inputType: "submit",
+            validateBeforeSubmit: true,
+            onSubmit: this.handleSubmit
           }
         ]
       },
       formOptions: {
-        validateAfterLoad: false,
-        validateAsync: true
+        validateAfterLoad: false
       }
     };
+  },
+  computed: {
+    eventUuid() {
+      return uuidv4();
+    },
+    // https://medium.com/@andrew.s.trigg/using-appsync-and-amplify-with-vue-f45ebef7276e
+    // GraphQL doesn't seem to like null values or empty strings, so
+    // here we remove any properties that weren't given values, before
+    // passing it to the query/mutation
+    nonNullDetails() {
+      return Object.entries(this.model).reduce((acc, curr) => {
+        if (curr[1] && curr[1] !== 0) {
+          acc[curr[0]] = curr[1];
+        }
+        return acc;
+      }, {});
+    }
+  },
+  methods: {
+    async handleSubmit() {
+      const { title, description } = this.model;
+
+      const response = await await API.graphql(
+        graphqlOperation(CreateEvent, {
+          organizationID: this.organizationID,
+          eventID: this.eventUuid,
+          title,
+          description
+        })
+      );
+
+      this.$router.push(`/event/${response.data.createEvent.id}`);
+      //return response
+    }
   }
 };
 </script>
