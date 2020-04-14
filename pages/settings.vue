@@ -1,6 +1,6 @@
 <template>
   <div>
-    Chci být zařazen mezi speakery
+    <v-button> Chci být zařazen mezi speakery</v-button>
     <v-button @click.native="signout">Odhlásit se</v-button>
   </div>
 </template>
