@@ -27,11 +27,17 @@ export default {
   */
   css: [
   ],
+
+  router: {
+    linkActiveClass: 'link--active'
+  },
+
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '@/plugins/amplify.js'
+    '@/plugins/amplify.js',
+    { src: '@/plugins/unicons.js', mode: 'client' }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -50,6 +56,7 @@ export default {
 
   toast: {
     position: 'bottom-right',
+    duration: 5000
   },
   /*
   ** Build configuration
