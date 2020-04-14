@@ -1,6 +1,11 @@
 <template>
   <div>
-    <nuxt-link to="organization/create">Vytvořit</nuxt-link>
+    <nuxt-link
+      to="organization/create"
+      is="v-button"
+    >Vytvořit
+      <unicon name="plus" />
+    </nuxt-link>
     <amplify-connect :query="ListTodosQuery">
       <template slot-scope="{loading, data, errors}">
         <div v-if="loading">Načítám...</div>
@@ -29,6 +34,7 @@
 
 
 <script>
+import VButton from "@/components/atoms/Button";
 import VCard from "@/components/molecules/Card";
 
 const ListOrg = `query ListOrganization {
@@ -43,6 +49,7 @@ const ListOrg = `query ListOrganization {
 
 export default {
   components: {
+    VButton,
     VCard
   },
   computed: {
