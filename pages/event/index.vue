@@ -1,6 +1,12 @@
 <template>
   <div>
-    <amplify-connect :query="ListTodosQuery">
+    <div class="flex justify-between items-baseline">
+      <h1>Přednášky</h1>
+    </div>
+    <amplify-connect
+      :query="ListTodosQuery"
+      class="mt-8"
+    >
       <template slot-scope="{loading, data, errors}">
         <div v-if="loading">Načítám...</div>
         <div v-if="errors.length > 0">
@@ -15,7 +21,9 @@
             >
               <nuxt-link :to="`event/${item.id}`">
                 <VCard>
-                  <template slot="title">{{ item.title }}</template>
+                  {{ item.title }}
+                  {{ item.date }}
+                  {{ item.speaking.items.length !== 0 ? item.speaking.items : `` }}
                 </VCard>
               </nuxt-link>
             </div>
@@ -34,6 +42,14 @@ const ListEvents = `query ListEvents {
     items {
       id
       title
+      date
+      speaking{
+        items{
+          speaker{
+            name
+          }
+        }
+      }
     }
   }
 }

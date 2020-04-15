@@ -1,7 +1,18 @@
 <template>
   <div>
+    <h2 class=" mb-6">Odhlášení</h2>
+    <v-button @click.native="signout">
+      Odhlásit se
+      <unicon
+        name="sad"
+        class="ml-2"
+      />
+    </v-button>
+    <h2
+      id="speaker"
+      class="mt-12 mb-6"
+    >Speaker</h2>
     <v-button> Chci být zařazen mezi speakery</v-button>
-    <v-button @click.native="signout">Odhlásit se</v-button>
   </div>
 </template>
 

@@ -1,14 +1,21 @@
 <template>
-  <div>
-    <nuxt-link
-      to="organization/create"
+  <div class="flex flex-col">
+    <div class="flex justify-between items-baseline">
+      <h1>Organizace</h1>
+      <nuxt-link to="organization/create">
+        <v-button>
+          Vytvořit organizaci
+          <unicon
+            name="plus"
+            class="ml-3"
+          />
+        </v-button>
+      </nuxt-link>
+    </div>
+    <amplify-connect
+      :query="ListTodosQuery"
+      class="mt-8"
     >
-    <v-button>
-    Vytvořit
-      <unicon name="plus" />
-    </v-button>
-    </nuxt-link>
-    <amplify-connect :query="ListTodosQuery">
       <template slot-scope="{loading, data, errors}">
         <div v-if="loading">Načítám...</div>
         <div v-if="errors.length > 0">
@@ -22,9 +29,7 @@
               class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
             >
               <nuxt-link :to="`organization/${item.id}`">
-                <VCard>
-                  <template slot="title">{{ item.name }}</template>
-                </VCard>
+                <VCard>{{ item.name }}</VCard>
               </nuxt-link>
             </div>
           </div>

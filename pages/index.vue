@@ -6,7 +6,7 @@
         <div v-if="loading">Načítám...</div>
         <div v-if="errors.length > 0">Nenačetly se tvoje organizace</div>
         <div v-else-if="data.listOrganizations && data.listOrganizations.items.length > 0">
-            Meine organizace
+          <h2>Moje organizace</h2>
           <div class="flex flex-wrap -mx-4">
             <div
               v-for="item in data.listOrganizations.items"
@@ -14,9 +14,7 @@
               class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
             >
               <nuxt-link :to="`organization/${item.id}`">
-                <VCard>
-                  <template slot="title">{{ item.name }}</template>
-                </VCard>
+                <VCard>{{ item.name }}</VCard>
               </nuxt-link>
             </div>
           </div>
@@ -28,7 +26,7 @@
         <div v-if="loading">Načítám...</div>
         <div v-if="errors.length > 0">Nenačetly se tvoje organizace</div>
         <div v-else-if="data.listOrganizations && data.listOrganizations.items.length > 0">
-            Meine účasti
+          <h2>Moje účasti</h2>
           <div class="flex flex-wrap -mx-4">
             <div
               v-for="item in data.listOrganizations.items"
