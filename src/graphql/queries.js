@@ -8,7 +8,13 @@ export const getEvent = /* GraphQL */ `
       title
       description
       date
+      dateEnd
       place
+      image {
+        bucket
+        region
+        key
+      }
       tags
       host {
         items {
@@ -49,7 +55,13 @@ export const listEvents = /* GraphQL */ `
         title
         description
         date
+        dateEnd
         place
+        image {
+          bucket
+          region
+          key
+        }
         tags
         host {
           nextToken
@@ -81,6 +93,12 @@ export const getUser = /* GraphQL */ `
       speaker {
         id
         name
+        avatar {
+          bucket
+          region
+          key
+        }
+        bio
         speaking {
           nextToken
         }
@@ -123,6 +141,7 @@ export const listUsers = /* GraphQL */ `
         speaker {
           id
           name
+          bio
         }
         creator {
           nextToken
@@ -150,6 +169,7 @@ export const getOrganization = /* GraphQL */ `
         speaker {
           id
           name
+          bio
         }
         creator {
           nextToken
@@ -159,6 +179,11 @@ export const getOrganization = /* GraphQL */ `
         }
       }
       description
+      logo {
+        bucket
+        region
+        key
+      }
       links
       host {
         items {
@@ -196,6 +221,11 @@ export const listOrganizations = /* GraphQL */ `
           cognitoId
         }
         description
+        logo {
+          bucket
+          region
+          key
+        }
         links
         host {
           nextToken
@@ -214,6 +244,12 @@ export const getSpeaker = /* GraphQL */ `
     getSpeaker(id: $id) {
       id
       name
+      avatar {
+        bucket
+        region
+        key
+      }
+      bio
       speaking {
         items {
           id
@@ -235,6 +271,12 @@ export const listSpeakers = /* GraphQL */ `
       items {
         id
         name
+        avatar {
+          bucket
+          region
+          key
+        }
+        bio
         speaking {
           nextToken
         }
@@ -261,7 +303,13 @@ export const searchEvents = /* GraphQL */ `
         title
         description
         date
+        dateEnd
         place
+        image {
+          bucket
+          region
+          key
+        }
         tags
         host {
           nextToken
@@ -300,6 +348,11 @@ export const searchOrganizations = /* GraphQL */ `
           cognitoId
         }
         description
+        logo {
+          bucket
+          region
+          key
+        }
         links
         host {
           nextToken
@@ -330,6 +383,12 @@ export const searchSpeakers = /* GraphQL */ `
       items {
         id
         name
+        avatar {
+          bucket
+          region
+          key
+        }
+        bio
         speaking {
           nextToken
         }
