@@ -17,9 +17,12 @@
         </div>
       </div>
       <div class="w-1/3 px-2">
-        <v-button class="mb-4 w-full">
-          Upravit
-        </v-button>
+        <nuxt-link
+          :to="`${$route.fullPath}/edit`"
+          v-if="canEdit"
+        >
+          <v-button class="mb-4 w-full">Upravit</v-button>
+        </nuxt-link>
         <div class="rounded p-8 shadow-sm bg-white sticky top-4">
           <div class="flex flex-col fill-current text-gray-700 mb-8">
             <div
@@ -33,7 +36,7 @@
               <v-link
                 v-for="(speaker, key) in event.speaking.items"
                 :key="key"
-                :to="`/organization/${host.organization.id}`"
+                :to="`/speaker/${speaker.id}`"
               >{{ (!!event.speaker.items[key+1]) ? `${host.speaker.name}, ` : `${host.speaker.name}` }}
               </v-link>
             </div>
@@ -53,18 +56,19 @@
               <unicon
                 name="map-marker"
                 class="mr-8 text-gray-500"
-              /><span>Speaker!</span>
+              /><span>{{event.place}}</span>
             </div>
             <div class="flex">
               <unicon
                 name="calender"
                 class="mr-8 text-gray-500"
-              /><span>Speaker!</span>
+              /><span>{{event.date}}</span>
             </div>
           </div>
           <v-button
             v-if="attendenceID"
-            class="w-full text-lg bg-purple-800 text-purple-100"
+            class="w-full text-lg"
+            type="ctaActivated"
             @click.native="attend(attendenceID)"
           >
             <unicon
@@ -74,7 +78,8 @@
             />Účastním se</v-button>
           <v-button
             v-else
-            class="w-full text-lg bg-purple-200 text-purple-800"
+            type="cta"
+            class="w-full text-lg"
             @click.native="attend()"
           >
             <unicon
@@ -86,7 +91,7 @@
       </div>
     </div>
 
-    <h2 class="text-2xl font-bold bg-white shadow rounded-lg px-5 py-4 mt-8">Podobné události</h2>
+    <h2 class="text-xl font-semibold mt-8">Podobné události</h2>
     <div class="flex flex-wrap -mx-4">
       <div
         v-for="n in 8"
@@ -102,7 +107,7 @@
 </template>
 
 <script>
-import { Auth, API, graphqlOperation } from "aws-amplify";
+import { API, graphqlOperation } from "aws-amplify";
 
 import { mapState } from "vuex";
 
@@ -110,18 +115,24 @@ import VButton from "@/components/atoms/Button";
 import VCard from "@/components/molecules/Card";
 import VLink from "@/components/atoms/Link";
 
-import { components } from "aws-amplify-vue";
-import { mutations } from "../../store";
 const getEvent = `query getEvent($id: ID!, $userID: ID) {
   getEvent(id: $id){
       id
       title
       description
+      place
+      date
       host {
         items{
           organization{
             id
             name
+            creatorID
+            admins(userID: {eq: $userID}){
+              items{
+                id
+              }
+            }
           }
         }
       }
@@ -153,22 +164,39 @@ const deleteAttendence = `mutation deleteAttendence($id: ID!){
 }`;
 
 export default {
-  components: { VButton, VCard, VLink, ...components },
+  components: { VButton, VCard, VLink },
 
-  async asyncData({ params }) {
+  async asyncData({ params, store }) {
     const eventId = params.event;
 
-    const user = await Auth.currentAuthenticatedUser();
+    const userID = store.state.user.sub;
 
     const { data } = await API.graphql(
       graphqlOperation(getEvent, {
         id: eventId,
-        userID: user.attributes.sub
+        userID: userID
       })
     );
 
+    let canEdit = false;
+
+    data.getEvent.host.items.filter(function({ organization }) {
+      if (organization.creatorID === userID) {
+        canEdit = true;
+        return;
+      }
+
+      organization.admins.items.filter(function({ admin }) {
+        if (admin.id === userID) {
+          canEdit = true;
+          return;
+        }
+      });
+    });
+
     return {
       eventId,
+      canEdit,
       event: data.getEvent,
       attendenceID:
         data.getEvent.attendence.items.length === 1
@@ -187,7 +215,10 @@ export default {
             id: id
           })
         );
-        this.attendenceID = null;
+
+        if (data) {
+          this.attendenceID = null;
+        }
       } else {
         const { data } = await API.graphql(
           graphqlOperation(createAttendence, {

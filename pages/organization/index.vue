@@ -2,9 +2,11 @@
   <div>
     <nuxt-link
       to="organization/create"
-      is="v-button"
-    >Vytvořit
+    >
+    <v-button>
+    Vytvořit
       <unicon name="plus" />
+    </v-button>
     </nuxt-link>
     <amplify-connect :query="ListTodosQuery">
       <template slot-scope="{loading, data, errors}">
