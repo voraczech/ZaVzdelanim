@@ -1,10 +1,18 @@
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
 type Event @model @searchable
  {
   id: ID!
   title: String!
   description: String
   date: AWSTimestamp
+  dateEnd: AWSTimestamp
   place: String
+  image: S3Object
   tags: String
   host: [Host] @connection(keyName: "HostEvent", fields: ["id"])
   attendence: [Attendence] @connection(keyName:"AttendenceEvent", fields: ["id"])
@@ -31,6 +39,7 @@ type Organization @model @searchable @auth(rules: [
   creatorID: ID!
   creator: User @connection(fields: ["creatorID"])
   description: String
+  logo: S3Object
   links: AWSJSON
   host: [Host] @connection(keyName:"HostOrganization", fields: ["id"])
   admins: [Admin] @connection(keyName: "AdminOrganization", fields: ["id"])
@@ -39,6 +48,8 @@ type Organization @model @searchable @auth(rules: [
 type Speaker @model @searchable{
   id: ID!
   name: String!
+  avatar: S3Object
+  bio: String
   speaking: [Speaking] @connection(keyName: "SpeakingSpeaker", fields: ["id"])
 }
 
