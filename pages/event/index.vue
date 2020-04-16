@@ -44,7 +44,7 @@ const ListEvents = `query ListEvents {
       title
       date
       speaking{
-        items{
+        items {
           speaker{
             name
           }

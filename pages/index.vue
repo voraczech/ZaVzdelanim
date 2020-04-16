@@ -54,7 +54,7 @@ import { Auth, Hub } from "aws-amplify";
 
 const GetMyOrgs = `query ListOrganization($creatorID: ID!) {
   listOrganizations(filter: {creatorID: {eq: $creatorID}}){
-    items{
+    items {
       id
       name
       owner

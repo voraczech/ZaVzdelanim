@@ -123,13 +123,13 @@ const getEvent = `query getEvent($id: ID!, $userID: ID) {
       place
       date
       host {
-        items{
+        items {
           organization{
             id
             name
             creatorID
             admins(userID: {eq: $userID}){
-              items{
+              items {
                 id
               }
             }
@@ -137,10 +137,10 @@ const getEvent = `query getEvent($id: ID!, $userID: ID) {
         }
       }
       attendence(userID: {eq: $userID}){
-			  items{ id }
+			  items { id }
       }
       speaking{
-        items{
+        items {
           speaker{
             name
           }
