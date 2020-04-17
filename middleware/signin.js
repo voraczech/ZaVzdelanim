@@ -6,19 +6,16 @@ export default async function ({ store, redirect }) {
     return redirect("/");
   }
 
-  Hub.listen("auth", ({ payload: { event } }) => {
-    if (event === `signIn`) {
-      return redirect("/");
-    }
-    else if (event === `signUp`){
-      
-    }
+  Hub.listen("auth", async () => {
+    return redirect("/settings");
   });
 
   try {
     const user = await Auth.currentAuthenticatedUser();
-    store.commit(`setUser`, user.attributes)
-    return redirect("/");
+
+    if (!!user.attributes) {
+      return redirect("/");
+    }
   } catch (err) {
     return
   }
