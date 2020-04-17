@@ -11,5 +11,16 @@ export const mutations = {
   // data from database are part of user object as user.data
   setUserData(state, userData) {
     state.user.data = userData
+  },
+
+  // set user speaker
+  setUserSpeaker(state, userSpeaker) {
+    state.user.data.speaker = userSpeaker
+  }
+}
+
+export const actions = {
+  editUserSpeaker({ commit }, userSpeaker) {
+    commit('setUserSpeaker', userSpeaker)
   }
 }
