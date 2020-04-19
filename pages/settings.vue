@@ -12,14 +12,15 @@
       id="speaker"
       class="mt-12 mb-6"
     >Speaker</h2>
+    {{ userActivities }}
     <v-button
-      v-if="user.data.speaker === null"
+      v-if="!userActivities.speaker"
       @click.native="createUserSpeaker()"
     >Chci být zařazen mezi speakery </v-button>
     <div v-else>
-      <span>Jméno: {{ user.data.speaker.name }}</span>
-      <span>Bio: {{ user.data.speaker.bio }}</span>
-      <span>Foto: {{ user.data.speaker.avatar }}</span>
+      <span>Jméno: {{ userActivities.speaker.name }}</span>
+      <span>Bio: {{ userActivities.speaker.bio }}</span>
+      <span>Foto: {{ userActivities.speaker.avatar }}</span>
       <h3>Odstranění spojení speakera</h3>
       <v-button
         type="alert"
@@ -40,8 +41,6 @@ import { API, graphqlOperation } from "aws-amplify";
 
 import VButton from "@/components/atoms/Button";
 
-import { components } from "aws-amplify-vue";
-
 const createUserSpeaker = `mutation createUserSpeaker($id: ID!, $userID: ID!, $name: String!){
   createSpeaker(input: { id: $id, name: $name}){
     id
@@ -51,6 +50,8 @@ const createUserSpeaker = `mutation createUserSpeaker($id: ID!, $userID: ID!, $n
     id
     speaker{
       id
+      name
+      bio
     }
   }
 }
@@ -69,19 +70,18 @@ const deleteUserSpeaker = `mutation deleteUserSpeaker($id: ID!, $userID: ID!){
 }`;
 
 export default {
-  components: { VButton, ...components },
-
-  data() {
-    return {
-      aaa: ""
-    };
-  },
+  components: { VButton },
 
   computed: {
     uuidv4() {
       return uuid;
     },
-    ...mapState(["user"])
+    ...mapState(["user", "userActivities"])
+  },
+  data() {
+    return {
+      speakerStatusChange: false
+    };
   },
   methods: {
     async createUserSpeaker() {
@@ -93,33 +93,39 @@ export default {
         })
       );
 
-      console.log(data);
-
       if (
         data.updateUser.speaker.id !== null &&
-        this.$store.state.user.data.speaker !== data.updateUser.speaker
+        this.$store.state.userActivities.speaker !== data.updateUser.speaker
       ) {
-        this.$store.dispatch("editUserSpeaker", "aaa");
+        this.speakerStatusChange = true;
+        this.$store.commit("setUserActivity", {
+          speaker: data.updateUser.speaker
+        });
+        this.$toast.success("Vítej v klubu přednášejících! 👨‍🏫👩‍🏫");
       }
     },
     async deleteUserSpeaker() {
       const { data } = await API.graphql(
         graphqlOperation(deleteUserSpeaker, {
-          id: this.user.data.speaker.id,
+          id: this.userActivities.speaker.id,
           userID: this.user.sub
         })
       );
 
       if (
         data.updateUser.speaker === null &&
-        this.$store.state.user.data.speaker !== data.updateUser.speaker
+        this.$store.state.userActivities.speaker !== data.updateUser.speaker
       ) {
-        this.$store.dispatch("editUserSpeaker", null);
+        this.speakerStatusChange = true;
+        this.$store.commit("setUserActivity", {
+          speaker: data.updateUser.speaker
+        });
+        this.$toast.success("Tak snad zas někdy 👋");
       }
     },
     signout() {
       Auth.signOut();
-      this.$store.commit("setUser", null);
+      this.$store.dispatch("deleteUser");
     }
   }
 };

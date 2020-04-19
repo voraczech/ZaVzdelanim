@@ -4,7 +4,7 @@ import { API, graphqlOperation } from "aws-amplify";
 const userOutput = `
 id
 cognitoId
-attendence{items{id}}
+attendence{items{event{id,title}}}
 speaker{
   id
   name
@@ -22,8 +22,8 @@ speaker{
     }
   }
 }
-creator{items{id}}
-admin{items{id}}
+creator{items{id, name}}
+admin{items{organization{id,name}}}
 `;
 
 const getUserData = `query getUserData($id: ID!){
@@ -43,7 +43,7 @@ export default async function ({ store, redirect }) {
   let user;
 
   // If the user is not authenticated
-  if (!store.state.user) {
+  if (Object.keys(store.state.user).length === 0) {
     try {
       user = await Auth.currentAuthenticatedUser();
 
@@ -54,7 +54,7 @@ export default async function ({ store, redirect }) {
   }
 
   // If there is no record from database in vuex
-  if (!store.state.user.data) {
+  if (!store.state.userActivities.isSet) {
     const userData = await API.graphql(
       graphqlOperation(getUserData, {
         id: user.attributes.sub
@@ -71,6 +71,6 @@ export default async function ({ store, redirect }) {
       );
     }
 
-    store.commit(`setUserData`, userData.data.getUser || createUserData.data.createUser)
+    store.commit(`setUserActivities`, userData.data.getUser || createUserData.data.createUser)
   }
 }

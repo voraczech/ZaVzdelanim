@@ -1,5 +1,25 @@
 export const state = () => ({
-  user: null
+  user: {},
+
+  // isSet variables are better to recognize whether state should by empty, or not
+
+  userActivities: {
+    isSet: false,
+    attendence: {},
+    speaker: {},
+    creator: {},
+    admin: {}
+  },
+  events: {
+    isSet: false,
+  },
+  speakers: {
+    isSet: false,
+  },
+  organizations: {
+    isSet: false,
+
+  }
 })
 
 export const mutations = {
@@ -8,19 +28,34 @@ export const mutations = {
     state.user = user
   },
 
-  // data from database are part of user object as user.data
-  setUserData(state, userData) {
-    state.user.data = userData
+  setUserActivities(state, data) {
+    state.userActivities = { isSet: true, ...data }
   },
 
-  // set user speaker
-  setUserSpeaker(state, userSpeaker) {
-    state.user.data.speaker = userSpeaker
-  }
+  setUserActivity(state, data) {
+    state.userActivities = { ...state.userActivities, ...data }
+  },
 }
 
 export const actions = {
-  editUserSpeaker({ commit }, userSpeaker) {
-    commit('setUserSpeaker', userSpeaker)
+  deleteUserActivities({ commit }) {
+    commit('setUserData', { isSet: false })
+  },
+
+  deleteUser({ commit, dispatch }) {
+    dispatch('deleteUserData')
+    commit('setUser', {})
+  },
+
+  setUser({ commit }, user) {
+    commit('setUser', user)
+  },
+
+  setUserActivities({ commit }, data) {
+    commit('setUserActivities', data)
+  },
+
+  setUserActivity({ commit }, data) {
+    commit('setUserActivity', data)
   }
 }
