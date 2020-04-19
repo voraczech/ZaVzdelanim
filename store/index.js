@@ -23,7 +23,7 @@ export const state = () => ({
 })
 
 export const mutations = {
-  // data from Cognito are primary
+  // data from Cognito are default user credentials
   setUser(state, user) {
     state.user = user
   },
