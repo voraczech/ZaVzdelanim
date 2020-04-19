@@ -20,18 +20,15 @@ import "pikaday/css/pikaday.css";
 window.moment = moment; // Required because of vue-form-generator
 window.Pikaday = Pikaday; // Required before of vue-form-generator
 
-import { validators } from "vue-form-generator";
 
 import Vue from "vue";
 import VueFormGenerator from "vue-form-generator";
-import "vue-form-generator/dist/vfg.css";
+import { validators } from "vue-form-generator";
+Vue.use(VueFormGenerator);
 
 import Multiselect from "vue-multiselect";
-
-// register globally
 Vue.component("multiselect", Multiselect);
 
-Vue.use(VueFormGenerator);
 
 const getOrg = `query getOrganization($id: ID!) {
   getOrganization(id: $id){
@@ -91,7 +88,6 @@ export default {
   },
   data() {
     return {
-      event: null,
       model: {
         title: "",
         description: "",
