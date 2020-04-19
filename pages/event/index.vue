@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import VCard from "@/components/molecules/Card";
 
 const ListEvents = `query ListEvents {
@@ -62,7 +64,9 @@ export default {
   computed: {
     ListTodosQuery() {
       return this.$Amplify.graphqlOperation(ListEvents);
-    }
-  }
+    },
+    ...mapState(["user", "userActivities"])
+  },
+
 };
 </script>
