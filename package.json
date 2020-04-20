@@ -19,6 +19,7 @@
     "nuxt": "^2.0.0",
     "pikaday": "^1.8.0",
     "uuid": "^7.0.2",
+    "v-calendar": "^1.0.5",
     "vue-form-generator": "^2.3.4",
     "vue-multiselect": "^2.1.6",
     "vue-unicons": "^2.1.0"
