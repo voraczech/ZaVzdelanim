@@ -10,11 +10,7 @@ export const onCreateEvent = /* GraphQL */ `
       date
       dateEnd
       place
-      image {
-        bucket
-        region
-        key
-      }
+      image
       tags
       host {
         items {
@@ -52,11 +48,7 @@ export const onUpdateEvent = /* GraphQL */ `
       date
       dateEnd
       place
-      image {
-        bucket
-        region
-        key
-      }
+      image
       tags
       host {
         items {
@@ -94,11 +86,7 @@ export const onDeleteEvent = /* GraphQL */ `
       date
       dateEnd
       place
-      image {
-        bucket
-        region
-        key
-      }
+      image
       tags
       host {
         items {
@@ -143,11 +131,7 @@ export const onCreateUser = /* GraphQL */ `
       speaker {
         id
         name
-        avatar {
-          bucket
-          region
-          key
-        }
+        avatar
         bio
         speaking {
           nextToken
@@ -159,6 +143,7 @@ export const onCreateUser = /* GraphQL */ `
           name
           creatorID
           description
+          logo
           links
           owner
         }
@@ -191,11 +176,7 @@ export const onUpdateUser = /* GraphQL */ `
       speaker {
         id
         name
-        avatar {
-          bucket
-          region
-          key
-        }
+        avatar
         bio
         speaking {
           nextToken
@@ -207,6 +188,7 @@ export const onUpdateUser = /* GraphQL */ `
           name
           creatorID
           description
+          logo
           links
           owner
         }
@@ -239,11 +221,7 @@ export const onDeleteUser = /* GraphQL */ `
       speaker {
         id
         name
-        avatar {
-          bucket
-          region
-          key
-        }
+        avatar
         bio
         speaking {
           nextToken
@@ -255,6 +233,7 @@ export const onDeleteUser = /* GraphQL */ `
           name
           creatorID
           description
+          logo
           links
           owner
         }
@@ -286,6 +265,7 @@ export const onCreateOrganization = /* GraphQL */ `
         speaker {
           id
           name
+          avatar
           bio
         }
         creator {
@@ -296,11 +276,7 @@ export const onCreateOrganization = /* GraphQL */ `
         }
       }
       description
-      logo {
-        bucket
-        region
-        key
-      }
+      logo
       links
       host {
         items {
@@ -337,6 +313,7 @@ export const onUpdateOrganization = /* GraphQL */ `
         speaker {
           id
           name
+          avatar
           bio
         }
         creator {
@@ -347,11 +324,7 @@ export const onUpdateOrganization = /* GraphQL */ `
         }
       }
       description
-      logo {
-        bucket
-        region
-        key
-      }
+      logo
       links
       host {
         items {
@@ -388,6 +361,7 @@ export const onDeleteOrganization = /* GraphQL */ `
         speaker {
           id
           name
+          avatar
           bio
         }
         creator {
@@ -398,11 +372,7 @@ export const onDeleteOrganization = /* GraphQL */ `
         }
       }
       description
-      logo {
-        bucket
-        region
-        key
-      }
+      logo
       links
       host {
         items {
@@ -429,11 +399,7 @@ export const onCreateSpeaker = /* GraphQL */ `
     onCreateSpeaker {
       id
       name
-      avatar {
-        bucket
-        region
-        key
-      }
+      avatar
       bio
       speaking {
         items {
@@ -451,11 +417,7 @@ export const onUpdateSpeaker = /* GraphQL */ `
     onUpdateSpeaker {
       id
       name
-      avatar {
-        bucket
-        region
-        key
-      }
+      avatar
       bio
       speaking {
         items {
@@ -473,11 +435,7 @@ export const onDeleteSpeaker = /* GraphQL */ `
     onDeleteSpeaker {
       id
       name
-      avatar {
-        bucket
-        region
-        key
-      }
+      avatar
       bio
       speaking {
         items {
@@ -505,11 +463,7 @@ export const onCreateAdmin = /* GraphQL */ `
           cognitoId
         }
         description
-        logo {
-          bucket
-          region
-          key
-        }
+        logo
         links
         host {
           nextToken
@@ -528,6 +482,7 @@ export const onCreateAdmin = /* GraphQL */ `
         speaker {
           id
           name
+          avatar
           bio
         }
         creator {
@@ -555,11 +510,7 @@ export const onUpdateAdmin = /* GraphQL */ `
           cognitoId
         }
         description
-        logo {
-          bucket
-          region
-          key
-        }
+        logo
         links
         host {
           nextToken
@@ -578,6 +529,7 @@ export const onUpdateAdmin = /* GraphQL */ `
         speaker {
           id
           name
+          avatar
           bio
         }
         creator {
@@ -605,11 +557,7 @@ export const onDeleteAdmin = /* GraphQL */ `
           cognitoId
         }
         description
-        logo {
-          bucket
-          region
-          key
-        }
+        logo
         links
         host {
           nextToken
@@ -628,6 +576,7 @@ export const onDeleteAdmin = /* GraphQL */ `
         speaker {
           id
           name
+          avatar
           bio
         }
         creator {
@@ -653,11 +602,7 @@ export const onCreateAttendence = /* GraphQL */ `
         date
         dateEnd
         place
-        image {
-          bucket
-          region
-          key
-        }
+        image
         tags
         host {
           nextToken
@@ -678,6 +623,7 @@ export const onCreateAttendence = /* GraphQL */ `
         speaker {
           id
           name
+          avatar
           bio
         }
         creator {
@@ -703,11 +649,7 @@ export const onUpdateAttendence = /* GraphQL */ `
         date
         dateEnd
         place
-        image {
-          bucket
-          region
-          key
-        }
+        image
         tags
         host {
           nextToken
@@ -728,6 +670,7 @@ export const onUpdateAttendence = /* GraphQL */ `
         speaker {
           id
           name
+          avatar
           bio
         }
         creator {
@@ -753,11 +696,7 @@ export const onDeleteAttendence = /* GraphQL */ `
         date
         dateEnd
         place
-        image {
-          bucket
-          region
-          key
-        }
+        image
         tags
         host {
           nextToken
@@ -778,6 +717,7 @@ export const onDeleteAttendence = /* GraphQL */ `
         speaker {
           id
           name
+          avatar
           bio
         }
         creator {
@@ -805,11 +745,7 @@ export const onCreateHost = /* GraphQL */ `
           cognitoId
         }
         description
-        logo {
-          bucket
-          region
-          key
-        }
+        logo
         links
         host {
           nextToken
@@ -826,11 +762,7 @@ export const onCreateHost = /* GraphQL */ `
         date
         dateEnd
         place
-        image {
-          bucket
-          region
-          key
-        }
+        image
         tags
         host {
           nextToken
@@ -860,11 +792,7 @@ export const onUpdateHost = /* GraphQL */ `
           cognitoId
         }
         description
-        logo {
-          bucket
-          region
-          key
-        }
+        logo
         links
         host {
           nextToken
@@ -881,11 +809,7 @@ export const onUpdateHost = /* GraphQL */ `
         date
         dateEnd
         place
-        image {
-          bucket
-          region
-          key
-        }
+        image
         tags
         host {
           nextToken
@@ -915,11 +839,7 @@ export const onDeleteHost = /* GraphQL */ `
           cognitoId
         }
         description
-        logo {
-          bucket
-          region
-          key
-        }
+        logo
         links
         host {
           nextToken
@@ -936,11 +856,7 @@ export const onDeleteHost = /* GraphQL */ `
         date
         dateEnd
         place
-        image {
-          bucket
-          region
-          key
-        }
+        image
         tags
         host {
           nextToken
@@ -968,11 +884,7 @@ export const onCreateSpeaking = /* GraphQL */ `
         date
         dateEnd
         place
-        image {
-          bucket
-          region
-          key
-        }
+        image
         tags
         host {
           nextToken
@@ -987,11 +899,7 @@ export const onCreateSpeaking = /* GraphQL */ `
       speaker {
         id
         name
-        avatar {
-          bucket
-          region
-          key
-        }
+        avatar
         bio
         speaking {
           nextToken
@@ -1013,11 +921,7 @@ export const onUpdateSpeaking = /* GraphQL */ `
         date
         dateEnd
         place
-        image {
-          bucket
-          region
-          key
-        }
+        image
         tags
         host {
           nextToken
@@ -1032,11 +936,7 @@ export const onUpdateSpeaking = /* GraphQL */ `
       speaker {
         id
         name
-        avatar {
-          bucket
-          region
-          key
-        }
+        avatar
         bio
         speaking {
           nextToken
@@ -1058,11 +958,7 @@ export const onDeleteSpeaking = /* GraphQL */ `
         date
         dateEnd
         place
-        image {
-          bucket
-          region
-          key
-        }
+        image
         tags
         host {
           nextToken
@@ -1077,11 +973,7 @@ export const onDeleteSpeaking = /* GraphQL */ `
       speaker {
         id
         name
-        avatar {
-          bucket
-          region
-          key
-        }
+        avatar
         bio
         speaking {
           nextToken
