@@ -8,11 +8,7 @@ attendence{items{event{id,title}}}
 speaker{
   id
   name
-  avatar {
-    bucket
-    region
-    key
-  }
+  avatar
   bio
   speaking{
     items{
