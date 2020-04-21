@@ -6,20 +6,20 @@
         to="settings#speaker"
         class="ml-auto"
       >
-        <v-button>
+        <v-text-button v-if="!userActivities.speaker.id">
           Chci být taky speaker
           <unicon
             name="user-plus"
             class="ml-3"
           />
-        </v-button>
-        <v-button>
-          Správa mého speakerského účtu
+        </v-text-button>
+        <v-text-button v-else>
+          Správa mého účtu přednášejícího
           <unicon
             name="sliders-v-alt"
             class="ml-3"
           />
-        </v-button>
+        </v-text-button>
       </nuxt-link>
     </div>
     <amplify-connect
@@ -39,7 +39,18 @@
               class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
             >
               <nuxt-link :to="`speaker/${item.id}`">
-                <VCard>{{ item.name }}</VCard>
+                <VCard>
+                  <div class="flex">
+                    <amplify-s3-image
+                      v-if="item.avatar !== null"
+                      :imagePath="item.avatar"
+                      class="flex"
+                    />
+                    <span>
+                      {{ item.name }}
+                    </span>
+                  </div>
+                </VCard>
               </nuxt-link>
             </div>
           </div>
@@ -52,14 +63,15 @@
 <script>
 import { mapState } from "vuex";
 
-import VButton from "@/components/atoms/Button";
+import VTextButton from "@/components/atoms/TextButton";
 import VCard from "@/components/molecules/Card";
 
 const ListEvents = `query ListSpeakers {
-  listSpeakers{
+  listSpeakers(limit:25){
     items {
       id
       name
+      avatar
     }
   }
 }
@@ -67,7 +79,7 @@ const ListEvents = `query ListSpeakers {
 
 export default {
   components: {
-    VButton,
+    VTextButton,
     VCard
   },
   computed: {
@@ -75,7 +87,7 @@ export default {
       return this.$Amplify.graphqlOperation(ListEvents);
     },
 
-    ...mapState(["user"])
+    ...mapState(["user", "userActivities"])
   }
 };
 </script>
