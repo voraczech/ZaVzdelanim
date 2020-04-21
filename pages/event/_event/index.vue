@@ -68,7 +68,7 @@
           <v-button
             v-if="attendenceID"
             class="w-full text-lg"
-            type="ctaActivated"
+            design="ctaActivated"
             @click.native="attend(attendenceID)"
           >
             <unicon
@@ -78,7 +78,7 @@
             />Účastním se</v-button>
           <v-button
             v-else
-            type="cta"
+            design="cta"
             class="w-full text-lg"
             @click.native="attend()"
           >
