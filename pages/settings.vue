@@ -14,11 +14,11 @@
     <h2
       id="speaker"
       class="pt-6 mb-6"
-    >Speaker</h2>
+    >Přednášející</h2>
     <v-button
       v-if="!userActivities.speaker"
       @click.native="createUserSpeaker()"
-    >Chci být zařazen mezi speakery </v-button>
+    >Chci být zařazen mezi přednášející </v-button>
     <div v-else>
       <amplify-photo-picker :photoPickerConfig="photoPickerConfig" />
       <amplify-s3-image :imagePath="userActivities.speaker.avatar" />
@@ -28,9 +28,9 @@
         :options="formOptions"
       />
       <v-button
-        type="alert"
+        design="alert"
         @click.native="deleteUserSpeaker()"
-      >Už nechci být speaker</v-button>
+      >Už nechci být přednášející</v-button>
     </div>
   </div>
 </template>
