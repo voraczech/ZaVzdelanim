@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <nuxt-link to="/organization/create">Vytvořit Organizaci</nuxt-link>
-    <div v-if="(userActivities.admin.items.length > 0) || (userActivities.creator.items.length > 0)">
+  <div class="grid gap-10">
+    <section v-if="(userActivities.admin.items.length > 0) || (userActivities.creator.items.length > 0)">
       <h2>Moje organizace</h2>
       <div class="flex flex-wrap -mx-4">
         <div
@@ -14,9 +13,9 @@
           </nuxt-link>
         </div>
       </div>
-    </div>
-    <div v-if="userActivities.attendence.items.length > 0">
-      <h2>Moje účasti</h2>
+    </section>
+    <section v-if="userActivities.attendence.items.length > 0">
+      <h2>Moje účasti jako přednášející</h2>
       <div class="flex flex-wrap -mx-4">
         <div
           v-for="{event} in userActivities.attendence.items"
@@ -28,7 +27,21 @@
           </nuxt-link>
         </div>
       </div>
-    </div>
+    </section>
+    <section v-if="userActivities.attendence.items.length > 0">
+      <h2>Moje účasti jako návštěvník</h2>
+      <div class="flex flex-wrap -mx-4">
+        <div
+          v-for="{event} in userActivities.attendence.items"
+          :key="event.id"
+          class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
+        >
+          <nuxt-link :to="`event/${event.id}`">
+            <VCard>{{ event.title }}</VCard>
+          </nuxt-link>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
