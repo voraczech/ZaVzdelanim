@@ -18,6 +18,14 @@ h1, h2{
   @apply text-lg font-semibold
 }
 
+textarea{
+  @apply px-4 py-4 rounded transition duration-75
+}
+
+textarea:hover, textarea:focus{
+  @apply shadow
+}
+
 @font-face {
   font-family: 'Inter';
   font-style:  normal;
