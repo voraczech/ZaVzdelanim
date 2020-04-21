@@ -3,11 +3,11 @@ type Event @model @searchable
   id: ID!
   title: String!
   description: String
-  date: AWSTimestamp
-  dateEnd: AWSTimestamp
+  date: AWSDateTime
+  dateEnd: AWSDateTime
   place: String
   image: String
-  tags: String
+  tags: AWSJSON
   host: [Host] @connection(keyName: "HostEvent", fields: ["id"])
   attendence: [Attendence] @connection(keyName:"AttendenceEvent", fields: ["id"])
   speaking: [Speaking] @connection(keyName: "SpeakingEvent", fields: ["id"])
