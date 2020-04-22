@@ -13,6 +13,12 @@
           <div class="p-12">
             <h1 class="text-2xl font-bold mb-8">{{event.title}}</h1>
             <p>{{ event.description }}</p>
+            <p>#
+              <span
+                v-for="(tag, key) in JSON.parse(event.tags)"
+                :key="key"
+              >{{tag}}{{JSON.parse(event.tags).length === key+1 ? `` : `, `}}</span>
+            </p>
           </div>
         </div>
       </div>
@@ -33,24 +39,28 @@
                 name="podium"
                 class="mr-8 text-gray-500"
               />
-              <v-link
-                v-for="(speaker, key) in event.speaking.items"
-                :key="key"
-                :to="`/speaker/${speaker.id}`"
-              >{{ (!!event.speaker.items[key+1]) ? `${host.speaker.name}, ` : `${host.speaker.name}` }}
-              </v-link>
+              <div>
+                <v-link
+                  v-for="(speaking, key) in event.speaking.items"
+                  :key="key"
+                  :to="`/speaker/${speaking.speaker.id}`"
+                >{{ (!!event.speaking.items[key+1]) ? `${speaking.speaker.name}, ` : `${speaking.speaker.name}` }}
+                </v-link>
+              </div>
             </div>
             <div class="flex mb-6">
               <unicon
                 name="building"
                 class="mr-8 text-gray-500"
               />
-              <v-link
-                v-for="(host, key) in event.host.items"
-                :key="key"
-                :to="`/organization/${host.organization.id}`"
-              >{{ (!!event.host.items[key+1]) ? `${host.organization.name}, ` : `${host.organization.name}` }}
-              </v-link>
+              <div>
+                <v-link
+                  v-for="(host, key) in event.host.items"
+                  :key="key"
+                  :to="`/organization/${host.organization.id}`"
+                >{{ (!!event.host.items[key+1]) ? `${host.organization.name},` : `${host.organization.name}` }}
+                </v-link>
+              </div>
             </div>
             <div class="flex mb-6">
               <unicon
@@ -62,7 +72,7 @@
               <unicon
                 name="calender"
                 class="mr-8 text-gray-500"
-              /><span>{{event.date}}</span>
+              /><span>{{event.date}} - {{ event.dateEnd }}</span>
             </div>
           </div>
           <v-button
@@ -122,6 +132,8 @@ const getEvent = `query getEvent($id: ID!, $userID: ID) {
       description
       place
       date
+      dateEnd
+      tags
       host {
         items {
           organization{
@@ -142,6 +154,7 @@ const getEvent = `query getEvent($id: ID!, $userID: ID) {
       speaking{
         items {
           speaker{
+            id
             name
           }
         }
