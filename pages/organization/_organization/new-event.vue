@@ -352,7 +352,7 @@ export default {
         this.storageOptions.contentType = this.file.type;
       }
       const name = this.file.name;
-      this.s3ImagePath = `test/${name}`;
+      this.s3ImagePath = name;
       const that = this;
       const reader = new FileReader();
       reader.onload = e => {
@@ -404,13 +404,14 @@ export default {
       let imageUploadResponse;
       if (this.file !== null) {
         try {
-          imageUploadResponse = await Storage.put(
-            this.s3ImagePath,
+          const response = await Storage.put(
+            `uploads/event/${eventID}/${this.s3ImagePath}`,
             this.file,
             this.storageOptions
           );
 
           this.$toast.info("Obrázek nahrán");
+          imageUploadResponse = response.key;
         } catch (error) {
           this.$toast.error(
             "Jejda, nepodařilo se nahrát obrázek. Pokud se událost vytvoří, raději ji uprav."

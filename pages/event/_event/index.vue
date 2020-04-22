@@ -131,6 +131,7 @@ const getEvent = `query getEvent($id: ID!, $userID: ID) {
       title
       description
       place
+      image
       date
       dateEnd
       tags
