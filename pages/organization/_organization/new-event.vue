@@ -42,12 +42,13 @@
         :min-datetime="date"
       />
       <label for="place">Místo konání</label>
+      <span class="text-sm font-semibold text-gray-600">Můžeš vložit i URL adresu</span>
       <v-geosearch
         id="place"
         @select="e => this.place = e"
       />
       <label for="photo">Fotka</label>
-      <v-input
+      <input
         ref="file_input"
         type="file"
         id="photo"
@@ -58,10 +59,12 @@
         <div class="w-1/2 max-w-3xl flex flex-col">
           <multiselect
             id="speakers"
-            v-model="speaking"
-            :options="speakers"
+            v-model="speakersSelect"
+            :options="speakersOptions"
             :multiple="true"
             @search-change="asyncSpeakers"
+            track-by="id"
+            label="name"
             placeholder="Vyber si přednášejícího"
             select-label="Stiskni k vybrání"
             selected-label="Vybráno"
@@ -71,36 +74,55 @@
             <template slot="noOptions">Zadej alespoň 3 písmena a hledej přednášejícího 🔍</template>
           </multiselect>
           <div
-            v-for="(n, key) in newSpeakersNumber"
+            v-for="(v, key) in $v.newSpeakers.$each.$iter"
             :key="key"
-            class="flex flex-col"
+            class="flex flex-col mt-8"
           >
             <input
               type="text"
               placeholder="Jméno"
+              v-model.trim="v.name.$model"
             />
-            <textarea placeholder="Informace o přednášejícím"></textarea>
+            <div
+              class="error"
+              v-if="!v.name.required && v.$error"
+            >Každý má nějaké jméno.</div>
+            <textarea
+              class="mt-2"
+              placeholder="Informace o přednášejícím"
+              v-model.trim="v.bio.$model"
+            ></textarea>
           </div>
           <v-text-button
-            @click.native="newSpeakersNumber++"
-            class="ml-auto"
-          >Přidat přednášejícího
-            <unicon name="plus" />
+            @click.native="newSpeakers.pop()"
+            class="ml-auto mt-2"
+            design="alert"
+            v-if="newSpeakers.length > 0"
+          >Odebrat
+            <unicon
+              name="minus-circle"
+              class="ml-2"
+            />
           </v-text-button>
           <v-text-button
-            @click.native="newSpeakersNumber--"
-            class="ml-auto"
-            v-if="newSpeakersNumber > 0"
-          >Odebrat přednášejícího
-            <unicon name="plus" />
+            @click.native="newSpeakers.push({ name: ``, bio: ``})"
+            class="ml-auto mt-3"
+          >Přidat přednášejícího
+            <unicon
+              name="plus-circle"
+              class="ml-2"
+            />
           </v-text-button>
         </div>
       </div>
+
       <label for="hosts">Spolupořadatelé</label>
       <multiselect
         id="hosts"
         v-model="hosts"
         :options="hostOptions"
+        track-by="id"
+        label="name"
         :multiple="true"
         @search-change="asyncHosts"
         placeholder="Vyber si spolupořadatele"
@@ -126,6 +148,10 @@
         deselect-label="Stiskni k odebrání"
       />
       <v-button type="submit">Odeslat</v-button>
+      <div
+        class="text-sm font-semibold text-red-600"
+        v-if="$v.$error"
+      >Formulář není správně vyplněn. Zkrontroluj to, prosím.</div>
     </form>
     <!-- <vue-form-generator
       :schema="schema"
@@ -153,6 +179,7 @@ import {
   searchSpeakers,
   searchOrganizations
 } from "../../../src/graphql/queries";
+import { createEvent } from "../../../src/graphql/mutations";
 
 const getOrg = `query getOrganization($id: ID!) {
   getOrganization(id: $id){
@@ -164,32 +191,56 @@ const getOrg = `query getOrganization($id: ID!) {
 }
 `;
 
-const CreateEvent = `
-mutation CreateEvent(
-  $organizationID: ID!
+// must create own mutation, bc i need specific batching Amplify can't generate (but it's valid for AppSync)
+const createSpeakerWithSpeaking = `
+mutation createSpeakerWithSpeaking(
   $eventID: ID!
-  $title: String!
-  $description: String
-  $date: AWSTimestamp
-  $place: String
-  $tags: String
-  ) {
-    createEvent(input: {
-      id: $eventID
-      title: $title
-      description: $description
-      date: $date
-      place: $place
-      tags: $tags}) {
-      id
-    }
-    createHost(input: {
-      organizationID: $organizationID
-      eventID: $eventID
-    }){
-      id
-    }
+  $speakerID: ID!
+  $name: String!
+  $bio: String
+){
+  createSpeaker(input:{
+    id: $speakerID,
+    name: $name,
+    bio: $bio
+  }){
+    id
+  }
+  createSpeaking(input: {
+    eventID: $eventID
+    speakerID: $speakerID
+  }){
+    id
+  }
 }`;
+
+const createSpeaking = `
+mutation createSpeaking(
+  $eventID: ID!
+  $speakerID: ID!
+){
+  createSpeaking(input: {
+    eventID: $eventID
+    speakerID: $speakerID
+  }){
+    id
+  }
+}
+`;
+
+const createHost = `
+mutation createHost(
+  $eventID: ID!
+  $organizationID: ID!
+) {
+  createHost(input: {
+      eventID: $eventID
+      organizationID: $organizationID
+  }){
+    id
+  }
+}
+`;
 
 export default {
   async asyncData({ params, redirect }) {
@@ -212,14 +263,14 @@ export default {
   },
   data() {
     return {
-      title: "",
+      title: "nějaký názevv",
       description: "",
-      hosts: null,
       place: null,
       date: null,
       dateEnd: null,
-      speaking: null,
-      speakers: [],
+      speakersSelect: [],
+      speakersOptions: [],
+      newSpeakers: [],
       // file
       file: null,
       s3ImagePath: "",
@@ -227,9 +278,37 @@ export default {
       storageOptions: {},
       error: "",
       // end file
-      newSpeakersNumber: 0,
+      hosts: [
+        {
+          id: "e1cc5c2d-c2e4-4317-872a-916763f022e7",
+          name: "TetraPak",
+          creatorID: "6219104c-47cd-4e69-8bea-25f8621cf86e",
+          creator: null,
+          description: null,
+          logo: null,
+          links: null,
+          host: { nextToken: null },
+          admins: { nextToken: null },
+          owner: "Google_109373061699120364195"
+        },
+        {
+          id: "64275b83-22a6-424f-a0b1-108c3da29cd5",
+          name: "Klub org",
+          creatorID: "8fdf612f-65ab-4562-ad73-ecffa9d9a8e5",
+          creator: {
+            id: "8fdf612f-65ab-4562-ad73-ecffa9d9a8e5",
+            cognitoId: "Google_112533328227959653821"
+          },
+          description: null,
+          logo: null,
+          links: null,
+          host: { nextToken: null },
+          admins: { nextToken: null },
+          owner: "Google_112533328227959653821"
+        }
+      ],
       hostOptions: [],
-      tags: null,
+      tags: [],
       tagsOptions: [
         "Marketing",
         "IT Development",
@@ -244,6 +323,14 @@ export default {
     title: {
       required,
       minLength: minLength(4)
+    },
+    newSpeakers: {
+      $each: {
+        name: {
+          required
+        },
+        bio: {}
+      }
     }
   },
   components: {
@@ -253,11 +340,6 @@ export default {
     Datetime,
     VTextButton,
     Multiselect
-  },
-  computed: {
-    eventUuid() {
-      return uuidv4();
-    }
   },
   methods: {
     // this method is from https://github.com/aws-amplify/amplify-js/blob/a7073b4a920a9298775c15a4fe5e77881c2d5a7e/packages/aws-amplify-vue/src/components/storage/PhotoPicker.vue
@@ -281,41 +363,33 @@ export default {
       reader.readAsDataURL(this.file);
     },
     async asyncSpeakers(query) {
-      if (query.length > 2) {
-        const response = await API.graphql(
-          graphqlOperation(searchSpeakers, {
-            filter: {
-              name: {
-                wildcard: `${query}*`
-              }
-            },
-            limit: 3
-          })
-        );
-        this.speakers = response.data.searchSpeakers.items.map(
-          item => item.name
-        );
-      }
+      const response = await API.graphql(
+        graphqlOperation(searchSpeakers, {
+          filter: {
+            name: {
+              wildcard: `${query}*`
+            }
+          },
+          limit: 3
+        })
+      );
+      this.speakersOptions = response.data.searchSpeakers.items;
     },
     async asyncHosts(query) {
-      if (query.length > 2) {
-        const response = await API.graphql(
-          graphqlOperation(searchOrganizations, {
-            filter: {
-              id: {
-                ne: this.organizationID
-              },
-              name: {
-                wildcard: `${query}*`
-              }
+      const response = await API.graphql(
+        graphqlOperation(searchOrganizations, {
+          filter: {
+            id: {
+              ne: this.organizationID
             },
-            limit: 3
-          })
-        );
-        this.hostOptions = response.data.searchOrganizations.items.map(
-          item => item.name
-        );
-      }
+            name: {
+              wildcard: `${query}*`
+            }
+          },
+          limit: 3
+        })
+      );
+      this.hostOptions = response.data.searchOrganizations.items;
     },
     async onSubmit() {
       // validate form
@@ -324,35 +398,116 @@ export default {
         return;
       }
 
+      const eventID = uuidv4();
+
+      // firstly, upload file
+      let imageUploadResponse;
       if (this.file !== null) {
         try {
-          const imageUpload = await Storage.put(
+          imageUploadResponse = await Storage.put(
             this.s3ImagePath,
             this.file,
             this.storageOptions
           );
 
           this.$toast.info("Obrázek nahrán");
-        } catch (err) {
-          this.$toast.error("Jejda, nepodařilo se nahrát obrázek");
-          console.error(err);
+        } catch (error) {
+          this.$toast.error(
+            "Jejda, nepodařilo se nahrát obrázek. Pokud se událost vytvoří, raději ji uprav."
+          );
+          console.error(error);
         }
       }
 
+      let response;
       try {
-        const response = await API.graphql(
-          graphqlOperation(CreateEvent, {
-            organizationID: this.organizationID,
-            eventID: this.eventUuid,
-            title: this.title,
-            description: this.description
+        response = await API.graphql(
+          graphqlOperation(createEvent, {
+            input: {
+              id: eventID,
+              title: this.title,
+              description: this.description || null,
+              date: this.date || null,
+              dateEnd: this.dateEnd || null,
+              place: this.place || null,
+              image: imageUploadResponse || null,
+              tags: this.tags.length === 0 ? null : JSON.stringify(this.tags)
+            }
           })
         );
+      } catch (error) {
+        this.$toast.error("Jejda, nepodařilo se vytvořit akci");
+        console.error(error);
+      }
+
+      if (!!response) {
+        // next, create new speakers and give them "speaking" connetion with this event
+        if (this.newSpeakers.length > 0) {
+          this.newSpeakers.forEach(async speaker => {
+            try {
+              const speakerID = uuidv4();
+              console.log("speakerid", speakerID);
+              await API.graphql(
+                graphqlOperation(createSpeakerWithSpeaking, {
+                  eventID: eventID,
+                  speakerID: speakerID,
+                  name: speaker.name,
+                  bio: speaker.bio || null
+                })
+              );
+            } catch (error) {
+              this.$toast.error(
+                `Jejda, přednášející ${speaker.name} se nějak nevytvořil. Pokud se událost vytvoří, raději ji uprav.`
+              );
+              console.error(error);
+            }
+          });
+        }
+
+        // give "speaking" connection other speakers
+        if (this.speakersSelect.length !== 0) {
+          this.speakersSelect.forEach(async speaker => {
+            try {
+              console.log("speakersSelect speaker", speaker.id);
+              console.log("speakersSelect event", eventID);
+              await API.graphql(
+                graphqlOperation(createSpeaking, {
+                  eventID: eventID,
+                  speakerID: speaker.id
+                })
+              );
+            } catch (error) {
+              this.$toast.error(
+                `Jejda, přednášející ${speaker.name} nebyl propojen. Pokud se událost vytvoří, raději ji uprav.`
+              );
+              console.error(error);
+            }
+          });
+        }
+
+        // add default hosts
+        const hosts = [{ id: this.organizationID }, ...this.hosts];
+
+        this.hosts.forEach(async host => {
+          try {
+            console.log("host", host.id, eventID, response);
+            await API.graphql(
+              graphqlOperation(createHost, {
+                eventID: eventID,
+                organizationID: host.id
+              })
+            );
+          } catch (error) {
+            this.$toast.error(
+              `Jejda, organizátor ${host.name} nebyl propojen. Pokud se událost vytvoří, raději ji uprav.`
+            );
+            console.error(error);
+          }
+        });
 
         this.$router.push(`/event/${response.data.createEvent.id}`);
-      } catch (err) {
-        this.$toast.error("Jejda, nepodařilo se vytvořit akci");
-        console.error(err);
+      } else {
+        this.$toast.error(`Á jéje. `);
       }
     }
   }
