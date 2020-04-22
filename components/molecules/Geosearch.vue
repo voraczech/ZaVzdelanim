@@ -9,8 +9,8 @@
     deselect-label="Stiskni k odebrání"
     tag-placeholder="Přidej nové místo"
     :taggable="true"
-    @tag="e => this.value = e"
-    @select="$emit('select', $event.value)"
+    @tag="onTag"
+    @select="$emit('select', $event)"
   >
     <template slot="noResult">Bohužel nic 😭 🚫🗺</template>
     <template slot="noOptions">Zadej nějaké místo a hledej 🔍</template>
@@ -34,6 +34,10 @@ export default {
     async search(query) {
       const results = await provider.search({ query: query });
       this.results = results.map(item => item.label);
+    },
+    onTag(e) {
+      this.value = e;
+      this.$emit("select", e);
     }
   }
 };
