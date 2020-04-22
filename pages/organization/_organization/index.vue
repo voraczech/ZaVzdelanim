@@ -58,7 +58,7 @@
             class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
           >
             <nuxt-link
-              :to="`event/${event.id}`"
+              :to="`/event/${event.id}`"
               v-if="event !== null"
             >
               <VCard>
