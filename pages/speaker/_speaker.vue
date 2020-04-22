@@ -38,13 +38,7 @@ import VCard from "@/components/molecules/Card";
 import { mapState } from "vuex";
 
 import { components } from "aws-amplify-vue";
-const getOrg = `query getOrganization($id: ID!) {
-  getSpeaker(id: $id){
-      id
-      name
-  }
-}
-`;
+import { getSpeaker } from '../../src/graphql/queries';
 
 export default {
   components: { VCard, ...components },
@@ -63,7 +57,7 @@ export default {
 
   computed: {
     ListTodosQuery() {
-      return this.$Amplify.graphqlOperation(getOrg, { id: this.speakerId });
+      return this.$Amplify.graphqlOperation(getSpeaker, { id: this.speakerId });
     },
 
     ...mapState(["user"])
