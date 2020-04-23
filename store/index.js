@@ -35,6 +35,18 @@ export const mutations = {
   setUserActivity(state, data) {
     state.userActivities = { ...state.userActivities, ...data }
   },
+
+  setEvents(state, data) {
+    state.events = { isSet: true, ...data }
+  },
+
+  setSpeakers(state, data) {
+    state.speakers = { isSet: true, ...data }
+  },
+
+  setOrganizations(state, data) {
+    state.organizations = { isSet: true, ...data }
+  },
 }
 
 export const actions = {
@@ -57,5 +69,5 @@ export const actions = {
 
   setUserActivity({ commit }, data) {
     commit('setUserActivity', data)
-  }
+  },
 }
