@@ -3,13 +3,16 @@
     :to="`/event/${event.id}`"
     v-if="event"
   >
-    <img
-      :src="url"
-      class="w-full"
+    <v-image
+      v-if="!!event.image"
+      path="test/avatar.png"
     />
     <h3 class="font-bold text-sm">{{event.title}}</h3>
     <div class="text-gray-600 text-xs fill-current leading-6">
-      <div class="mt-3 inline-flex">
+      <div
+        class="mt-3 inline-flex"
+        v-if="event.date"
+      >
         <unicon
           name="calender"
           class="mr-3"
@@ -37,9 +40,10 @@
 
 <script>
 import VCard from "@/components/atoms/Card";
+import VImage from "@/components/atoms/Image";
 
 export default {
-  components: { VCard },
+  components: { VCard, VImage },
   props: {
     to: {
       type: String,
@@ -48,25 +52,6 @@ export default {
     event: {
       type: Object,
       default: () => {}
-    }
-  },
-  data() {
-    return {
-      url: null
-    };
-  },
-  mounted() {
-    this.getImage();
-  },
-  methods: {
-    getImage() {
-      if (this.event.image) {
-        this.$Amplify.Storage.get(this.event.image, this.options)
-          .then(url => {
-            this.url = url;
-          })
-          .catch(e => this.setError(e));
-      }
     }
   }
 };
