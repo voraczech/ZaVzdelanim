@@ -27,13 +27,11 @@
       </h2>
       <div class="flex flex-wrap -mx-4">
         <div
-          v-for="(event, key) in events"
+          v-for="({event}, key) in events"
           :key="key"
           class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
         >
-          <nuxt-link :to="`/event/${event.id}`">
-            <v-event-card />
-          </nuxt-link>
+          <v-event-card :event="event" />
         </div>
         <nuxt-link
           to="/events"

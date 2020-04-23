@@ -28,9 +28,7 @@
               :key="item.id"
               class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
             >
-              <nuxt-link :to="`organization/${item.id}`">
-                <VCard>{{ item.name }}</VCard>
-              </nuxt-link>
+              <VCard :to="`organization/${item.id}`">{{ item.name }}</VCard>
             </div>
           </div>
         </div>
