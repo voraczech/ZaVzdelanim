@@ -16,14 +16,13 @@
 </template>
 
 <script>
-import VCard from "@/components/molecules/Card";
 import VDetail from "@/components/templates/Detail";
 
 import { mapState } from "vuex";
 import { getSpeaker } from "../../src/graphql/queries";
 
 export default {
-  components: { VDetail, VCard },
+  components: { VDetail },
 
   async asyncData({ params }) {
     const speakerId = params.speaker;

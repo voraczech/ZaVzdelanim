@@ -104,7 +104,6 @@ import { API, graphqlOperation } from "aws-amplify";
 import { mapState } from "vuex";
 
 import VButton from "@/components/atoms/Button";
-import VCard from "@/components/molecules/Card";
 import VLink from "@/components/atoms/Link";
 import VDetail from "@/components/templates/Detail";
 
@@ -161,7 +160,7 @@ const deleteAttendence = `mutation deleteAttendence($id: ID!){
 }`;
 
 export default {
-  components: { VButton, VCard, VLink, VDetail },
+  components: { VButton, VLink, VDetail },
 
   async asyncData({ params, store }) {
     const eventId = params.event;

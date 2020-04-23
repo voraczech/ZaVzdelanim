@@ -17,7 +17,7 @@
               height="16"
             />
           </div>
-          <span>4. 5. 2019 18:30, Praha</span>
+          <span>{{  }}</span>
         </div>
         <div class="mt-3 flex">
           <div class="mr-3 rounded-full bg-gray-300 p-1 w-6 h-6 flex items-center justify-center">
@@ -35,9 +35,10 @@
 </template>
 
 <script>
-import VCard from "@/components/molecules/Card";
+import VCard from "@/components/atoms/Card";
 
 export default {
-  components: { VCard }
+  components: { VCard },
+
 };
 </script>

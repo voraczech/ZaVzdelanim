@@ -46,10 +46,8 @@
 </template>
 
 <script>
-import VCard from "@/components/molecules/Card";
+import VCard from "@/components/atoms/Card";
 import { mapState } from "vuex";
-
-import { Auth, Hub } from "aws-amplify";
 
 export default {
   components: { VCard },

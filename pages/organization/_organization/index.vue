@@ -61,11 +61,11 @@
               :to="`/event/${event.id}`"
               v-if="event !== null"
             >
-              <VCard>
+              <div>
                 {{ event.title }}
                 {{ event.date }}
                 {{ event.speaking.items.length !== 0 ? event.speaking.items : `` }}
-              </VCard>
+              </div>
             </nuxt-link>
           </div>
         </div>
@@ -78,7 +78,6 @@
 import { mapState } from "vuex";
 
 import VButton from "@/components/atoms/Button";
-import VCard from "@/components/molecules/Card";
 
 const getOrg = `
 query getOrganization($id: ID!) {
@@ -113,7 +112,7 @@ const editOrg = `mutation updateOrg{
 `;
 
 export default {
-  components: { VButton, VCard },
+  components: { VButton },
 
   async asyncData({ params }) {
     const orgId = params.organization;

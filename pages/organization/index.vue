@@ -42,7 +42,7 @@
 
 <script>
 import VButton from "@/components/atoms/Button";
-import VCard from "@/components/molecules/Card";
+import VCard from "@/components/atoms/Card";
 
 const ListOrg = `query ListOrganization {
   listOrganizations {
