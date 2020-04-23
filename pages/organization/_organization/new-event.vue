@@ -117,6 +117,8 @@
       </div>
 
       <label for="hosts">Spolupořadatelé</label>
+      <span class="text-sm font-semibold text-gray-600">Spolupořadatele vybírej pečlivě, nelze je pak upravit (kvůli
+        zamezení vytváření událostí s dalším organizátorem a následným odebráním vlastní organizace)</span>
       <multiselect
         id="hosts"
         v-model="hosts"
@@ -153,11 +155,6 @@
         v-if="$v.$error"
       >Formulář není správně vyplněn. Zkrontroluj to, prosím.</div>
     </form>
-    <!-- <vue-form-generator
-      :schema="schema"
-      :model="model"
-      :options="formOptions"
-    ></vue-form-generator> -->
   </div>
 </template>
 
@@ -243,19 +240,16 @@ mutation createHost(
 `;
 
 export default {
-  async asyncData({ params, redirect }) {
+  async asyncData({ params, redirect, store }) {
     const orgId = params.organization;
 
     const {
       data: { getOrganization }
     } = await API.graphql(graphqlOperation(getOrg, { id: orgId }));
 
-    let userCred;
+    const userID = store.state.user.sub;
 
-    const user = await Auth.currentAuthenticatedUser();
-    userCred = user.attributes;
-
-    if (userCred.sub !== getOrganization.creatorID) {
+    if (userID !== getOrganization.creatorID) {
       return redirect("/");
     }
 
@@ -263,7 +257,7 @@ export default {
   },
   data() {
     return {
-      title: "nějaký názevv",
+      title: "",
       description: "",
       place: null,
       date: null,
@@ -278,35 +272,7 @@ export default {
       storageOptions: {},
       error: "",
       // end file
-      hosts: [
-        {
-          id: "e1cc5c2d-c2e4-4317-872a-916763f022e7",
-          name: "TetraPak",
-          creatorID: "6219104c-47cd-4e69-8bea-25f8621cf86e",
-          creator: null,
-          description: null,
-          logo: null,
-          links: null,
-          host: { nextToken: null },
-          admins: { nextToken: null },
-          owner: "Google_109373061699120364195"
-        },
-        {
-          id: "64275b83-22a6-424f-a0b1-108c3da29cd5",
-          name: "Klub org",
-          creatorID: "8fdf612f-65ab-4562-ad73-ecffa9d9a8e5",
-          creator: {
-            id: "8fdf612f-65ab-4562-ad73-ecffa9d9a8e5",
-            cognitoId: "Google_112533328227959653821"
-          },
-          description: null,
-          logo: null,
-          links: null,
-          host: { nextToken: null },
-          admins: { nextToken: null },
-          owner: "Google_112533328227959653821"
-        }
-      ],
+      hosts: [],
       hostOptions: [],
       tags: [],
       tagsOptions: [
@@ -447,7 +413,7 @@ export default {
           this.newSpeakers.forEach(async speaker => {
             try {
               const speakerID = uuidv4();
-              console.log("speakerid", speakerID);
+
               await API.graphql(
                 graphqlOperation(createSpeakerWithSpeaking, {
                   eventID: eventID,
@@ -469,8 +435,6 @@ export default {
         if (this.speakersSelect.length !== 0) {
           this.speakersSelect.forEach(async speaker => {
             try {
-              console.log("speakersSelect speaker", speaker.id);
-              console.log("speakersSelect event", eventID);
               await API.graphql(
                 graphqlOperation(createSpeaking, {
                   eventID: eventID,
@@ -491,7 +455,6 @@ export default {
 
         this.hosts.forEach(async host => {
           try {
-            console.log("host", host.id, eventID, response);
             await API.graphql(
               graphqlOperation(createHost, {
                 eventID: eventID,

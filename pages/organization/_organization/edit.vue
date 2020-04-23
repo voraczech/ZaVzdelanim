@@ -1,5 +1,5 @@
 <template>
-  
+
 </template>
 
 <script>
@@ -17,19 +17,16 @@ const getOrg = `query getOrganization($id: ID!) {
 `;
 
 export default {
-  async asyncData({ params, redirect }) {
+  async asyncData({ params, redirect, store }) {
     const orgId = params.organization;
 
     const {
       data: { getOrganization }
     } = await API.graphql(graphqlOperation(getOrg, { id: orgId }));
 
-    let userCred;
+    const userID = store.state.user.sub;
 
-    const user = await Auth.currentAuthenticatedUser();
-    userCred = user.attributes;
-
-    if (userCred.sub !== getOrganization.creatorID) {
+    if (userID !== getOrganization.creatorID) {
       return redirect("/");
     }
   }
