@@ -17,7 +17,6 @@
     "aws-amplify-vue": "^1.1.4",
     "leaflet-geosearch": "^2.7.0",
     "luxon": "^1.23.0",
-    "moment": "^2.24.0",
     "nuxt": "^2.0.0",
     "uuid": "^7.0.2",
     "v-calendar": "^1.0.5",
@@ -29,6 +28,7 @@
     "weekstart": "^1.0.1"
   },
   "devDependencies": {
+    "@nuxtjs/moment": "^1.6.0",
     "@nuxtjs/tailwindcss": "^1.0.0"
   }
 }
