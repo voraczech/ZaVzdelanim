@@ -159,7 +159,7 @@
 </template>
 
 <script>
-import { Auth, API, graphqlOperation, Storage } from "aws-amplify";
+import { API, graphqlOperation, Storage } from "aws-amplify";
 import { mapState } from "vuex";
 import { required, minLength } from "vuelidate/lib/validators";
 import { v4 as uuidv4 } from "uuid";

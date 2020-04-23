@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { Auth, API, graphqlOperation } from "aws-amplify";
+import { API, graphqlOperation } from "aws-amplify";
 import { mapState } from "vuex";
 
 const getOrg = `query getOrganization($id: ID!) {
