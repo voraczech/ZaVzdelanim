@@ -39,8 +39,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { mapState } from "vuex";
 
-const uuid = uuidv4();
-
 import Vue from "vue";
 import VueFormGenerator from "vue-form-generator";
 import "vue-form-generator/dist/vfg.css";
@@ -106,7 +104,7 @@ export default {
   },
   computed: {
     uuidv4() {
-      return uuid;
+      return uuidv4();
     },
     ...mapState(["user", "userActivities"])
   },

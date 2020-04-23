@@ -23,7 +23,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { mapState } from "vuex";
 
-const uuid = uuidv4();
 
 const CreateOrg = `
 mutation CreateOrganization($id: ID!, $name: String!, $creatorID: ID!) {
@@ -48,7 +47,7 @@ export default {
       });
     },
     uuidv4() {
-      return uuid;
+      return uuidv4();
     }
   },
   methods: {
