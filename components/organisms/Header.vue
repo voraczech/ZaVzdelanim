@@ -20,8 +20,7 @@
         v-else
         to="/signin"
       >
-        <button class="bg-orange-600 rounded-full py-3 px-5 uppercase tracking-wide text-sm font-semibold">Přihlásit
-          se</button>
+        <v-button>Přihlásit se</v-button>
       </nuxt-link>
     </header>
     <nav class="px-16 py-5 flex">
@@ -64,7 +63,10 @@
 <script>
 import { mapState } from "vuex";
 
+import VButton from "@/components/atoms/Button";
+
 export default {
+  components: { VButton },
   computed: {
     firstName() {
       return this.user.name.split(" ")[0];

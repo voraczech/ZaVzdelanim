@@ -78,7 +78,7 @@
             :key="key"
             class="flex flex-col mt-8"
           >
-            <input
+            <v-input
               type="text"
               placeholder="Jméno"
               v-model.trim="v.name.$model"

@@ -5,15 +5,15 @@
       @done="onCreateFinished"
     >
       <template slot-scope="{ loading, mutate, errors }">
-        <input
+        <v-input
           type="text"
           placeholder="Jméno organizace"
           v-model="name"
-        >
-        <button
+        />
+        <v-button
           :disabled="loading"
-          @click="mutate"
-        >Vytvořit organizaci</button>
+          @click.native="mutate"
+        >Vytvořit organizaci</v-button>
       </template>
     </amplify-connect>
   </div>
@@ -23,6 +23,8 @@
 import { v4 as uuidv4 } from "uuid";
 import { mapState } from "vuex";
 
+import VInput from "@/components/atoms/Input";
+import VButton from "@/components/atoms/Button";
 
 const CreateOrg = `
 mutation CreateOrganization($id: ID!, $name: String!, $creatorID: ID!) {
@@ -37,6 +39,7 @@ export default {
       name: ""
     };
   },
+  components: { VButton, VInput },
   computed: {
     ...mapState(["user"]),
     createOrganizationMutation() {

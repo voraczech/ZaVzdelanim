@@ -10,20 +10,18 @@
             <h1 class="text-4xl text-center font-thin">Vítej! 👋</h1>
             <div class="w-full mt-4">
               <div class="text-center mt-4 flex flex-col justify-center items-center">
-                <button
-                  @click="signIn({provider: 'Facebook'})"
+                <v-button
+                  @click.native="signIn({provider: 'Facebook'})"
                   type="submit"
-                  class="bg-purple-500 mt-6 hover:bg-purple-700 text-white text-sm font-semibold py-2 px-4 rounded"
                 >
                   Facebook login
-                </button>
-                <button
-                  @click="signIn({provider: 'Google'})"
+                </v-button>
+                <v-button
+                  @click.native="signIn({provider: 'Google'})"
                   type="submit"
-                  class="bg-purple-500 mt-4 hover:bg-purple-700 text-white text-sm font-semibold py-2 px-4 rounded"
                 >
                   Google login
-                </button>
+                </v-button>
               </div>
             </div>
           </div>
@@ -40,7 +38,10 @@
 <script>
 import Auth from "@aws-amplify/auth";
 
+import VButton from "@/components/atoms/Button";
+
 export default {
+  components: { VButton },
   methods: {
     signIn(option) {
       return Auth.federatedSignIn(option);
