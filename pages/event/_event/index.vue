@@ -1,119 +1,101 @@
 <template>
-  <div
-    v-if="event"
-    class="px-2"
-  >
-    <div class="flex -mx-2">
-      <div class="w-2/3 px-2">
-        <div class="rounded shadow-sm bg-white">
-          <img
-            src=""
-            alt=""
-          />
-          <div class="p-12">
-            <h1 class="text-2xl font-bold mb-8">{{event.title}}</h1>
-            <p>{{ event.description }}</p>
-            <p>#
-              <span
-                v-for="(tag, key) in JSON.parse(event.tags)"
-                :key="key"
-              >{{tag}}{{JSON.parse(event.tags).length === key+1 ? `` : `, `}}</span>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="w-1/3 px-2">
-        <nuxt-link
-          :to="`${$route.fullPath}/edit`"
-          v-if="canEdit"
-        >
-          <v-button class="mb-4 w-full">Upravit</v-button>
-        </nuxt-link>
-        <div class="rounded p-8 shadow-sm bg-white sticky top-4">
-          <div class="flex flex-col fill-current text-gray-700 mb-8">
-            <div
-              class="flex mb-6"
-              v-if="event.speaking.items.length"
-            >
-              <unicon
-                name="podium"
-                class="mr-8 text-gray-500"
-              />
-              <div>
-                <v-link
-                  v-for="(speaking, key) in event.speaking.items"
-                  :key="key"
-                  :to="`/speaker/${speaking.speaker.id}`"
-                >{{ (!!event.speaking.items[key+1]) ? `${speaking.speaker.name}, ` : `${speaking.speaker.name}` }}
-                </v-link>
-              </div>
-            </div>
-            <div class="flex mb-6">
-              <unicon
-                name="building"
-                class="mr-8 text-gray-500"
-              />
-              <div>
-                <v-link
-                  v-for="(host, key) in event.host.items"
-                  :key="key"
-                  :to="`/organization/${host.organization.id}`"
-                >{{ (!!event.host.items[key+1]) ? `${host.organization.name},` : `${host.organization.name}` }}
-                </v-link>
-              </div>
-            </div>
-            <div class="flex mb-6">
-              <unicon
-                name="map-marker"
-                class="mr-8 text-gray-500"
-              /><span>{{event.place}}</span>
-            </div>
-            <div class="flex">
-              <unicon
-                name="calender"
-                class="mr-8 text-gray-500"
-              /><span>{{event.date}} - {{ event.dateEnd }}</span>
-            </div>
-          </div>
-          <v-button
-            v-if="attendenceID"
-            class="w-full text-lg"
-            design="ctaActivated"
-            @click.native="attend(attendenceID)"
-          >
-            <unicon
-              name="check-circle"
-              icon-style="monochrome"
-              class="mr-2"
-            />Účastním se</v-button>
-          <v-button
-            v-else
-            design="cta"
-            class="w-full text-lg"
-            @click.native="attend()"
-          >
-            <unicon
-              name="check-circle"
-              icon-style="monochrome"
-              class="mr-2"
-            />Zúčastnit se</v-button>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="text-xl font-semibold mt-8">Podobné události</h2>
-    <div class="flex flex-wrap -mx-4">
-      <div
-        v-for="n in 8"
-        :key="n"
-        class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
+  <v-detail v-if="event">
+    <template slot="title">{{event.title}}</template>
+    <template>
+      <img
+        src=""
+        alt=""
+      />
+      <p>{{ event.description }}</p>
+      <p>#
+        <span
+          v-for="(tag, key) in JSON.parse(event.tags)"
+          :key="key"
+        >{{tag}}{{JSON.parse(event.tags).length === key+1 ? `` : `, `}}</span>
+      </p>
+    </template>
+    <template slot="aboveBox">
+      <nuxt-link
+        :to="`${$route.fullPath}/edit`"
+        v-if="canEdit"
       >
-        <nuxt-link to="event/1">
-          <VCard />
-        </nuxt-link>
+        <v-button class="mb-4 w-full">Upravit</v-button>
+      </nuxt-link>
+    </template>
+    <template slot="box">
+      <div class="flex flex-col fill-current text-gray-700 mb-8">
+        <div
+          class="flex mb-6"
+          v-if="event.speaking.items.length"
+        >
+          <unicon
+            name="podium"
+            class="mr-8 text-gray-500"
+          />
+          <div>
+            <v-link
+              v-for="(speaking, key) in event.speaking.items"
+              :key="key"
+              :to="`/speaker/${speaking.speaker.id}`"
+            >{{ (!!event.speaking.items[key+1]) ? `${speaking.speaker.name}, ` : `${speaking.speaker.name}` }}
+            </v-link>
+          </div>
+        </div>
+        <div class="flex mb-6">
+          <unicon
+            name="building"
+            class="mr-8 text-gray-500"
+          />
+          <div>
+            <v-link
+              v-for="(host, key) in event.host.items"
+              :key="key"
+              :to="`/organization/${host.organization.id}`"
+            >{{ (!!event.host.items[key+1]) ? `${host.organization.name},` : `${host.organization.name}` }}
+            </v-link>
+          </div>
+        </div>
+        <div class="flex mb-6">
+          <unicon
+            name="map-marker"
+            class="mr-8 text-gray-500"
+          /><span>{{event.place}}</span>
+        </div>
+        <div class="flex">
+          <unicon
+            name="calender"
+            class="mr-8 text-gray-500"
+          /><span>{{ $moment(event.date).format("llll") }} — {{ $moment(event.dateEnd).format("llll") }}</span>
+        </div>
       </div>
-    </div>
-  </div>
+      <v-button
+        v-if="attendenceID"
+        class="w-full text-lg"
+        design="ctaActivated"
+        @click.native="attend(attendenceID)"
+      >
+        <unicon
+          name="check-circle"
+          icon-style="monochrome"
+          class="mr-2"
+        />Účastním se</v-button>
+      <v-button
+        v-else
+        design="cta"
+        class="w-full text-lg"
+        @click.native="attend()"
+      >
+        <unicon
+          name="check-circle"
+          icon-style="monochrome"
+          class="mr-2"
+        />Zúčastnit se</v-button>
+    </template>
+
+    <template slot="event"></template>
+
+    <template slot="eventsTitle">Podobné události</template>
+  </v-detail>
 </template>
 
 <script>
@@ -124,6 +106,7 @@ import { mapState } from "vuex";
 import VButton from "@/components/atoms/Button";
 import VCard from "@/components/molecules/Card";
 import VLink from "@/components/atoms/Link";
+import VDetail from "@/components/templates/Detail";
 
 const getEvent = `query getEvent($id: ID!, $userID: ID) {
   getEvent(id: $id){
@@ -178,7 +161,7 @@ const deleteAttendence = `mutation deleteAttendence($id: ID!){
 }`;
 
 export default {
-  components: { VButton, VCard, VLink },
+  components: { VButton, VCard, VLink, VDetail },
 
   async asyncData({ params, store }) {
     const eventId = params.event;
