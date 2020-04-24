@@ -38,20 +38,11 @@
               :key="item.id"
               class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
             >
-              <nuxt-link :to="`speaker/${item.id}`">
-                <div>
-                  <div class="flex">
-                    <amplify-s3-image
-                      v-if="item.avatar !== null"
-                      :imagePath="item.avatar"
-                      class="flex"
-                    />
-                    <span>
-                      {{ item.name }}
-                    </span>
-                  </div>
-                </div>
-              </nuxt-link>
+              <v-photo-text-card
+                :to="`/speaker/${item.id}`"
+                :name="item.name"
+                :photo="item.avatar"
+              />
             </div>
           </div>
         </div>
@@ -64,6 +55,7 @@
 import { mapState } from "vuex";
 
 import VTextButton from "@/components/atoms/TextButton";
+import VPhotoTextCard from "@/components/molecules/PhotoTextCard";
 
 const ListEvents = `query ListSpeakers {
   listSpeakers(limit:25){
@@ -78,7 +70,8 @@ const ListEvents = `query ListSpeakers {
 
 export default {
   components: {
-    VTextButton
+    VTextButton,
+    VPhotoTextCard
   },
   computed: {
     ListTodosQuery() {

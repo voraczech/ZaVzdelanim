@@ -28,7 +28,7 @@
               :key="item.id"
               class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
             >
-              <VCard :to="`organization/${item.id}`">{{ item.name }}</VCard>
+              <v-photo-text-card :to="`/organization/${item.id}`" :name="item.name" :photo="item.logo" />
             </div>
           </div>
         </div>
@@ -40,7 +40,8 @@
 
 <script>
 import VButton from "@/components/atoms/Button";
-import VCard from "@/components/atoms/Card";
+import VPhotoTextCard from "@/components/molecules/PhotoTextCard";
+
 
 const ListOrg = `query ListOrganization {
   listOrganizations {
@@ -55,7 +56,7 @@ const ListOrg = `query ListOrganization {
 export default {
   components: {
     VButton,
-    VCard
+    VPhotoTextCard
   },
   computed: {
     ListTodosQuery() {
