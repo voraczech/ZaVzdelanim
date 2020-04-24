@@ -33,7 +33,7 @@ import { API, graphqlOperation } from "aws-amplify";
 import { mapState } from "vuex";
 
 import VButton from "@/components/atoms/Button";
-import VEventCard from "@/components/organisms/EventCard";
+import VEventCard from "@/components/molecules/EventCard";
 import VInput from "@/components/atoms/Input";
 import VGeosearch from "@/components/molecules/Geosearch";
 

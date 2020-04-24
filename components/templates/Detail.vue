@@ -40,7 +40,7 @@
           <v-event-card :event="event" />
         </div>
         <nuxt-link
-          to="/events"
+          to="/event"
           class="ml-auto"
         >
           <v-text-button>Všechny události</v-text-button>
@@ -52,7 +52,7 @@
 
 <script>
 import VTextButton from "@/components/atoms/TextButton";
-import VEventCard from "@/components/organisms/EventCard";
+import VEventCard from "@/components/molecules/EventCard";
 
 export default {
   components: { VTextButton, VEventCard },
