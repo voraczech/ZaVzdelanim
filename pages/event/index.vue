@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex justify-between items-baseline">
-      <h1>Přednášky</h1>
+      <h1>Budoucí akce</h1>
       <div class="flex">
         <v-input v-model="searchTitle" />
         <v-geosearch @select="e => this.searchLocation = e" />
@@ -40,27 +40,6 @@ import VGeosearch from "@/components/molecules/Geosearch";
 import { Datetime } from "vue-datetime";
 import "vue-datetime/dist/vue-datetime.css";
 
-const listEvents = /* GraphQL */ `
-  query ListEvents {
-    listEvents {
-      items {
-        id
-        title
-        image
-        date
-        speaking {
-          items {
-            speaker {
-              name
-            }
-          }
-        }
-      }
-      nextToken
-    }
-  }
-`;
-
 const searchEvents = /* GraphQL */ `
   query SearchEvents(
     $filter: SearchableEventFilterInput
@@ -95,10 +74,19 @@ const searchEvents = /* GraphQL */ `
 export default {
   async asyncData({ store }) {
     if (!store.state.events.isSet) {
+      let date = new Date().toISOString();
+      const filter = { date: { gt: date } };
+      const sort = { field: "date", direction: "asc" };
       try {
-        const { data } = await API.graphql(graphqlOperation(listEvents));
+        const { data } = await API.graphql(
+          graphqlOperation(searchEvents, {
+            filter: filter,
+            sort: sort,
+            limit: 12
+          })
+        );
 
-        store.commit("setEvents", data.listEvents);
+        store.commit("setEvents", data.searchEvents);
       } catch (error) {
         this.$toast.error("Nějaká chyba při načítání akcí…");
         console.error(error);
@@ -124,22 +112,34 @@ export default {
   },
   methods: {
     async search() {
-      let filter = {
-        title: { wildcard: `${this.searchTitle}*` },
-        date: { gt: this.searchDate || null },
-        place: { wildcard: `${this.searchLocation}*` }
-      };
+      let filter = {};
+      const sort = { field: "date", direction: "asc" };
+
+      if (this.searchTitle.length > 0) {
+        filter = { ...filter, title: { wildcard: `${this.searchTitle}*` } };
+      }
+
+      if (this.searchLocation.length > 0) {
+        filter = { ...filter, place: { wildcard: `${this.searchLocation}*` } };
+      }
+
+      if (this.searchDate.length > 0) {
+        filter = { ...filter, date: { gt: this.searchDate || null } };
+      }
 
       if (this.searchTags.length > 0) {
         filter = { ...filter, tags: { match: this.searchTags } };
       }
 
-      const query = "Jak";
       const response = await API.graphql(
         graphqlOperation(searchEvents, {
-          filter: filter
+          filter: filter,
+          sort: sort,
+          limit: 12
         })
       );
+
+      console.log(response);
       this.data = response.data.searchEvents;
     }
   }
