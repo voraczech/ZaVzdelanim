@@ -169,7 +169,7 @@ import {
   searchSpeakers,
   searchOrganizations
 } from "../../../src/graphql/queries";
-import { createEvent } from "../../../src/graphql/mutations";
+import { updateEvent } from "../../../src/graphql/mutations";
 
 const getEvent = `query getEvent($id: ID!, $userID: ID) {
   getEvent(id: $id){
@@ -372,14 +372,12 @@ export default {
         return;
       }
 
-      const eventID = uuidv4();
-
       // firstly, upload file
       let imageUploadResponse;
       if (this.file !== null) {
         try {
           const response = await Storage.put(
-            `uploads/event/${eventID}/${this.s3ImagePath}`,
+            `uploads/event/${this.eventID}/${this.s3ImagePath}`,
             this.file,
             this.storageOptions
           );
@@ -397,15 +395,15 @@ export default {
       let response;
       try {
         response = await API.graphql(
-          graphqlOperation(createEvent, {
+          graphqlOperation(updateEvent, {
             input: {
-              id: eventID,
+              id: this.eventID,
               title: this.title,
               description: this.description || null,
               date: this.date || null,
               dateEnd: this.dateEnd || null,
               place: this.place || null,
-              image: imageUploadResponse || null,
+              // image: imageUploadResponse || null,
               tags: this.tags.length === 0 ? null : JSON.stringify(this.tags)
             }
           })
@@ -423,7 +421,7 @@ export default {
               const speakerID = uuidv4();
               await API.graphql(
                 graphqlOperation(createSpeakerWithSpeaking, {
-                  eventID: eventID,
+                  eventID: this.eventID,
                   speakerID: speakerID,
                   name: speaker.name,
                   bio: speaker.bio || null
@@ -439,23 +437,25 @@ export default {
         }
 
         // give "speaking" connection other speakers
-        if (this.speakersSelect.length !== 0) {
-          this.speakersSelect.forEach(async speaker => {
-            try {
-              await API.graphql(
-                graphqlOperation(createSpeaking, {
-                  eventID: eventID,
-                  speakerID: speaker.id
-                })
-              );
-            } catch (error) {
-              this.$toast.error(
-                `Jejda, přednášející ${speaker.name} nebyl propojen. Pokud se událost vytvoří, raději ji uprav.`
-              );
-              console.error(error);
-            }
-          });
-        }
+        // if (this.speakersSelect.length !== 0) {
+        //   this.speakersSelect.forEach(async speaker => {
+        //     try {
+        //       await API.graphql(
+        //         graphqlOperation(createSpeaking, {
+        //           eventID: this.eventID,
+        //           speakerID: speaker.id
+        //         })
+        //       );
+        //     } catch (error) {
+        //       this.$toast.error(
+        //         `Jejda, přednášející ${speaker.name} nebyl propojen. Pokud se událost vytvoří, raději ji uprav.`
+        //       );
+        //       console.error(error);
+        //     }
+        //   });
+        // }
+
+        this.$router.push(`/event/${response.data.updateEvent.id}`);
       } else {
         this.$toast.error(`Á jéje. `);
       }
