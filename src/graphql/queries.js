@@ -260,6 +260,44 @@ export const listSpeakers = /* GraphQL */ `
     }
   }
 `;
+export const eventsByDate = /* GraphQL */ `
+  query EventsByDate(
+    $date: AWSDateTime
+    $sortDirection: ModelSortDirection
+    $filter: ModelEventFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    eventsByDate(
+      date: $date
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        title
+        description
+        date
+        dateEnd
+        place
+        image
+        tags
+        host {
+          nextToken
+        }
+        attendence {
+          nextToken
+        }
+        speaking {
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
 export const searchEvents = /* GraphQL */ `
   query SearchEvents(
     $filter: SearchableEventFilterInput
