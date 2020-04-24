@@ -1,9 +1,10 @@
 type Event @model @searchable
+@key(name: "ByDate", fields: ["date"], queryField: "eventsByDate")
  {
   id: ID!
   title: String!
   description: String
-  date: AWSDateTime
+  date: AWSDateTime!
   dateEnd: AWSDateTime
   place: String
   image: String
