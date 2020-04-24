@@ -16,7 +16,7 @@
       class="pt-6 mb-6"
     >Přednášející</h2>
     <v-button
-      v-if="!userActivities.speaker"
+      v-if="!!!userActivities.speaker"
       @click.native="createUserSpeaker()"
     >Chci být zařazen mezi přednášející </v-button>
     <div v-else>
@@ -113,15 +113,17 @@ export default {
       photoPickerConfig: {
         header: "Nová profilová fotka přednášejícího",
         title: "Nahrát",
-        path: `upload/speaker/${this.$store.state.userActivities.speaker.id}/`
+        path: `upload/speaker/`
       },
       model: {
         name:
-          this.$store.state.userActivities.speaker &&
-          this.$store.state.userActivities.speaker.name,
+          (this.$store.state.userActivities.speaker &&
+            this.$store.state.userActivities.speaker.name) ||
+          null,
         bio:
-          this.$store.state.userActivities.speaker &&
-          this.$store.state.userActivities.speaker.bio
+          (this.$store.state.userActivities.speaker &&
+            this.$store.state.userActivities.speaker.bio) ||
+          null
       },
       schema: {
         fields: [
