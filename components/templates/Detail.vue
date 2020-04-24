@@ -15,8 +15,14 @@
         class="w-1/3 px-2"
         v-if="!!$slots.box || !!$slots.aboveBox"
       >
-        <slot name="aboveBox" />
-        <div class="rounded p-8 shadow-sm bg-white sticky top-4">
+        <slot
+          name="aboveBox"
+          v-if="!!$slots.aboveBox"
+        />
+        <div
+          class="rounded p-8 shadow-sm bg-white sticky top-4"
+          v-if="!!$slots.box"
+        >
           <slot name="box" />
         </div>
       </div>

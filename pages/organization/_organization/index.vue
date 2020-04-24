@@ -7,69 +7,51 @@
           Chyba, to mě mrzí.
         </div>
       </div>
-      <div
+      <v-detail
         v-else-if="data.getOrganization"
         class="px-2"
+        :events="data.getOrganization.host.items"
       >
-        <div class="flex -mx-2">
-          <div class="w-2/3 px-2">
-            <div class="rounded shadow-sm bg-white">
-              <img
-                src=""
-                alt=""
-              />
-              <div class="p-12">
-                <h1 class="text-2xl font-bold">{{data.getOrganization.name}}</h1>
-                <p
-                  class="mt-8"
-                  v-if="data.getOrganization.description"
-                >{{ data.getOrganization.description }}</p>
-              </div>
-            </div>
+        <template slot="title">
+          <div class="flex items-center">
+            <v-image
+              class="w-24 mr-8"
+              v-if="data.getOrganization.logo"
+              :path="data.getOrganization.logo"
+            />
+            <span>
+              {{ data.getOrganization.name }}
+            </span>
           </div>
-          <div class="w-1/3 px-2">
-            <nuxt-link
-              :to="`/organization/${data.getOrganization.id}/new-event`"
-              v-if="isOwner(data.getOrganization.owner)"
-            >
-              <v-button class="mb-4 w-full">Přidat událost
-                <unicon
-                  name="plus"
-                  class="ml-3"
-                />
-              </v-button>
-            </nuxt-link>
-            <nuxt-link
-              :to="`/organization/${data.getOrganization.id}/edit`"
-              v-if="isOwner(data.getOrganization.owner)"
-            >
-              <v-button class="mb-4 w-full">Upravit</v-button>
-            </nuxt-link>
-          </div>
-        </div>
-        <h2 class="text-xl font-semibold mt-8">Události</h2>
-        <div
-          class="flex flex-wrap -mx-4"
-          v-if="data.getOrganization.host.items.length > 0"
-        >
-          <div
-            v-for="({event}, key) in data.getOrganization.host.items"
-            :key="key"
-            class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
+        </template>
+        <template>{{ data.getOrganization.description }}</template>
+        <template slot="aboveBox">
+          <nuxt-link
+            :to="`/organization/${data.getOrganization.id}/new-event`"
+            v-if="isOwner(data.getOrganization.owner)"
           >
-            <nuxt-link
-              :to="`/event/${event.id}`"
-              v-if="event !== null"
-            >
-              <div>
-                {{ event.title }}
-                {{ event.date }}
-                {{ event.speaking.items.length !== 0 ? event.speaking.items : `` }}
-              </div>
-            </nuxt-link>
-          </div>
-        </div>
-      </div>
+            <v-button
+              class="mb-4 w-full"
+              design="cta"
+            >Přidat událost
+              <unicon
+                name="plus"
+                class="ml-3"
+              />
+            </v-button>
+          </nuxt-link>
+          <nuxt-link
+            :to="`/organization/${data.getOrganization.id}/edit`"
+            v-if="isOwner(data.getOrganization.owner)"
+          >
+            <v-button class="mb-4 w-full">Upravit</v-button>
+          </nuxt-link>
+        </template>
+        <template
+          slot="box"
+          v-if="data.getOrganization.links"
+        >{{data.getOrganization.links}}</template>
+      </v-detail>
     </template>
   </amplify-connect>
 </template>
@@ -78,24 +60,31 @@
 import { mapState } from "vuex";
 
 import VButton from "@/components/atoms/Button";
+import VImage from "@/components/atoms/Image";
+import VDetail from "@/components/templates/Detail";
 
-const getOrg = `
-query getOrganization($id: ID!) {
-  getOrganization(id: $id){
-    id
-    name
-    owner
-    admins{items{userID}}
-    host{
-      items{
-        event{
-          id
-          title
-          date
-          speaking {
-            items {
-              speaker{
-                name
+const getOrg = /* GraphQL */ `
+  query getOrganization($id: ID!) {
+    getOrganization(id: $id) {
+      id
+      name
+      owner
+      admins {
+        items {
+          userID
+        }
+      }
+      host {
+        items {
+          event {
+            id
+            title
+            date
+            speaking {
+              items {
+                speaker {
+                  name
+                }
               }
             }
           }
@@ -103,7 +92,6 @@ query getOrganization($id: ID!) {
       }
     }
   }
-}
 `;
 
 const editOrg = `mutation updateOrg{
@@ -112,7 +100,7 @@ const editOrg = `mutation updateOrg{
 `;
 
 export default {
-  components: { VButton },
+  components: { VButton, VImage, VDetail },
 
   async asyncData({ params }) {
     const orgId = params.organization;
