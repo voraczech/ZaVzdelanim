@@ -6,7 +6,7 @@
         to="settings#speaker"
         class="ml-auto"
       >
-        <v-text-button v-if="!userActivities.speaker.id">
+        <v-text-button v-if="!userActivities.speaker">
           Chci být taky speaker
           <unicon
             name="user-plus"
