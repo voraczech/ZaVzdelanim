@@ -39,6 +39,7 @@ export default {
     '@/plugins/amplify.js',
     { src: '@/plugins/unicons.js', mode: 'client' },
     { src: '@/plugins/vuelidate.js', mode: 'client' },
+    { src: '@/plugins/youtube.js', mode: 'client' },
   ],
   /*
   ** Nuxt.js dev-modules
