@@ -24,6 +24,7 @@
     "vue-form-generator": "^2.3.4",
     "vue-multiselect": "^2.1.6",
     "vue-unicons": "^2.1.0",
+    "vue-youtube": "^1.4.0",
     "vuelidate": "^0.7.5",
     "weekstart": "^1.0.1"
   },
