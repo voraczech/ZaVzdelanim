@@ -2,6 +2,7 @@
   <v-card
     :to="`/event/${event.id}`"
     v-if="event"
+    class="h-full"
   >
     <v-image
       v-if="!!event.image"

@@ -2,7 +2,10 @@
   <div class="shadow-md bg-white">
     <header class="flex justify-between items-center bg-blue-800 px-16 py-5 text-blue-100 h-16">
       <h2 class="text-2xl font-bold">
-        <nuxt-link to="/">ZaVzděláním.cz</nuxt-link>
+        <nuxt-link
+          to="/"
+          class="text-white"
+        >Za vzděláním!</nuxt-link>
       </h2>
       <nuxt-link
         v-if="user"
@@ -69,7 +72,9 @@ export default {
   components: { VButton },
   computed: {
     firstName() {
-      return this.user.name.split(" ")[0];
+      if (Object.keys(this.user).length !== 0) {
+        return this.user.name.split(" ")[0];
+      }
     },
     ...mapState(["user"])
   }

@@ -1,10 +1,10 @@
 <template>
   <v-card :to="`${to}`">
-    <div class="flex items-center">
+    <div class="flex items-center h-12">
       <v-image
         v-if="!!photo"
         :path="photo"
-        class="w-16 mr-3 rounded"
+        class="w-16 mr-3 rounded max-h-full w-auto"
       />
       <h3 class="font-medium">{{name}}</h3>
     </div>
