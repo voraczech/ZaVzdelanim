@@ -4,16 +4,41 @@ import { API, graphqlOperation } from "aws-amplify";
 const userOutput = `
 id
 cognitoId
-attendence{items{event{id,title}}}
+attendence{
+  items{
+    event {
+      id
+      title
+      date
+      speaking {
+        items {
+          speaker {
+            name
+          }
+        }
+      }
+    }
+  }
+}
 speaker{
   id
   name
   avatar
   bio
+  links
   speaking{
     items{
-      event{
+      event {
+        id
         title
+        date
+        speaking {
+          items {
+            speaker {
+              name
+            }
+          }
+        }
       }
     }
   }
