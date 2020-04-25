@@ -12,17 +12,21 @@
         </div>
       </div>
     </section>
-    <section v-if="userActivities.attendence.items.length > 0">
+    <section v-if="userActivities.speaker">
       <h2>Moje účasti jako přednášející</h2>
-      <div class="flex flex-wrap -mx-4">
+      <div
+        class="flex flex-wrap -mx-4"
+        v-if="userActivities.speaker.speaking && userActivities.speaker.speaking.items.length > 0"
+      >
         <div
-          v-for="{event} in userActivities.attendence.items"
+          v-for="{event} in userActivities.speaker.speaking.items"
           :key="event.id"
           class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
         >
-          <VCard :to="`event/${event.id}`">{{ event.title }}</VCard>
+          <v-event-card :event="event" />
         </div>
       </div>
+      <div v-else>Vypadá to, že nikde nepřednášíš 🤷‍♂️</div>
     </section>
     <section v-if="userActivities.attendence.items.length > 0">
       <h2>Moje účasti jako návštěvník</h2>
@@ -32,8 +36,7 @@
           :key="event.id"
           class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
         >
-          <VCard :to="`event/${event.id}`">
-            {{ event.title }}</VCard>
+          <v-event-card :event="event" />
         </div>
       </div>
     </section>
@@ -42,10 +45,11 @@
 
 <script>
 import VCard from "@/components/atoms/Card";
+import VEventCard from "@/components/molecules/EventCard";
 import { mapState } from "vuex";
 
 export default {
-  components: { VCard },
+  components: { VCard, VEventCard },
   computed: {
     ...mapState(["user", "userActivities"])
   }

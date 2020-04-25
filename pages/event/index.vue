@@ -14,13 +14,15 @@
     </div>
     <div class="mt-8">
       <div v-if="data">
-        <div class="flex flex-wrap -mx-4">
+        <div class="flex flex-wrap -mx-4 ">
           <div
             v-for="item in data.items"
             :key="item.id"
             class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
           >
-            <v-event-card :event="item" />
+            <v-event-card
+              :event="item"
+            />
           </div>
         </div>
       </div>
@@ -88,7 +90,6 @@ export default {
 
         store.commit("setEvents", data.searchEvents);
       } catch (error) {
-        this.$toast.error("Nějaká chyba při načítání akcí…");
         console.error(error);
       }
     }
