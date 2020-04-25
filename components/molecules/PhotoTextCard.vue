@@ -3,7 +3,7 @@
     <div class="flex items-center">
       <v-image
         v-if="!!photo"
-        path="test/avatar.png"
+        :path="photo"
         class="w-16 mr-3 rounded"
       />
       <h3 class="font-medium">{{name}}</h3>
