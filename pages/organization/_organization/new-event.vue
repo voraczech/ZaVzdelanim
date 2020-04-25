@@ -53,6 +53,7 @@
         type="file"
         id="photo"
         @change="pick"
+        accept="image/*"
       />
       <div class="flex justify-between">
         <label for="speakers">Přednášející</label>
@@ -135,6 +136,20 @@
         <template slot="noResult">Bohužel žádná taková organizace u nás není 🙈</template>
         <template slot="noOptions">Zadej alespoň 3 písmena a hledej spolupořadatele 🔍</template>
       </multiselect>
+      <label for="link">Link</label>
+      <v-input
+        type="text"
+        id="link"
+        placeholder="Zde může být externí link, například odkaz na materiály."
+        v-model="link"
+      />
+      <label for="video">YouTube video</label>
+      <v-input
+        type="text"
+        id="link"
+        placeholder="Odkaz na YouTube video, třeba na livestream nebo záznam"
+        v-model="video"
+      />
       <label for="tags">Tagy</label>
       <multiselect
         id="tags"
@@ -282,7 +297,9 @@ export default {
         "Osobní rozvoj",
         "Inspirace",
         "Design"
-      ]
+      ],
+      link: "",
+      video: ""
     };
   },
   validations: {
@@ -398,6 +415,8 @@ export default {
               dateEnd: this.dateEnd || null,
               place: this.place || null,
               image: imageUploadResponse || null,
+              link: this.link || null,
+              video: this.video || null,
               tags: this.tags.length === 0 ? null : JSON.stringify(this.tags)
             }
           })

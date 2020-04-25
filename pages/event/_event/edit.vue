@@ -129,6 +129,20 @@
         label="name"
         :disabled="true"
       />
+      <label for="link">Link</label>
+      <v-input
+        type="text"
+        id="link"
+        placeholder="Zde může být externí link, například odkaz na materiály."
+        v-model="link"
+      />
+      <label for="video">YouTube video</label>
+      <v-input
+        type="text"
+        id="link"
+        placeholder="Odkaz na YouTube video, třeba na livestream nebo záznam"
+        v-model="video"
+      />
       <label for="tags">Tagy</label>
       <multiselect
         id="tags"
@@ -172,7 +186,7 @@ import {
 } from "../../../src/graphql/queries";
 import { updateEvent } from "../../../src/graphql/mutations";
 
-const getEvent = `query getEvent($id: ID!, $userID: ID) {
+const getEvent = /* GraphQL */ `query getEvent($id: ID!, $userID: ID) {
   getEvent(id: $id){
     id
     title
@@ -181,6 +195,8 @@ const getEvent = `query getEvent($id: ID!, $userID: ID) {
     image
     date
     dateEnd
+    link
+    video
     tags
     host {
       items {
@@ -209,7 +225,7 @@ const getEvent = `query getEvent($id: ID!, $userID: ID) {
 `;
 
 // must create own mutation, bc i need specific batching Amplify can't generate (but it's valid for AppSync)
-const createSpeakerWithSpeaking = `
+const createSpeakerWithSpeaking = /* GraphQL */ `
 mutation createSpeakerWithSpeaking(
   $eventID: ID!
   $speakerID: ID!
@@ -231,7 +247,7 @@ mutation createSpeakerWithSpeaking(
   }
 }`;
 
-const createSpeaking = `
+const createSpeaking = /* GraphQL */ `
 mutation createSpeaking(
   $eventID: ID!
   $speakerID: ID!
@@ -300,6 +316,7 @@ export default {
       storageOptions: {},
       error: "",
       // end file
+      tags: [],
       tagsOptions: [
         "Marketing",
         "IT Development",
@@ -307,7 +324,9 @@ export default {
         "Osobní rozvoj",
         "Inspirace",
         "Design"
-      ]
+      ],
+      link: "",
+      video: ""
     };
   },
   validations: {
@@ -404,8 +423,10 @@ export default {
               date: this.date || null,
               dateEnd: this.dateEnd || null,
               place: this.place || null,
+              link: this.link || null,
+              video: this.video || null,
               // image: imageUploadResponse || null,
-              tags: this.tags.length === 0 ? null : JSON.stringify(this.tags)
+              tags: this.tags && this.tags.length === 0 ? null : JSON.stringify(this.tags)
             }
           })
         );
