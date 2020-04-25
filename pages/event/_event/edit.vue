@@ -53,6 +53,7 @@
         type="file"
         id="photo"
         @change="pick"
+        accept="image/*"
       />
       <div class="flex justify-between">
         <label for="speakers">Přednášející</label>

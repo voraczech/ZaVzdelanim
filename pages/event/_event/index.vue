@@ -66,7 +66,7 @@
             name="calender"
             class="mr-8 text-gray-500"
           />
-          <span>{{ $moment(event.date).format("llll") + (event.dateEnd !== null ? `—  ${$moment(event.dateEnd).format("llll")}` : `` )}}</span>
+          <span>{{ $moment(event.date).format("llll") + (event.dateEnd !== null ? ` —  ${$moment(event.dateEnd).format("llll")}` : `` )}}</span>
         </div>
       </div>
       <v-button
