@@ -15,6 +15,8 @@ export const createEvent = /* GraphQL */ `
       place
       image
       tags
+      video
+      link
       host {
         items {
           id
@@ -56,6 +58,8 @@ export const updateEvent = /* GraphQL */ `
       place
       image
       tags
+      video
+      link
       host {
         items {
           id
@@ -97,6 +101,8 @@ export const deleteEvent = /* GraphQL */ `
       place
       image
       tags
+      video
+      link
       host {
         items {
           id
@@ -145,7 +151,11 @@ export const createUser = /* GraphQL */ `
         name
         avatar
         bio
+        links
         speaking {
+          nextToken
+        }
+        followers {
           nextToken
         }
       }
@@ -166,6 +176,22 @@ export const createUser = /* GraphQL */ `
           id
           organizationID
           userID
+        }
+        nextToken
+      }
+      followOrganization {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      followSpeaker {
+        items {
+          id
+          userID
+          speakerID
         }
         nextToken
       }
@@ -193,7 +219,11 @@ export const updateUser = /* GraphQL */ `
         name
         avatar
         bio
+        links
         speaking {
+          nextToken
+        }
+        followers {
           nextToken
         }
       }
@@ -214,6 +244,22 @@ export const updateUser = /* GraphQL */ `
           id
           organizationID
           userID
+        }
+        nextToken
+      }
+      followOrganization {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      followSpeaker {
+        items {
+          id
+          userID
+          speakerID
         }
         nextToken
       }
@@ -241,7 +287,11 @@ export const deleteUser = /* GraphQL */ `
         name
         avatar
         bio
+        links
         speaking {
+          nextToken
+        }
+        followers {
           nextToken
         }
       }
@@ -262,6 +312,22 @@ export const deleteUser = /* GraphQL */ `
           id
           organizationID
           userID
+        }
+        nextToken
+      }
+      followOrganization {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      followSpeaker {
+        items {
+          id
+          userID
+          speakerID
         }
         nextToken
       }
@@ -288,11 +354,18 @@ export const createOrganization = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -308,6 +381,14 @@ export const createOrganization = /* GraphQL */ `
         nextToken
       }
       admins {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      followers {
         items {
           id
           organizationID
@@ -339,11 +420,18 @@ export const updateOrganization = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -359,6 +447,14 @@ export const updateOrganization = /* GraphQL */ `
         nextToken
       }
       admins {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      followers {
         items {
           id
           organizationID
@@ -390,11 +486,18 @@ export const deleteOrganization = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -417,6 +520,14 @@ export const deleteOrganization = /* GraphQL */ `
         }
         nextToken
       }
+      followers {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
       owner
     }
   }
@@ -431,10 +542,19 @@ export const createSpeaker = /* GraphQL */ `
       name
       avatar
       bio
+      links
       speaking {
         items {
           id
           eventID
+          speakerID
+        }
+        nextToken
+      }
+      followers {
+        items {
+          id
+          userID
           speakerID
         }
         nextToken
@@ -452,10 +572,19 @@ export const updateSpeaker = /* GraphQL */ `
       name
       avatar
       bio
+      links
       speaking {
         items {
           id
           eventID
+          speakerID
+        }
+        nextToken
+      }
+      followers {
+        items {
+          id
+          userID
           speakerID
         }
         nextToken
@@ -473,10 +602,19 @@ export const deleteSpeaker = /* GraphQL */ `
       name
       avatar
       bio
+      links
       speaking {
         items {
           id
           eventID
+          speakerID
+        }
+        nextToken
+      }
+      followers {
+        items {
+          id
+          userID
           speakerID
         }
         nextToken
@@ -510,6 +648,9 @@ export const createAdmin = /* GraphQL */ `
         admins {
           nextToken
         }
+        followers {
+          nextToken
+        }
         owner
       }
       user {
@@ -523,11 +664,18 @@ export const createAdmin = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -560,6 +708,9 @@ export const updateAdmin = /* GraphQL */ `
         admins {
           nextToken
         }
+        followers {
+          nextToken
+        }
         owner
       }
       user {
@@ -573,11 +724,18 @@ export const updateAdmin = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -610,6 +768,9 @@ export const deleteAdmin = /* GraphQL */ `
         admins {
           nextToken
         }
+        followers {
+          nextToken
+        }
         owner
       }
       user {
@@ -623,11 +784,18 @@ export const deleteAdmin = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -652,6 +820,8 @@ export const createAttendence = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -673,11 +843,18 @@ export const createAttendence = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -702,6 +879,8 @@ export const updateAttendence = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -723,11 +902,18 @@ export const updateAttendence = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -752,6 +938,8 @@ export const deleteAttendence = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -773,11 +961,18 @@ export const deleteAttendence = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -810,6 +1005,9 @@ export const createHost = /* GraphQL */ `
         admins {
           nextToken
         }
+        followers {
+          nextToken
+        }
         owner
       }
       event {
@@ -821,6 +1019,8 @@ export const createHost = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -860,6 +1060,9 @@ export const updateHost = /* GraphQL */ `
         admins {
           nextToken
         }
+        followers {
+          nextToken
+        }
         owner
       }
       event {
@@ -871,6 +1074,8 @@ export const updateHost = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -910,6 +1115,9 @@ export const deleteHost = /* GraphQL */ `
         admins {
           nextToken
         }
+        followers {
+          nextToken
+        }
         owner
       }
       event {
@@ -921,6 +1129,8 @@ export const deleteHost = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -952,6 +1162,8 @@ export const createSpeaking = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -967,7 +1179,11 @@ export const createSpeaking = /* GraphQL */ `
         name
         avatar
         bio
+        links
         speaking {
+          nextToken
+        }
+        followers {
           nextToken
         }
       }
@@ -992,6 +1208,8 @@ export const updateSpeaking = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -1007,7 +1225,11 @@ export const updateSpeaking = /* GraphQL */ `
         name
         avatar
         bio
+        links
         speaking {
+          nextToken
+        }
+        followers {
           nextToken
         }
       }
@@ -1032,6 +1254,8 @@ export const deleteSpeaking = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -1047,7 +1271,344 @@ export const deleteSpeaking = /* GraphQL */ `
         name
         avatar
         bio
+        links
         speaking {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const createSpeakerFollower = /* GraphQL */ `
+  mutation CreateSpeakerFollower(
+    $input: CreateSpeakerFollowerInput!
+    $condition: ModelSpeakerFollowerConditionInput
+  ) {
+    createSpeakerFollower(input: $input, condition: $condition) {
+      id
+      userID
+      speakerID
+      user {
+        id
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+          avatar
+          bio
+          links
+        }
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
+          nextToken
+        }
+      }
+      speaker {
+        id
+        name
+        avatar
+        bio
+        links
+        speaking {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const updateSpeakerFollower = /* GraphQL */ `
+  mutation UpdateSpeakerFollower(
+    $input: UpdateSpeakerFollowerInput!
+    $condition: ModelSpeakerFollowerConditionInput
+  ) {
+    updateSpeakerFollower(input: $input, condition: $condition) {
+      id
+      userID
+      speakerID
+      user {
+        id
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+          avatar
+          bio
+          links
+        }
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
+          nextToken
+        }
+      }
+      speaker {
+        id
+        name
+        avatar
+        bio
+        links
+        speaking {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const deleteSpeakerFollower = /* GraphQL */ `
+  mutation DeleteSpeakerFollower(
+    $input: DeleteSpeakerFollowerInput!
+    $condition: ModelSpeakerFollowerConditionInput
+  ) {
+    deleteSpeakerFollower(input: $input, condition: $condition) {
+      id
+      userID
+      speakerID
+      user {
+        id
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+          avatar
+          bio
+          links
+        }
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
+          nextToken
+        }
+      }
+      speaker {
+        id
+        name
+        avatar
+        bio
+        links
+        speaking {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const createOrgFollower = /* GraphQL */ `
+  mutation CreateOrgFollower(
+    $input: CreateOrgFollowerInput!
+    $condition: ModelOrgFollowerConditionInput
+  ) {
+    createOrgFollower(input: $input, condition: $condition) {
+      id
+      organizationID
+      userID
+      organization {
+        id
+        name
+        creatorID
+        creator {
+          id
+          cognitoId
+        }
+        description
+        logo
+        links
+        host {
+          nextToken
+        }
+        admins {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        owner
+      }
+      user {
+        id
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+          avatar
+          bio
+          links
+        }
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const updateOrgFollower = /* GraphQL */ `
+  mutation UpdateOrgFollower(
+    $input: UpdateOrgFollowerInput!
+    $condition: ModelOrgFollowerConditionInput
+  ) {
+    updateOrgFollower(input: $input, condition: $condition) {
+      id
+      organizationID
+      userID
+      organization {
+        id
+        name
+        creatorID
+        creator {
+          id
+          cognitoId
+        }
+        description
+        logo
+        links
+        host {
+          nextToken
+        }
+        admins {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        owner
+      }
+      user {
+        id
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+          avatar
+          bio
+          links
+        }
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const deleteOrgFollower = /* GraphQL */ `
+  mutation DeleteOrgFollower(
+    $input: DeleteOrgFollowerInput!
+    $condition: ModelOrgFollowerConditionInput
+  ) {
+    deleteOrgFollower(input: $input, condition: $condition) {
+      id
+      organizationID
+      userID
+      organization {
+        id
+        name
+        creatorID
+        creator {
+          id
+          cognitoId
+        }
+        description
+        logo
+        links
+        host {
+          nextToken
+        }
+        admins {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        owner
+      }
+      user {
+        id
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+          avatar
+          bio
+          links
+        }
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }

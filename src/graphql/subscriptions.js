@@ -12,6 +12,8 @@ export const onCreateEvent = /* GraphQL */ `
       place
       image
       tags
+      video
+      link
       host {
         items {
           id
@@ -50,6 +52,8 @@ export const onUpdateEvent = /* GraphQL */ `
       place
       image
       tags
+      video
+      link
       host {
         items {
           id
@@ -88,6 +92,8 @@ export const onDeleteEvent = /* GraphQL */ `
       place
       image
       tags
+      video
+      link
       host {
         items {
           id
@@ -133,7 +139,11 @@ export const onCreateUser = /* GraphQL */ `
         name
         avatar
         bio
+        links
         speaking {
+          nextToken
+        }
+        followers {
           nextToken
         }
       }
@@ -154,6 +164,22 @@ export const onCreateUser = /* GraphQL */ `
           id
           organizationID
           userID
+        }
+        nextToken
+      }
+      followOrganization {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      followSpeaker {
+        items {
+          id
+          userID
+          speakerID
         }
         nextToken
       }
@@ -178,7 +204,11 @@ export const onUpdateUser = /* GraphQL */ `
         name
         avatar
         bio
+        links
         speaking {
+          nextToken
+        }
+        followers {
           nextToken
         }
       }
@@ -199,6 +229,22 @@ export const onUpdateUser = /* GraphQL */ `
           id
           organizationID
           userID
+        }
+        nextToken
+      }
+      followOrganization {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      followSpeaker {
+        items {
+          id
+          userID
+          speakerID
         }
         nextToken
       }
@@ -223,7 +269,11 @@ export const onDeleteUser = /* GraphQL */ `
         name
         avatar
         bio
+        links
         speaking {
+          nextToken
+        }
+        followers {
           nextToken
         }
       }
@@ -247,6 +297,22 @@ export const onDeleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      followOrganization {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      followSpeaker {
+        items {
+          id
+          userID
+          speakerID
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -267,11 +333,18 @@ export const onCreateOrganization = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -287,6 +360,14 @@ export const onCreateOrganization = /* GraphQL */ `
         nextToken
       }
       admins {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      followers {
         items {
           id
           organizationID
@@ -315,11 +396,18 @@ export const onUpdateOrganization = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -335,6 +423,14 @@ export const onUpdateOrganization = /* GraphQL */ `
         nextToken
       }
       admins {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      followers {
         items {
           id
           organizationID
@@ -363,11 +459,18 @@ export const onDeleteOrganization = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -390,6 +493,14 @@ export const onDeleteOrganization = /* GraphQL */ `
         }
         nextToken
       }
+      followers {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
       owner
     }
   }
@@ -401,10 +512,19 @@ export const onCreateSpeaker = /* GraphQL */ `
       name
       avatar
       bio
+      links
       speaking {
         items {
           id
           eventID
+          speakerID
+        }
+        nextToken
+      }
+      followers {
+        items {
+          id
+          userID
           speakerID
         }
         nextToken
@@ -419,10 +539,19 @@ export const onUpdateSpeaker = /* GraphQL */ `
       name
       avatar
       bio
+      links
       speaking {
         items {
           id
           eventID
+          speakerID
+        }
+        nextToken
+      }
+      followers {
+        items {
+          id
+          userID
           speakerID
         }
         nextToken
@@ -437,10 +566,19 @@ export const onDeleteSpeaker = /* GraphQL */ `
       name
       avatar
       bio
+      links
       speaking {
         items {
           id
           eventID
+          speakerID
+        }
+        nextToken
+      }
+      followers {
+        items {
+          id
+          userID
           speakerID
         }
         nextToken
@@ -471,6 +609,9 @@ export const onCreateAdmin = /* GraphQL */ `
         admins {
           nextToken
         }
+        followers {
+          nextToken
+        }
         owner
       }
       user {
@@ -484,11 +625,18 @@ export const onCreateAdmin = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -518,6 +666,9 @@ export const onUpdateAdmin = /* GraphQL */ `
         admins {
           nextToken
         }
+        followers {
+          nextToken
+        }
         owner
       }
       user {
@@ -531,11 +682,18 @@ export const onUpdateAdmin = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -565,6 +723,9 @@ export const onDeleteAdmin = /* GraphQL */ `
         admins {
           nextToken
         }
+        followers {
+          nextToken
+        }
         owner
       }
       user {
@@ -578,11 +739,18 @@ export const onDeleteAdmin = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -604,6 +772,8 @@ export const onCreateAttendence = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -625,11 +795,18 @@ export const onCreateAttendence = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -651,6 +828,8 @@ export const onUpdateAttendence = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -672,11 +851,18 @@ export const onUpdateAttendence = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -698,6 +884,8 @@ export const onDeleteAttendence = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -719,11 +907,18 @@ export const onDeleteAttendence = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -753,6 +948,9 @@ export const onCreateHost = /* GraphQL */ `
         admins {
           nextToken
         }
+        followers {
+          nextToken
+        }
         owner
       }
       event {
@@ -764,6 +962,8 @@ export const onCreateHost = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -800,6 +1000,9 @@ export const onUpdateHost = /* GraphQL */ `
         admins {
           nextToken
         }
+        followers {
+          nextToken
+        }
         owner
       }
       event {
@@ -811,6 +1014,8 @@ export const onUpdateHost = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -847,6 +1052,9 @@ export const onDeleteHost = /* GraphQL */ `
         admins {
           nextToken
         }
+        followers {
+          nextToken
+        }
         owner
       }
       event {
@@ -858,6 +1066,8 @@ export const onDeleteHost = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -886,6 +1096,8 @@ export const onCreateSpeaking = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -901,7 +1113,11 @@ export const onCreateSpeaking = /* GraphQL */ `
         name
         avatar
         bio
+        links
         speaking {
+          nextToken
+        }
+        followers {
           nextToken
         }
       }
@@ -923,6 +1139,8 @@ export const onUpdateSpeaking = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -938,7 +1156,11 @@ export const onUpdateSpeaking = /* GraphQL */ `
         name
         avatar
         bio
+        links
         speaking {
+          nextToken
+        }
+        followers {
           nextToken
         }
       }
@@ -960,6 +1182,8 @@ export const onDeleteSpeaking = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -975,7 +1199,326 @@ export const onDeleteSpeaking = /* GraphQL */ `
         name
         avatar
         bio
+        links
         speaking {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onCreateSpeakerFollower = /* GraphQL */ `
+  subscription OnCreateSpeakerFollower {
+    onCreateSpeakerFollower {
+      id
+      userID
+      speakerID
+      user {
+        id
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+          avatar
+          bio
+          links
+        }
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
+          nextToken
+        }
+      }
+      speaker {
+        id
+        name
+        avatar
+        bio
+        links
+        speaking {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onUpdateSpeakerFollower = /* GraphQL */ `
+  subscription OnUpdateSpeakerFollower {
+    onUpdateSpeakerFollower {
+      id
+      userID
+      speakerID
+      user {
+        id
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+          avatar
+          bio
+          links
+        }
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
+          nextToken
+        }
+      }
+      speaker {
+        id
+        name
+        avatar
+        bio
+        links
+        speaking {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onDeleteSpeakerFollower = /* GraphQL */ `
+  subscription OnDeleteSpeakerFollower {
+    onDeleteSpeakerFollower {
+      id
+      userID
+      speakerID
+      user {
+        id
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+          avatar
+          bio
+          links
+        }
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
+          nextToken
+        }
+      }
+      speaker {
+        id
+        name
+        avatar
+        bio
+        links
+        speaking {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onCreateOrgFollower = /* GraphQL */ `
+  subscription OnCreateOrgFollower {
+    onCreateOrgFollower {
+      id
+      organizationID
+      userID
+      organization {
+        id
+        name
+        creatorID
+        creator {
+          id
+          cognitoId
+        }
+        description
+        logo
+        links
+        host {
+          nextToken
+        }
+        admins {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        owner
+      }
+      user {
+        id
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+          avatar
+          bio
+          links
+        }
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onUpdateOrgFollower = /* GraphQL */ `
+  subscription OnUpdateOrgFollower {
+    onUpdateOrgFollower {
+      id
+      organizationID
+      userID
+      organization {
+        id
+        name
+        creatorID
+        creator {
+          id
+          cognitoId
+        }
+        description
+        logo
+        links
+        host {
+          nextToken
+        }
+        admins {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        owner
+      }
+      user {
+        id
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+          avatar
+          bio
+          links
+        }
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onDeleteOrgFollower = /* GraphQL */ `
+  subscription OnDeleteOrgFollower {
+    onDeleteOrgFollower {
+      id
+      organizationID
+      userID
+      organization {
+        id
+        name
+        creatorID
+        creator {
+          id
+          cognitoId
+        }
+        description
+        logo
+        links
+        host {
+          nextToken
+        }
+        admins {
+          nextToken
+        }
+        followers {
+          nextToken
+        }
+        owner
+      }
+      user {
+        id
+        cognitoId
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+          avatar
+          bio
+          links
+        }
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }

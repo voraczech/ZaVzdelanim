@@ -12,6 +12,8 @@ export const getEvent = /* GraphQL */ `
       place
       image
       tags
+      video
+      link
       host {
         items {
           id
@@ -55,6 +57,8 @@ export const listEvents = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -87,7 +91,11 @@ export const getUser = /* GraphQL */ `
         name
         avatar
         bio
+        links
         speaking {
+          nextToken
+        }
+        followers {
           nextToken
         }
       }
@@ -108,6 +116,22 @@ export const getUser = /* GraphQL */ `
           id
           organizationID
           userID
+        }
+        nextToken
+      }
+      followOrganization {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      followSpeaker {
+        items {
+          id
+          userID
+          speakerID
         }
         nextToken
       }
@@ -132,11 +156,18 @@ export const listUsers = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -161,11 +192,18 @@ export const getOrganization = /* GraphQL */ `
           name
           avatar
           bio
+          links
         }
         creator {
           nextToken
         }
         admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
           nextToken
         }
       }
@@ -181,6 +219,14 @@ export const getOrganization = /* GraphQL */ `
         nextToken
       }
       admins {
+        items {
+          id
+          organizationID
+          userID
+        }
+        nextToken
+      }
+      followers {
         items {
           id
           organizationID
@@ -216,6 +262,9 @@ export const listOrganizations = /* GraphQL */ `
         admins {
           nextToken
         }
+        followers {
+          nextToken
+        }
         owner
       }
       nextToken
@@ -229,10 +278,19 @@ export const getSpeaker = /* GraphQL */ `
       name
       avatar
       bio
+      links
       speaking {
         items {
           id
           eventID
+          speakerID
+        }
+        nextToken
+      }
+      followers {
+        items {
+          id
+          userID
           speakerID
         }
         nextToken
@@ -252,45 +310,11 @@ export const listSpeakers = /* GraphQL */ `
         name
         avatar
         bio
+        links
         speaking {
           nextToken
         }
-      }
-      nextToken
-    }
-  }
-`;
-export const eventsByDate = /* GraphQL */ `
-  query EventsByDate(
-    $date: AWSDateTime
-    $sortDirection: ModelSortDirection
-    $filter: ModelEventFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    eventsByDate(
-      date: $date
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        title
-        description
-        date
-        dateEnd
-        place
-        image
-        tags
-        host {
-          nextToken
-        }
-        attendence {
-          nextToken
-        }
-        speaking {
+        followers {
           nextToken
         }
       }
@@ -320,6 +344,8 @@ export const searchEvents = /* GraphQL */ `
         place
         image
         tags
+        video
+        link
         host {
           nextToken
         }
@@ -365,6 +391,9 @@ export const searchOrganizations = /* GraphQL */ `
         admins {
           nextToken
         }
+        followers {
+          nextToken
+        }
         owner
       }
       nextToken
@@ -390,8 +419,121 @@ export const searchSpeakers = /* GraphQL */ `
         name
         avatar
         bio
+        links
         speaking {
           nextToken
+        }
+        followers {
+          nextToken
+        }
+      }
+      nextToken
+      total
+    }
+  }
+`;
+export const searchAttendences = /* GraphQL */ `
+  query SearchAttendences(
+    $filter: SearchableAttendenceFilterInput
+    $sort: SearchableAttendenceSortInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    searchAttendences(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        eventID
+        userID
+        event {
+          id
+          title
+          description
+          date
+          dateEnd
+          place
+          image
+          tags
+          video
+          link
+        }
+        user {
+          id
+          cognitoId
+        }
+      }
+      nextToken
+      total
+    }
+  }
+`;
+export const searchSpeakerFollowers = /* GraphQL */ `
+  query SearchSpeakerFollowers(
+    $filter: SearchableSpeakerFollowerFilterInput
+    $sort: SearchableSpeakerFollowerSortInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    searchSpeakerFollowers(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userID
+        speakerID
+        user {
+          id
+          cognitoId
+        }
+        speaker {
+          id
+          name
+          avatar
+          bio
+          links
+        }
+      }
+      nextToken
+      total
+    }
+  }
+`;
+export const searchOrgFollowers = /* GraphQL */ `
+  query SearchOrgFollowers(
+    $filter: SearchableOrgFollowerFilterInput
+    $sort: SearchableOrgFollowerSortInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    searchOrgFollowers(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        organizationID
+        userID
+        organization {
+          id
+          name
+          creatorID
+          description
+          logo
+          links
+          owner
+        }
+        user {
+          id
+          cognitoId
         }
       }
       nextToken

@@ -1,5 +1,5 @@
-type Event @model @searchable
-@key(name: "ByDate", fields: ["date"], queryField: "eventsByDate")
+type Event @model
+@searchable
  {
   id: ID!
   title: String!
@@ -9,6 +9,8 @@ type Event @model @searchable
   place: String
   image: String
   tags: AWSJSON
+  video: String
+  link: AWSURL
   host: [Host] @connection(keyName: "HostEvent", fields: ["id"])
   attendence: [Attendence] @connection(keyName:"AttendenceEvent", fields: ["id"])
   speaking: [Speaking] @connection(keyName: "SpeakingEvent", fields: ["id"])
@@ -21,6 +23,8 @@ type User @model {
   speaker: Speaker @connection
   creator: [Organization] @connection(keyName: "CreatorUser", fields: ["id"])
   admin: [Admin] @connection(keyName: "AdminUser", fields: ["id"])
+  followOrganization: [OrgFollower] @connection(keyName: "OrgFollowerOrg", fields: ["id"])
+  followSpeaker: [SpeakerFollower] @connection(keyName: "SpeakerFollowerUser", fields: ["id"])
 }
 
 type Organization @model @searchable @auth(rules: [
@@ -38,17 +42,22 @@ type Organization @model @searchable @auth(rules: [
   links: AWSJSON
   host: [Host] @connection(keyName:"HostOrganization", fields: ["id"])
   admins: [Admin] @connection(keyName: "AdminOrganization", fields: ["id"])
+  followers: [OrgFollower] @connection(keyName: "OrgFollowerOrg", fields: ["id"])
 }
 
-type Speaker @model @searchable{
+type Speaker @model
+@searchable{
   id: ID!
   name: String!
   avatar: String
   bio: String
+  links: AWSJSON
   speaking: [Speaking] @connection(keyName: "SpeakingSpeaker", fields: ["id"])
+  followers: [SpeakerFollower] @connection(keyName: "SpeakerFollowerSpeaker", fields: ["id"])
 }
 
-type Admin @model(queries: null)
+type Admin
+@model(queries: null)
   @key(name: "AdminOrganization", fields: ["organizationID", "userID"])
   @key(name: "AdminUser", fields: ["userID", "organizationID"]) {
   id: ID!
@@ -59,6 +68,7 @@ type Admin @model(queries: null)
 }
 
 type Attendence @model(queries: null)
+@searchable
   @key(name: "AttendenceEvent", fields: ["eventID", "userID"])
   @key(name: "AttendenceUser", fields: ["userID", "eventID"]) {
   id: ID!
@@ -68,7 +78,8 @@ type Attendence @model(queries: null)
   user: User! @connection(fields: ["userID"])
 }
 
-type Host @model(queries: null)
+type Host
+@model(queries: null)
   @key(name: "HostEvent", fields: ["eventID", "organizationID"])
   @key(name: "HostOrganization", fields: ["organizationID", "eventID"]) {
   id: ID!
@@ -78,7 +89,8 @@ type Host @model(queries: null)
   event: Event! @connection(fields: ["eventID"])
 }
 
-type Speaking @model(queries: null)
+type Speaking
+@model(queries: null)
   @key(name: "SpeakingEvent", fields: ["eventID", "speakerID"])
   @key(name: "SpeakingSpeaker", fields: ["speakerID", "eventID"]) {
   id: ID!
@@ -86,4 +98,25 @@ type Speaking @model(queries: null)
   speakerID: ID!
   event: Event! @connection(fields: ["eventID"])
   speaker: Speaker! @connection(fields: ["speakerID"])
+}
+
+type SpeakerFollower
+@model(queries: null) @searchable
+@key(name: "SpeakerFollowerUser", fields: ["userID", "speakerID"])
+@key(name: "SpeakerFollowerSpeaker", fields: ["speakerID", "userID"]) {
+  id: ID!
+  userID: ID!
+  speakerID: ID!
+  user: User! @connection(fields: ["userID"])
+  speaker: Speaker! @connection(fields: ["speakerID"])
+}
+
+type OrgFollower @model(queries: null) @searchable
+  @key(name: "OrgFollowerOrg", fields: ["organizationID", "userID"])
+  @key(name: "OrgFollowerUser", fields: ["userID", "organizationID"]) {
+  id: ID!
+  organizationID: ID!
+  userID: ID!
+  organization: Organization! @connection(fields: ["organizationID"])
+  user: User! @connection(fields: ["userID"])
 }
