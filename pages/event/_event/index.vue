@@ -2,11 +2,23 @@
   <v-detail v-if="event">
     <template slot="title">{{event.title}}</template>
     <template>
-      <img
-        src=""
-        alt=""
-      />
-      <p>{{ event.description }}</p>
+      <youtube
+        v-if="event.video"
+        :video-id="detectYTID(event.video)"
+        class="mb-8"
+      ></youtube>
+      <a
+        :href="event.link"
+        target="_blank"
+        class="font-semibold"
+        v-if="event.link"
+      >
+        <unicon
+          name="link"
+          class="h-4"
+        /> {{ event.link }}
+      </a>
+      <p class="mt-8">{{ event.description }}</p>
       <p v-if="!!event.tags">#
         <span
           v-for="(tag, key) in JSON.parse(event.tags)"
@@ -55,11 +67,18 @@
             </v-link>
           </div>
         </div>
-        <div class="flex mb-6">
+        <div
+          class="flex mb-6"
+          v-if="event.place"
+        >
           <unicon
             name="map-marker"
             class="mr-8 text-gray-500"
-          /><span>{{event.place}}</span>
+          /><a
+            class="text-blue-700"
+            :href="getPlaceLink(event.place)"
+            target="_blank"
+          >{{event.place}}</a>
         </div>
         <div class="flex">
           <unicon
@@ -67,6 +86,16 @@
             class="mr-8 text-gray-500"
           />
           <span>{{ $moment(event.date).format("llll") + (event.dateEnd !== null ? ` —  ${$moment(event.dateEnd).format("llll")}` : `` )}}</span>
+        </div>
+        <div
+          class="flex mt-6"
+          v-if="totalAttendence - 1 + (!!attendenceID ? 1 : 0 ) > 0"
+        >
+          <unicon
+            name="users-alt"
+            class="mr-8 text-gray-500"
+          />
+          <span>{{ totalAttendence - 1 + (!!attendenceID ? 1 : 0 ) }}</span>
         </div>
       </div>
       <v-button
@@ -117,6 +146,8 @@ const getEvent = `query getEvent($id: ID!, $userID: ID) {
       image
       date
       dateEnd
+      video
+      link
       tags
       host {
         items {
@@ -147,6 +178,12 @@ const getEvent = `query getEvent($id: ID!, $userID: ID) {
   }
 `;
 
+const countAttendence = `query attendence($id: ID!) {
+  searchAttendences(filter: { eventID: {match: $id}}){
+    total
+  }
+}`;
+
 const createAttendence = `mutation mutateAttendence($eventID: ID!, $userID: ID!){
   createAttendence(input: { eventID: $eventID, userID: $userID }){
     id
@@ -175,6 +212,12 @@ export default {
       })
     );
 
+    const totalAttendence = await API.graphql(
+      graphqlOperation(countAttendence, {
+        id: eventId
+      })
+    );
+
     let canEdit = false;
 
     data.getEvent.host.items.filter(function({ organization }) {
@@ -194,6 +237,7 @@ export default {
     return {
       eventId,
       canEdit,
+      totalAttendence: totalAttendence.data.searchAttendences.total,
       event: data.getEvent,
       attendenceID:
         data.getEvent.attendence.items.length === 1
@@ -205,6 +249,33 @@ export default {
     ...mapState(["user"])
   },
   methods: {
+    validURL(str) {
+      const pattern = new RegExp(
+        "^(https?:\\/\\/)?" + // protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+          "(\\#[-a-z\\d_]*)?$",
+        "i"
+      ); // fragment locator
+      return !!pattern.test(str);
+    },
+    detectYTID(id) {
+      let video_id = id.split("v=")[1];
+      let ampersandPosition = video_id.indexOf("&");
+      if (ampersandPosition != -1) {
+        video_id = video_id.substring(0, ampersandPosition);
+      }
+
+      return video_id;
+    },
+    getPlaceLink(place) {
+      if (this.validURL(place)) {
+        return place;
+      }
+      return `https://www.openstreetmap.org/search?query=${place}`;
+    },
     async attend(id = null) {
       if (!!id) {
         const { data } = await API.graphql(
