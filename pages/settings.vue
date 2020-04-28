@@ -61,6 +61,7 @@ const createUserSpeaker = `mutation createUserSpeaker($id: ID!, $userID: ID!, $n
       id
       name
       bio
+      links
     }
   }
 }
@@ -79,6 +80,7 @@ const editSpeakerText = `mutation editText($id: ID!, $name: String!, $bio: Strin
     id
     name
     bio
+    links
   }
 }`;
 
