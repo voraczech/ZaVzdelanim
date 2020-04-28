@@ -8,7 +8,9 @@ export const state = () => ({
     attendence: {},
     speaker: {},
     creator: {},
-    admin: {}
+    admin: {},
+    followOrganization: {},
+    followSpeaker: {}
   },
   events: {
     isSet: false,

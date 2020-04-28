@@ -23,7 +23,7 @@ type User @model {
   speaker: Speaker @connection
   creator: [Organization] @connection(keyName: "CreatorUser", fields: ["id"])
   admin: [Admin] @connection(keyName: "AdminUser", fields: ["id"])
-  followOrganization: [OrgFollower] @connection(keyName: "OrgFollowerOrg", fields: ["id"])
+  followOrganization: [OrgFollower] @connection(keyName: "OrgFollowerUser", fields: ["id"])
   followSpeaker: [SpeakerFollower] @connection(keyName: "SpeakerFollowerUser", fields: ["id"])
 }
 
