@@ -137,8 +137,9 @@ import VButton from "@/components/atoms/Button";
 import VLink from "@/components/atoms/Link";
 import VDetail from "@/components/templates/Detail";
 
-const getEvent = `query getEvent($id: ID!, $userID: ID) {
-  getEvent(id: $id){
+const getEvent = /* GraphQL */ `
+  query getEvent($id: ID!, $userID: ID) {
+    getEvent(id: $id) {
       id
       title
       description
@@ -151,11 +152,11 @@ const getEvent = `query getEvent($id: ID!, $userID: ID) {
       tags
       host {
         items {
-          organization{
+          organization {
             id
             name
             creatorID
-            admins(userID: {eq: $userID}){
+            admins(userID: { eq: $userID }) {
               items {
                 id
               }
@@ -163,12 +164,14 @@ const getEvent = `query getEvent($id: ID!, $userID: ID) {
           }
         }
       }
-      attendence(userID: {eq: $userID}){
-			  items { id }
-      }
-      speaking{
+      attendence(userID: { eq: $userID }) {
         items {
-          speaker{
+          id
+        }
+      }
+      speaking {
+        items {
+          speaker {
             id
             name
           }
@@ -178,24 +181,29 @@ const getEvent = `query getEvent($id: ID!, $userID: ID) {
   }
 `;
 
-const countAttendence = `query attendence($id: ID!) {
-  searchAttendences(filter: { eventID: {match: $id}}){
-    total
+const countAttendence = /* GraphQL */ `
+  query attendence($id: ID!) {
+    searchAttendences(filter: { eventID: { eq: $id } }) {
+      total
+    }
   }
-}`;
-
-const createAttendence = `mutation mutateAttendence($eventID: ID!, $userID: ID!){
-  createAttendence(input: { eventID: $eventID, userID: $userID }){
-    id
-  }
-}
 `;
 
-const deleteAttendence = `mutation deleteAttendence($id: ID!){
-  deleteAttendence(input: {id: $id}){
-    id
+const createAttendence = /* GraphQL */ `
+  mutation mutateAttendence($eventID: ID!, $userID: ID!) {
+    createAttendence(input: { eventID: $eventID, userID: $userID }) {
+      id
+    }
   }
-}`;
+`;
+
+const deleteAttendence = /* GraphQL */ `
+  mutation deleteAttendence($id: ID!) {
+    deleteAttendence(input: { id: $id }) {
+      id
+    }
+  }
+`;
 
 export default {
   components: { VButton, VLink, VDetail },
