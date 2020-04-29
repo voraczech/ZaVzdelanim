@@ -13,7 +13,7 @@
       </div>
     </section>
     <section v-if="userActivities.speaker">
-      <h2>Moje účasti jako přednášející</h2>
+      <h2>Moje nejbližší účasti jako přednášející</h2>
       <div
         class="flex flex-wrap -mx-4"
         v-if="userActivities.speaker.speaking && userActivities.speaker.speaking.items.length > 0"
@@ -29,7 +29,7 @@
       <div v-else>Vypadá to, že nikde nepřednášíš 🤷‍♂️</div>
     </section>
     <section v-if="userActivities.attendence.items.length > 0">
-      <h2>Moje účasti jako návštěvník</h2>
+      <h2>Moje nejbližší účasti jako návštěvník</h2>
       <div class="flex flex-wrap -mx-4">
         <div
           v-for="{event} in userActivities.attendence.items"
@@ -41,7 +41,7 @@
       </div>
     </section>
     <section v-if="userActivities.followSpeaker.items.length > 0">
-      <h2 class="mb-8">Aktivita tvých oblíbených přednášejících</h2>
+      <h2 class="mb-8">Poslední aktivita sledovaných přednášejících</h2>
       <div
         v-for="{speaker} in userActivities.followSpeaker.items"
         :key="speaker.id"
@@ -65,7 +65,7 @@
       </div>
     </section>
     <section v-if="userActivities.followOrganization.items.length > 0">
-      <h2 class="mb-8">Aktivita tvých oblíbených organizací</h2>
+      <h2 class="mb-8">Poslední aktivita sledovaných organizací</h2>
       <div
         v-for="{organization} in userActivities.followOrganization.items"
         :key="organization.id"

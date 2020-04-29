@@ -2,7 +2,7 @@
   <div>
     <form
       @submit.prevent="onSubmit"
-      class="flex flex-col gap-2"
+      class="flex flex-col gap-2 max-w-lg"
     >
       <label
         for="title"
@@ -95,7 +95,7 @@
             ></textarea>
           </div>
           <v-text-button
-            @click.native="newSpeakers.pop()"
+            @click.native.prevent="newSpeakers.pop()"
             class="ml-auto mt-2"
             design="alert"
             v-if="newSpeakers.length > 0"
@@ -106,7 +106,7 @@
             />
           </v-text-button>
           <v-text-button
-            @click.native="newSpeakers.push({ name: ``, bio: ``})"
+            @click.native.prevent="newSpeakers.push({ name: ``, bio: ``})"
             class="ml-auto mt-3"
           >Přidat přednášejícího
             <unicon
@@ -193,65 +193,48 @@ import {
 } from "../../../src/graphql/queries";
 import { createEvent } from "../../../src/graphql/mutations";
 
-const getOrg = `query getOrganization($id: ID!) {
-  getOrganization(id: $id){
+const getOrg = /* GraphQL */ `
+  query getOrganization($id: ID!) {
+    getOrganization(id: $id) {
       id
       name
       owner
       creatorID
+    }
   }
-}
 `;
 
 // must create own mutation, bc i need specific batching Amplify can't generate (but it's valid for AppSync)
-const createSpeakerWithSpeaking = `
-mutation createSpeakerWithSpeaking(
-  $eventID: ID!
-  $speakerID: ID!
-  $name: String!
-  $bio: String
-){
-  createSpeaker(input:{
-    id: $speakerID,
-    name: $name,
-    bio: $bio
-  }){
-    id
+const createSpeakerWithSpeaking = /* GraphQL */ `
+  mutation createSpeakerWithSpeaking(
+    $eventID: ID!
+    $speakerID: ID!
+    $name: String!
+    $bio: String
+  ) {
+    createSpeaker(input: { id: $speakerID, name: $name, bio: $bio }) {
+      id
+    }
+    createSpeaking(input: { eventID: $eventID, speakerID: $speakerID }) {
+      id
+    }
   }
-  createSpeaking(input: {
-    eventID: $eventID
-    speakerID: $speakerID
-  }){
-    id
-  }
-}`;
-
-const createSpeaking = `
-mutation createSpeaking(
-  $eventID: ID!
-  $speakerID: ID!
-){
-  createSpeaking(input: {
-    eventID: $eventID
-    speakerID: $speakerID
-  }){
-    id
-  }
-}
 `;
 
-const createHost = `
-mutation createHost(
-  $eventID: ID!
-  $organizationID: ID!
-) {
-  createHost(input: {
-      eventID: $eventID
-      organizationID: $organizationID
-  }){
-    id
+const createSpeaking = /* GraphQL */ `
+  mutation createSpeaking($eventID: ID!, $speakerID: ID!) {
+    createSpeaking(input: { eventID: $eventID, speakerID: $speakerID }) {
+      id
+    }
   }
-}
+`;
+
+const createHost = /* GraphQL */ `
+  mutation createHost($eventID: ID!, $organizationID: ID!) {
+    createHost(input: { eventID: $eventID, organizationID: $organizationID }) {
+      id
+    }
+  }
 `;
 
 export default {

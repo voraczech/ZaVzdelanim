@@ -2,7 +2,7 @@
   <div>
     <div class="flex justify-between items-baseline">
       <h1>Budoucí akce</h1>
-      <div class="flex">
+      <div class="flex items-stretch">
         <v-input v-model="searchTitle" />
         <v-geosearch @select="e => this.searchLocation = e" />
         <datetime
@@ -20,9 +20,7 @@
             :key="item.id"
             class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
           >
-            <v-event-card
-              :event="item"
-            />
+            <v-event-card :event="item" />
           </div>
         </div>
       </div>

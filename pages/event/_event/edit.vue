@@ -2,7 +2,7 @@
   <div>
     <form
       @submit.prevent="onSubmit"
-      class="flex flex-col gap-2"
+      class="flex flex-col gap-2 max-w-lg"
     >
       <label
         for="title"
@@ -95,7 +95,7 @@
             ></textarea>
           </div>
           <v-text-button
-            @click.native="newSpeakers.pop()"
+            @click.native.prevent="newSpeakers.pop()"
             class="ml-auto mt-2"
             design="alert"
             v-if="newSpeakers.length > 0"
@@ -106,7 +106,7 @@
             />
           </v-text-button>
           <v-text-button
-            @click.native="newSpeakers.push({ name: ``, bio: ``})"
+            @click.native.prevent="newSpeakers.push({ name: ``, bio: ``})"
             class="ml-auto mt-3"
           >Přidat přednášejícího
             <unicon
@@ -163,6 +163,10 @@
         v-if="$v.$error"
       >Formulář není správně vyplněn. Zkrontroluj to, prosím.</div>
     </form>
+    <h2 class="mt-24">Nebezpečná zóna</h2>
+    <nuxt-link to="delete">
+      <v-button design="alert">Odstranit</v-button>
+    </nuxt-link>
   </div>
 </template>
 
@@ -405,23 +409,28 @@ export default {
 
       let response;
       try {
+        let input = {
+          id: this.eventID,
+          title: this.title,
+          description: this.description || null,
+          date: this.date || null,
+          dateEnd: this.dateEnd || null,
+          place: this.place || null,
+          link: this.link || null,
+          video: this.video || null,
+          tags:
+            this.tags && this.tags.length === 0
+              ? null
+              : JSON.stringify(this.tags)
+        };
+
+        if (imageUploadResponse) {
+          input = { ...input, image: imageUploadResponse };
+        }
+
         response = await API.graphql(
           graphqlOperation(updateEvent, {
-            input: {
-              id: this.eventID,
-              title: this.title,
-              description: this.description || null,
-              date: this.date || null,
-              dateEnd: this.dateEnd || null,
-              place: this.place || null,
-              link: this.link || null,
-              video: this.video || null,
-              // image: imageUploadResponse || null,
-              tags:
-                this.tags && this.tags.length === 0
-                  ? null
-                  : JSON.stringify(this.tags)
-            }
+            input: input
           })
         );
       } catch (error) {
