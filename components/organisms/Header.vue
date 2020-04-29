@@ -1,32 +1,24 @@
 <template>
   <div class="shadow-md bg-white">
-    <header class="flex justify-between items-center bg-blue-800 px-16 py-5 text-blue-100 h-16">
-      <h2 class="text-2xl font-bold">
-        <nuxt-link
-          to="/"
-          class="text-white"
-        >Za vzděláním!</nuxt-link>
-      </h2>
+    <header class="flex justify-between items-center bg-blue-800 px-4 md:px-16 py-5 text-blue-100 h-16">
+      <nuxt-link
+        to="/"
+        class="text-white text-2xl font-bold"
+      >Za vzděláním!</nuxt-link>
       <nuxt-link
         v-if="user"
         to="/settings"
         class="flex items-center"
       >
-        <span class="uppercase text-sm font-medium tracking-wide">{{ firstName }}</span>
+        <span class="uppercase text-sm font-medium tracking-wide hidden md:inline-block">{{ firstName }}</span>
         <img
           :src="user.picture"
           :alt="user.name"
           class="w-10 rounded-full ml-5 shadow-inner"
         >
       </nuxt-link>
-      <nuxt-link
-        v-else
-        to="/signin"
-      >
-        <v-button>Přihlásit se</v-button>
-      </nuxt-link>
     </header>
-    <nav class="px-16 py-5 flex">
+    <nav class="px-4 md:px-16 py-5 flex overflow-x-auto">
       <nuxt-link
         to="/event"
         class="header__navLink"
