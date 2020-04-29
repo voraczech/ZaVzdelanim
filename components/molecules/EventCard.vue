@@ -4,10 +4,18 @@
     v-if="event"
     class="h-full"
   >
-    <v-image
-      v-if="!!event.image"
-      path="test/avatar.png"
-    />
+    <div class="-mx-4 -mt-4 mb-4">
+      <v-image
+        v-if="!!event.image"
+        :path="event.image"
+        class="mx-auto rounded-b-none h-48"
+      />
+      <div
+        v-else
+        class="bg-blue-200 text-blue-800 h-48 p-6 flex items-center justify-center text-lg"
+      ><span class="truncate">{{ event.title }}</span>
+      </div>
+    </div>
     <h3 class="font-bold text-sm">{{event.title}}</h3>
     <div class="text-gray-600 text-xs fill-current leading-6">
       <div

@@ -1,5 +1,8 @@
 <template>
-  <v-detail v-if="event">
+  <v-detail
+    v-if="event"
+    :image="event.image"
+  >
     <template slot="title">{{event.title}}</template>
     <template>
       <youtube

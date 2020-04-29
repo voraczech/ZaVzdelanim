@@ -102,6 +102,7 @@ const getOrg = /* GraphQL */ `
             id
             title
             date
+            image
             speaking {
               items {
                 speaker {

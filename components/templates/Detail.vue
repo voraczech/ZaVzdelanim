@@ -3,6 +3,11 @@
     <div class="flex -mx-2">
       <div class="w-2/3 px-2">
         <div class="rounded shadow-sm bg-white">
+          <v-image
+            v-if="image"
+            :path="image"
+            class="w-full mx-auto"
+          />
           <div class="p-12">
             <h1 class="text-2xl font-bold mb-8">
               <slot name="title" />
@@ -43,7 +48,6 @@
           to="/event"
           class="ml-auto"
         >
-          <v-text-button>Všechny události</v-text-button>
         </nuxt-link>
       </div>
     </div>
@@ -53,13 +57,18 @@
 <script>
 import VTextButton from "@/components/atoms/TextButton";
 import VEventCard from "@/components/molecules/EventCard";
+import VImage from "@/components/atoms/Image";
 
 export default {
-  components: { VTextButton, VEventCard },
+  components: { VTextButton, VEventCard, VImage },
   props: {
     events: {
       type: [Array, Object],
       default: () => []
+    },
+    image: {
+      type: String,
+      default: ""
     }
   }
 };
