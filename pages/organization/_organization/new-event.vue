@@ -472,7 +472,7 @@ export default {
         // add default hosts
         const hosts = [{ id: this.organizationID }, ...this.hosts];
 
-        this.hosts.forEach(async host => {
+        hosts.forEach(async host => {
           try {
             await API.graphql(
               graphqlOperation(createHost, {
