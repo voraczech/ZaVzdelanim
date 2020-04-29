@@ -49,6 +49,10 @@ export const mutations = {
   setOrganizations(state, data) {
     state.organizations = { isSet: true, ...data }
   },
+
+  setAttendence(state, data) {
+    state.userActivities.attendence.items = data
+  }
 }
 
 export const actions = {
@@ -72,4 +76,26 @@ export const actions = {
   setUserActivity({ commit }, data) {
     commit('setUserActivity', data)
   },
+
+  sortAttendence({ commit, state }) {
+    function compare(a, b) {
+      // Use toUpperCase() to ignore character casing
+      const eventA = a.event.date;
+      const eventB = b.event.date;
+
+      let comparison = 0;
+      if (eventA > eventB) {
+        comparison = 1;
+      } else if (eventA < eventB) {
+        comparison = -1;
+      }
+      return comparison;
+    }
+
+    const date = new Date().toISOString();
+
+    const result = [...state.userActivities.attendence.items].filter(event => event.event.date > date).sort(compare)
+
+    commit('setAttendence', result)
+  }
 }
