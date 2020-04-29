@@ -2,6 +2,8 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@import "vue-multiselect/dist/vue-multiselect.min.css";
+
 *:focus, button:focus {
   outline: none;
 }
@@ -18,11 +20,19 @@ h1, h2{
   @apply text-lg font-semibold mb-4
 }
 
-input, textarea{
+.multiselect__tags{
+  @apply border-0
+}
+
+.multiselect__placeholder, .multiselect__input{
+  @apply mb-0 h-4
+}
+
+input, textarea, .multiselect__tags{
   @apply bg-white border-b-2 border-gray-400 rounded transition duration-75
 }
 
-input{
+input, .multiselect__tags{
   @apply px-4 py-3
 }
 
@@ -34,7 +44,7 @@ textarea{
   @apply px-4 py-4
 }
 
-textarea:hover, textarea:focus, input:hover, input:focus{
+textarea:hover, textarea:focus, input:hover, input:focus, input:not(input:focus.multiselect__input){
   @apply shadow
 }
 

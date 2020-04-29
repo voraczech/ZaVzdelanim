@@ -1,16 +1,58 @@
 <template>
   <div>
-    <div class="flex justify-between items-baseline">
-      <h1>Budoucí akce</h1>
-      <div class="flex items-stretch">
-        <v-input v-model="searchTitle" />
-        <v-geosearch @select="e => this.searchLocation = e" />
+    <div class="flex flex-col md:flex-row md:items-end">
+      <div class="searchItem mb-4 md:mb-0 md:mr-4">
+        <label
+          for="title"
+          class="label"
+        >Název</label>
+        <v-input
+          v-model="searchTitle"
+          id="title"
+        />
+      </div>
+      <div class="searchItem mb-4 md:mb-0 md:mr-4">
+        <label
+          for="place"
+          class="label"
+        >Místo</label>
+        <v-geosearch
+          @select="e => this.searchLocation = e"
+          id="place"
+        />
+      </div>
+      <div class="searchItem mb-4 md:mb-0 md:mr-4">
+        <label
+          for="date"
+          class="label"
+        >Od data</label>
         <datetime
+          id="date"
           type="datetime"
+          input-class="w-full"
           v-model="searchDate"
         />
-        <v-button @click.native="search">Hledej</v-button>
       </div>
+      <div class="searchItem mb-4 md:mb-0 md:mr-4">
+        <label
+          for="tags"
+          class="label"
+        >Tagy</label>
+        <multiselect
+          id="tags"
+          v-model="searchTags"
+          :options="tagsOptions"
+          :multiple="true"
+          :taggable="true"
+          @tag="e => this.searchTags.push(e)"
+          tag-placeholder="Přidej nový tag"
+          placeholder="Vyber si tagy"
+          select-label="Stiskni k vybrání"
+          selected-label="Vybráno"
+          deselect-label="Stiskni k odebrání"
+        />
+      </div>
+      <v-button @click.native="search">Hledej</v-button>
     </div>
     <div class="mt-8">
       <div v-if="data">
@@ -37,10 +79,12 @@ import VEventCard from "@/components/molecules/EventCard";
 import VInput from "@/components/atoms/Input";
 import VGeosearch from "@/components/molecules/Geosearch";
 
+import Multiselect from "vue-multiselect";
+
 import { Datetime } from "vue-datetime";
 import "vue-datetime/dist/vue-datetime.css";
 
-const searchEvents = /* GraphQL */ `
+const lates = /* GraphQL */ `
   query SearchEvents(
     $filter: SearchableEventFilterInput
     $sort: SearchableEventSortInput
@@ -96,14 +140,29 @@ export default {
       data: store.state.events
     };
   },
-  components: { VButton, VGeosearch, VEventCard, VInput, Datetime },
+  components: {
+    VButton,
+    VGeosearch,
+    VEventCard,
+    VInput,
+    Datetime,
+    Multiselect
+  },
   data() {
     return {
       data: null,
       searchTitle: "",
       searchDate: "",
-      searchTags: "",
-      searchLocation: ""
+      searchTags: [],
+      searchLocation: "",
+      tagsOptions: [
+        "Marketing",
+        "IT Development",
+        "Business",
+        "Osobní rozvoj",
+        "Inspirace",
+        "Design"
+      ]
     };
   },
   computed: {
@@ -137,10 +196,18 @@ export default {
           limit: 12
         })
       );
-
-      console.log(response);
       this.data = response.data.searchEvents;
     }
   }
 };
 </script>
+
+<style scoped>
+.label {
+  @apply text-sm tracking-wide font-medium mb-2;
+}
+
+.searchItem {
+  @apply flex flex-col flex-1;
+}
+</style>
