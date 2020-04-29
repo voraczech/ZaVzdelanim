@@ -15,7 +15,25 @@
         </span>
       </div>
     </template>
-    <template>{{ speaker.bio }}</template>
+    <template>
+      <p>{{ speaker.bio }}</p>
+      <div
+        v-if="!!speaker.links"
+        class="mt-8"
+      >
+        <h2>Odkazy</h2>
+        <p
+          v-for="(link, key) in JSON.parse(speaker.links)"
+          :key="key"
+          class="mt-2"
+        >
+          <a
+            :href="link.url"
+            class="font-medium"
+          >{{link.url}}</a>
+        </p>
+      </div>
+    </template>
     <template slot="aboveBox">
 
       <v-button
@@ -63,6 +81,7 @@ const getSpeaker = /* GraphQL */ `
       name
       bio
       avatar
+      links
       followers(userID: { eq: $userID }) {
         items {
           id
