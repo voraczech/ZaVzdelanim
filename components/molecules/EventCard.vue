@@ -4,15 +4,15 @@
     v-if="event"
     class="h-full"
   >
-    <div class="-mx-4 -mt-4 mb-4">
+    <div class="-mx-4 -mt-4 mb-4 relative pb-2/3 ">
       <v-image
         v-if="!!event.image"
         :path="event.image"
-        class="mx-auto rounded-b-none h-48"
+        class="absolute rounded-b-none h-full w-full object-cover"
       />
       <div
         v-else
-        class="bg-blue-200 text-blue-800 h-48 p-6 flex items-center justify-center text-lg"
+        class="absolute h-full w-full bg-blue-200 text-blue-800 h-48 p-6 flex items-center justify-center text-lg"
       ><span class="truncate">{{ event.title }}</span>
       </div>
     </div>

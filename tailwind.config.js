@@ -12,6 +12,9 @@ module.exports = {
       },
       inset: {
         '4': '1rem'
+      },
+      spacing: {
+        '2/3': '66.666667%'
       }
     },
   },
