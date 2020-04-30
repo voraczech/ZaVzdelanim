@@ -19,6 +19,7 @@ type Event @model
 type User @model {
   id: ID!
   cognitoId: String!
+  name: String
   attendence: [Attendence] @connection(keyName:"AttendenceUser", fields: ["id"])
   speaker: Speaker @connection
   creator: [Organization] @connection(keyName: "CreatorUser", fields: ["id"])

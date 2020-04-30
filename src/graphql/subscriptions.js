@@ -126,6 +126,7 @@ export const onCreateUser = /* GraphQL */ `
     onCreateUser {
       id
       cognitoId
+      name
       attendence {
         items {
           id
@@ -191,6 +192,7 @@ export const onUpdateUser = /* GraphQL */ `
     onUpdateUser {
       id
       cognitoId
+      name
       attendence {
         items {
           id
@@ -256,6 +258,7 @@ export const onDeleteUser = /* GraphQL */ `
     onDeleteUser {
       id
       cognitoId
+      name
       attendence {
         items {
           id
@@ -325,6 +328,7 @@ export const onCreateOrganization = /* GraphQL */ `
       creator {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }
@@ -388,6 +392,7 @@ export const onUpdateOrganization = /* GraphQL */ `
       creator {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }
@@ -451,6 +456,7 @@ export const onDeleteOrganization = /* GraphQL */ `
       creator {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }
@@ -599,6 +605,7 @@ export const onCreateAdmin = /* GraphQL */ `
         creator {
           id
           cognitoId
+          name
         }
         description
         logo
@@ -617,6 +624,7 @@ export const onCreateAdmin = /* GraphQL */ `
       user {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }
@@ -656,6 +664,7 @@ export const onUpdateAdmin = /* GraphQL */ `
         creator {
           id
           cognitoId
+          name
         }
         description
         logo
@@ -674,6 +683,7 @@ export const onUpdateAdmin = /* GraphQL */ `
       user {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }
@@ -713,6 +723,7 @@ export const onDeleteAdmin = /* GraphQL */ `
         creator {
           id
           cognitoId
+          name
         }
         description
         logo
@@ -731,6 +742,7 @@ export const onDeleteAdmin = /* GraphQL */ `
       user {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }
@@ -787,6 +799,7 @@ export const onCreateAttendence = /* GraphQL */ `
       user {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }
@@ -843,6 +856,7 @@ export const onUpdateAttendence = /* GraphQL */ `
       user {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }
@@ -899,6 +913,7 @@ export const onDeleteAttendence = /* GraphQL */ `
       user {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }
@@ -938,6 +953,7 @@ export const onCreateHost = /* GraphQL */ `
         creator {
           id
           cognitoId
+          name
         }
         description
         logo
@@ -990,6 +1006,7 @@ export const onUpdateHost = /* GraphQL */ `
         creator {
           id
           cognitoId
+          name
         }
         description
         logo
@@ -1042,6 +1059,7 @@ export const onDeleteHost = /* GraphQL */ `
         creator {
           id
           cognitoId
+          name
         }
         description
         logo
@@ -1219,6 +1237,7 @@ export const onCreateSpeakerFollower = /* GraphQL */ `
       user {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }
@@ -1267,6 +1286,7 @@ export const onUpdateSpeakerFollower = /* GraphQL */ `
       user {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }
@@ -1315,6 +1335,7 @@ export const onDeleteSpeakerFollower = /* GraphQL */ `
       user {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }
@@ -1367,6 +1388,7 @@ export const onCreateOrgFollower = /* GraphQL */ `
         creator {
           id
           cognitoId
+          name
         }
         description
         logo
@@ -1385,6 +1407,7 @@ export const onCreateOrgFollower = /* GraphQL */ `
       user {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }
@@ -1424,6 +1447,7 @@ export const onUpdateOrgFollower = /* GraphQL */ `
         creator {
           id
           cognitoId
+          name
         }
         description
         logo
@@ -1442,6 +1466,7 @@ export const onUpdateOrgFollower = /* GraphQL */ `
       user {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }
@@ -1481,6 +1506,7 @@ export const onDeleteOrgFollower = /* GraphQL */ `
         creator {
           id
           cognitoId
+          name
         }
         description
         logo
@@ -1499,6 +1525,7 @@ export const onDeleteOrgFollower = /* GraphQL */ `
       user {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }

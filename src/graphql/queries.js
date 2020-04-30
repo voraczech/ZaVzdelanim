@@ -78,6 +78,7 @@ export const getUser = /* GraphQL */ `
     getUser(id: $id) {
       id
       cognitoId
+      name
       attendence {
         items {
           id
@@ -148,6 +149,7 @@ export const listUsers = /* GraphQL */ `
       items {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }
@@ -184,6 +186,7 @@ export const getOrganization = /* GraphQL */ `
       creator {
         id
         cognitoId
+        name
         attendence {
           nextToken
         }
@@ -252,6 +255,7 @@ export const listOrganizations = /* GraphQL */ `
         creator {
           id
           cognitoId
+          name
         }
         description
         logo
@@ -381,6 +385,7 @@ export const searchOrganizations = /* GraphQL */ `
         creator {
           id
           cognitoId
+          name
         }
         description
         logo
@@ -464,6 +469,7 @@ export const searchAttendences = /* GraphQL */ `
         user {
           id
           cognitoId
+          name
         }
       }
       nextToken
@@ -491,6 +497,7 @@ export const searchSpeakerFollowers = /* GraphQL */ `
         user {
           id
           cognitoId
+          name
         }
         speaker {
           id
@@ -534,6 +541,7 @@ export const searchOrgFollowers = /* GraphQL */ `
         user {
           id
           cognitoId
+          name
         }
       }
       nextToken

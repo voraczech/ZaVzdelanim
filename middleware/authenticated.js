@@ -4,6 +4,7 @@ import { API, graphqlOperation } from "aws-amplify";
 const userOutput = `
 id
 cognitoId
+name
 followOrganization{items{organization{name,host(limit: 4){items{event{id,title,date,image,speaking{items{speaker{name}}}}}}}}}
 followSpeaker{items{speaker{name,speaking(limit: 4){items{event{id,title,date,image,speaking{items{speaker{name}}}}}}}}}
 attendence{
@@ -56,8 +57,8 @@ const getUserData = `query getUserData($id: ID!){
   }
 }`;
 
-const createUserData = `mutation createUser($id: ID!, $cognitoID: String!){
-  createUser(input: {id: $id, cognitoId: $cognitoID}){
+const createUserData = `mutation createUser($id: ID!, $cognitoID: String!, $name: String){
+  createUser(input: {id: $id, cognitoId: $cognitoID, name: $name}){
     ${userOutput}
   }
 }
