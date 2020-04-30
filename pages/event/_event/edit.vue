@@ -270,13 +270,11 @@ export default {
     data.getEvent.host.items.forEach(host => {
       if (userID === host.organization.creatorID) {
         canAcces = true;
-        return;
       }
 
       host.organization.admins.items.forEach(admins => {
         if (userID === admins.admin.id) {
           canAcces = true;
-          return;
         }
       });
     });
@@ -386,6 +384,7 @@ export default {
       );
       this.speakersOptions = response.data.searchSpeakers.items;
     },
+
     async onSubmit() {
       // validate form
       this.$v.$touch();
@@ -520,5 +519,3 @@ export default {
   }
 };
 </script>
-
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
