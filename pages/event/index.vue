@@ -19,6 +19,7 @@
         <v-geosearch
           @select="e => this.searchLocation = e"
           id="place"
+          :taggable="false"
         />
       </div>
       <div class="searchItem mb-4 md:mb-0 md:mr-4">
