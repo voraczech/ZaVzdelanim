@@ -84,7 +84,7 @@ import Multiselect from "vue-multiselect";
 import { Datetime } from "vue-datetime";
 import "vue-datetime/dist/vue-datetime.css";
 
-const lates = /* GraphQL */ `
+const searchEvents = /* GraphQL */ `
   query SearchEvents(
     $filter: SearchableEventFilterInput
     $sort: SearchableEventSortInput

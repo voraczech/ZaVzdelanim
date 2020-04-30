@@ -24,6 +24,7 @@
       <v-image
         v-if="userActivities.speaker.avatar"
         :path="userActivities.speaker.avatar"
+        class="mb-6"
       />
       <form
         class="max-w-lg"
