@@ -1,7 +1,7 @@
 <template>
-  <div class="px-2">
-    <div class="flex -mx-2">
-      <div class="w-2/3 px-2">
+  <div class="md:px-2">
+    <div class="flex flex-col-reverse md:flex-row md:-mx-2">
+      <div class="mt-5 md:mt-0 md:w-2/3 md:px-2">
         <div class="rounded shadow-sm bg-white">
           <div
             v-if="image"
@@ -21,13 +21,15 @@
         </div>
       </div>
       <div
-        class="w-1/3 px-2"
+        class="md:w-1/3 md:px-2"
         v-if="!!$slots.box || !!$slots.aboveBox"
       >
-        <slot
-          name="aboveBox"
+        <div
+          class="mb-4"
           v-if="!!$slots.aboveBox"
-        />
+        >
+          <slot name="aboveBox" />
+        </div>
         <div
           class="rounded p-8 shadow-sm bg-white sticky top-4"
           v-if="!!$slots.box"

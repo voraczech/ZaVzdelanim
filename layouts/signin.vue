@@ -13,6 +13,7 @@
                 <v-button
                   @click.native="signIn({provider: 'Facebook'})"
                   type="submit"
+                  class="mb-6"
                 >
                   Facebook login
                 </v-button>

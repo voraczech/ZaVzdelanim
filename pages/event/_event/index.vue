@@ -22,7 +22,10 @@
         /> {{ event.link }}
       </a>
       <p class="mt-8">{{ event.description }}</p>
-      <p v-if="!!event.tags">#
+      <p
+        v-if="!!event.tags"
+        class="mt-6 font-light"
+      >#
         <span
           v-for="(tag, key) in JSON.parse(event.tags)"
           :key="key"
@@ -34,7 +37,7 @@
         :to="`${$route.fullPath}/edit`"
         v-if="canEdit"
       >
-        <v-button class="mb-4 w-full">Upravit</v-button>
+        <v-button class="w-full">Upravit</v-button>
       </nuxt-link>
     </template>
     <template slot="box">

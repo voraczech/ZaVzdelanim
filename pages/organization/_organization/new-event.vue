@@ -198,7 +198,6 @@ const getOrg = /* GraphQL */ `
     getOrganization(id: $id) {
       id
       name
-      owner
       creatorID
     }
   }
@@ -479,5 +478,3 @@ export default {
   }
 };
 </script>
-
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

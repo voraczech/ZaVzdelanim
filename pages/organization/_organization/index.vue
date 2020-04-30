@@ -16,7 +16,9 @@
         </span>
       </div>
     </template>
-    <template>{{ organization.description }}</template>
+    <template>
+      <p>{{ organization.description }}</p>
+    </template>
     <template slot="aboveBox">
       <nuxt-link
         :to="`/organization/${organization.id}/new-event`"
@@ -64,7 +66,18 @@
     <template
       slot="box"
       v-if="organization.links"
-    >{{organization.links}}</template>
+    >
+      <p
+        v-for="(link, key) in JSON.parse(organization.links)"
+        :key="key"
+        class="mt-2"
+      >
+        <a
+          :href="link.url"
+          class="font-medium"
+        >{{link.url}}</a>
+      </p>
+    </template>
   </v-detail>
 </template>
 
@@ -86,6 +99,9 @@ const getOrg = /* GraphQL */ `
       id
       name
       owner
+      logo
+      links
+      description
       admins {
         items {
           userID

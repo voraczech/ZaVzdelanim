@@ -90,6 +90,7 @@ const getSpeaker = /* GraphQL */ `
       speaking {
         items {
           event {
+            id
             title
             date
             image

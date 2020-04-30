@@ -28,7 +28,11 @@
               :key="item.id"
               class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
             >
-              <v-photo-text-card :to="`/organization/${item.id}`" :name="item.name" :photo="item.logo" />
+              <v-photo-text-card
+                :to="`/organization/${item.id}`"
+                :name="item.name"
+                :photo="item.logo"
+              />
             </div>
           </div>
         </div>
@@ -41,17 +45,7 @@
 <script>
 import VButton from "@/components/atoms/Button";
 import VPhotoTextCard from "@/components/molecules/PhotoTextCard";
-
-
-const ListOrg = `query ListOrganization {
-  listOrganizations {
-    items {
-      id
-      name
-    }
-  }
-}
-`;
+import { listOrganizations } from "../../src/graphql/queries";
 
 export default {
   components: {
@@ -60,7 +54,7 @@ export default {
   },
   computed: {
     ListTodosQuery() {
-      return this.$Amplify.graphqlOperation(ListOrg);
+      return this.$Amplify.graphqlOperation(listOrganizations);
     }
   }
 };
