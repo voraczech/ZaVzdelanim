@@ -188,7 +188,7 @@ import {
   searchSpeakers,
   searchOrganizations
 } from "../../../src/graphql/queries";
-import { updateEvent } from "../../../src/graphql/mutations";
+import { updateEvent, deleteSpeaking } from "../../../src/graphql/mutations";
 
 const getEvent = /* GraphQL */ `
   query getEvent($id: ID!, $userID: ID) {
@@ -219,6 +219,7 @@ const getEvent = /* GraphQL */ `
       }
       speaking {
         items {
+          id
           speaker {
             id
             name
@@ -295,7 +296,12 @@ export default {
       dateEnd: event.dateEnd,
       link: event.link,
       video: event.video,
-      speakersSelect: event.speaking.items.map(item => item.speaker),
+      initialSpeakers: event.speaking.items.map(item => {
+        return { speakingID: item.id, ...item.speaker };
+      }),
+      speakersSelect: event.speaking.items.map(item => {
+        return { speakingID: item.id, ...item.speaker };
+      }),
       hosts: event.host.items.map(item => item.organization),
       tags: JSON.parse(event.tags)
     };
@@ -462,23 +468,49 @@ export default {
         }
 
         // give "speaking" connection other speakers
-        // if (this.speakersSelect.length !== 0) {
-        //   this.speakersSelect.forEach(async speaker => {
-        //     try {
-        //       await API.graphql(
-        //         graphqlOperation(createSpeaking, {
-        //           eventID: this.eventID,
-        //           speakerID: speaker.id
-        //         })
-        //       );
-        //     } catch (error) {
-        //       this.$toast.error(
-        //         `Jejda, přednášející ${speaker.name} nebyl propojen. Pokud se událost vytvoří, raději ji uprav.`
-        //       );
-        //       console.error(error);
-        //     }
-        //   });
-        // }
+        let speakersToDelete = this.initialSpeakers.filter(
+          speaker => !this.speakersSelect.includes(speaker)
+        );
+        let speakersToAdd = this.speakersSelect.filter(
+          speaker => !this.initialSpeakers.includes(speaker)
+        );
+
+        if (speakersToDelete.length !== 0) {
+          speakersToDelete.forEach(async speaker => {
+            try {
+              await API.graphql(
+                graphqlOperation(deleteSpeaking, {
+                  input: {
+                    id: speaker.speakingID
+                  }
+                })
+              );
+            } catch (error) {
+              this.$toast.error(
+                `Jejda, přednášející ${speaker.name} nebyl odpojen. Pokud se událost upraví, raději zkontroluj.`
+              );
+              console.error(error);
+            }
+          });
+        }
+
+        if (speakersToAdd.length !== 0) {
+          speakersToAdd.forEach(async speaker => {
+            try {
+              await API.graphql(
+                graphqlOperation(createSpeaking, {
+                  eventID: this.eventID,
+                  speakerID: speaker.id
+                })
+              );
+            } catch (error) {
+              this.$toast.error(
+                `Jejda, přednášející ${speaker.name} nebyl propojen. Pokud se událost vytvoří, raději ji uprav.`
+              );
+              console.error(error);
+            }
+          });
+        }
 
         this.$router.push(`/event/${response.data.updateEvent.id}`);
       } else {
