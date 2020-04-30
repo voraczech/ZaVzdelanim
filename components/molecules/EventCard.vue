@@ -4,7 +4,7 @@
     v-if="event"
     class="h-full"
   >
-    <div class="-mx-4 -mt-4 mb-4 relative pb-2/3 ">
+    <div class="-mx-4 -mt-4 mb-4 relative pb-2/3">
       <v-image
         v-if="!!event.image"
         :path="event.image"

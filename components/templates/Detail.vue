@@ -3,11 +3,15 @@
     <div class="flex -mx-2">
       <div class="w-2/3 px-2">
         <div class="rounded shadow-sm bg-white">
-          <v-image
+          <div
             v-if="image"
-            :path="image"
-            class="w-full mx-auto"
-          />
+            class="relative pb-2/3"
+          >
+            <v-image
+              :path="image"
+              class="absolute rounded-b-none h-full w-full object-cover"
+            />
+          </div>
           <div class="p-12">
             <h1 class="text-2xl font-bold mb-8">
               <slot name="title" />
