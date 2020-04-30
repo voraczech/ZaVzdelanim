@@ -211,7 +211,7 @@ const getEvent = /* GraphQL */ `
             creatorID
             admins(userID: { eq: $userID }) {
               items {
-                id
+                userID
               }
             }
           }
@@ -273,7 +273,7 @@ export default {
       }
 
       host.organization.admins.items.forEach(admins => {
-        if (userID === admins.admin.id) {
+        if (admins.userID === userID) {
           canAcces = true;
         }
       });

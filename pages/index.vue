@@ -30,11 +30,15 @@
       <h2>Moje organizace</h2>
       <div class="flex flex-wrap -mx-4">
         <div
-          v-for="item in [].concat(userActivities.creator.items, userActivities.admin.items)"
+          v-for="item in [].concat(userActivities.creator.items, userActivities.admin.items.map(({organization}) => organization))"
           :key="item.id"
           class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
         >
-          <VCard :to="`organization/${item.id}`">{{ item.name }}</VCard>
+          <v-photo-text-card
+            :to="`organization/${item.id}`"
+            :photo="item.logo"
+            :name="item.name"
+          />
         </div>
       </div>
     </section>
@@ -90,17 +94,17 @@
 </template>
 
 <script>
-import VCard from "@/components/atoms/Card";
+import VPhotoTextCard from "@/components/molecules/PhotoTextCard";
 import VEventCard from "@/components/molecules/EventCard";
 import { mapState } from "vuex";
 
 export default {
-  components: { VCard, VEventCard },
+  components: { VPhotoTextCard, VEventCard },
   computed: {
     ...mapState(["user", "userActivities"])
   },
   created() {
     this.$store.dispatch("sortAttendence");
-  },
+  }
 };
 </script>

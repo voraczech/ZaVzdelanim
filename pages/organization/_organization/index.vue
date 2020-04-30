@@ -22,7 +22,7 @@
     <template slot="aboveBox">
       <nuxt-link
         :to="`/organization/${organization.id}/new-event`"
-        v-if="isOwner(organization.owner)"
+        v-if="canEdit"
       >
         <v-button
           class="mb-4 w-full"
@@ -36,7 +36,7 @@
       </nuxt-link>
       <nuxt-link
         :to="`/organization/${organization.id}/edit`"
-        v-if="isOwner(organization.owner)"
+        v-if="canEdit"
       >
         <v-button class="mb-4 w-full">Upravit</v-button>
       </nuxt-link>
@@ -98,9 +98,9 @@ const getOrg = /* GraphQL */ `
     getOrganization(id: $id) {
       id
       name
-      owner
       logo
       links
+      creatorID
       description
       admins {
         items {
@@ -148,7 +148,20 @@ export default {
       })
     );
 
+    let canEdit = false;
+
+    if (userID === data.getOrganization.creatorID) {
+      canEdit = true;
+    } else {
+      data.getOrganization.admins.items.forEach(admin => {
+        if (userID === admin.userID) {
+          canEdit = true;
+        }
+      });
+    }
+
     return {
+      canEdit,
       orgId,
       organization: data.getOrganization,
       followingID:
@@ -162,13 +175,6 @@ export default {
     ...mapState(["user"])
   },
   methods: {
-    isOwner(owner) {
-      return (
-        (`${JSON.parse(this.user.identities)[0].providerType}_` || ``) +
-          JSON.parse(this.user.identities)[0].userId ===
-        owner
-      );
-    },
     async follow(id = null) {
       if (!!id) {
         const { data } = await API.graphql(

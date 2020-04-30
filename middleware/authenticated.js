@@ -47,8 +47,8 @@ speaker{
     }
   }
 }
-creator{items{id, name}}
-admin{items{organization{id,name}}}
+creator{items{id, name,logo}}
+admin{items{organization{id,name,logo}}}
 `;
 
 const getUserData = `query getUserData($id: ID!){

@@ -138,7 +138,12 @@ const getOrg = /* GraphQL */ `
       creatorID
       admins {
         items {
+          id
           userID
+          user {
+            id
+            name
+          }
         }
       }
     }
@@ -158,7 +163,7 @@ export default {
     if (userID === data.getOrganization.creatorID) {
       canAcces = true;
     } else {
-      data.getOrganization.admins.items.forEach(({ admin }) => {
+      data.getOrganization.admins.items.forEach(admin => {
         if (userID === admin.userID) {
           canAcces = true;
         }
@@ -178,10 +183,10 @@ export default {
       logo: organization.logo,
       creatorID: organization.creatorID,
       initialAdmins: organization.admins.items.map(item => {
-        return { adminId: item.id, ...item.admin };
+        return { adminId: item.id, ...item.user };
       }),
       adminsSelect: organization.admins.items.map(item => {
-        return { adminId: item.id, ...item.admin };
+        return { adminId: item.id, ...item.user };
       }),
       links: JSON.parse(organization.links) || []
     };
@@ -346,8 +351,10 @@ export default {
             try {
               await API.graphql(
                 graphqlOperation(createAdmin, {
-                  organizationId: this.organizationId,
-                  adminId: admin.id
+                  input: {
+                    organizationID: this.organizationId,
+                    userID: admin.id
+                  }
                 })
               );
             } catch (error) {

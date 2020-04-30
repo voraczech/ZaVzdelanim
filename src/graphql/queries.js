@@ -108,7 +108,6 @@ export const getUser = /* GraphQL */ `
           description
           logo
           links
-          owner
         }
         nextToken
       }
@@ -237,7 +236,6 @@ export const getOrganization = /* GraphQL */ `
         }
         nextToken
       }
-      owner
     }
   }
 `;
@@ -269,7 +267,6 @@ export const listOrganizations = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       nextToken
     }
@@ -444,7 +441,6 @@ export const searchOrganizations = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       nextToken
       total
@@ -581,7 +577,6 @@ export const searchOrgFollowers = /* GraphQL */ `
           description
           logo
           links
-          owner
         }
         user {
           id

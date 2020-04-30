@@ -168,7 +168,6 @@ export const createUser = /* GraphQL */ `
           description
           logo
           links
-          owner
         }
         nextToken
       }
@@ -237,7 +236,6 @@ export const updateUser = /* GraphQL */ `
           description
           logo
           links
-          owner
         }
         nextToken
       }
@@ -306,7 +304,6 @@ export const deleteUser = /* GraphQL */ `
           description
           logo
           links
-          owner
         }
         nextToken
       }
@@ -400,7 +397,6 @@ export const createOrganization = /* GraphQL */ `
         }
         nextToken
       }
-      owner
     }
   }
 `;
@@ -467,7 +463,6 @@ export const updateOrganization = /* GraphQL */ `
         }
         nextToken
       }
-      owner
     }
   }
 `;
@@ -534,7 +529,6 @@ export const deleteOrganization = /* GraphQL */ `
         }
         nextToken
       }
-      owner
     }
   }
 `;
@@ -658,7 +652,6 @@ export const createAdmin = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       user {
         id
@@ -720,7 +713,6 @@ export const updateAdmin = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       user {
         id
@@ -782,7 +774,6 @@ export const deleteAdmin = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       user {
         id
@@ -1024,7 +1015,6 @@ export const createHost = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       event {
         id
@@ -1080,7 +1070,6 @@ export const updateHost = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       event {
         id
@@ -1136,7 +1125,6 @@ export const deleteHost = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       event {
         id
@@ -1486,7 +1474,6 @@ export const createOrgFollower = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       user {
         id
@@ -1548,7 +1535,6 @@ export const updateOrgFollower = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       user {
         id
@@ -1610,7 +1596,6 @@ export const deleteOrgFollower = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       user {
         id

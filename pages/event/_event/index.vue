@@ -164,7 +164,7 @@ const getEvent = /* GraphQL */ `
             creatorID
             admins(userID: { eq: $userID }) {
               items {
-                id
+                userID
               }
             }
           }
@@ -237,13 +237,11 @@ export default {
     data.getEvent.host.items.filter(function({ organization }) {
       if (organization.creatorID === userID) {
         canEdit = true;
-        return;
       }
 
-      organization.admins.items.filter(function({ admin }) {
-        if (admin.id === userID) {
+      organization.admins.items.filter(admin => {
+        if (admin.userID === userID) {
           canEdit = true;
-          return;
         }
       });
     });

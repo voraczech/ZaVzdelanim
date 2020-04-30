@@ -156,7 +156,6 @@ export const onCreateUser = /* GraphQL */ `
           description
           logo
           links
-          owner
         }
         nextToken
       }
@@ -222,7 +221,6 @@ export const onUpdateUser = /* GraphQL */ `
           description
           logo
           links
-          owner
         }
         nextToken
       }
@@ -288,7 +286,6 @@ export const onDeleteUser = /* GraphQL */ `
           description
           logo
           links
-          owner
         }
         nextToken
       }
@@ -320,8 +317,8 @@ export const onDeleteUser = /* GraphQL */ `
   }
 `;
 export const onCreateOrganization = /* GraphQL */ `
-  subscription OnCreateOrganization($owner: String!) {
-    onCreateOrganization(owner: $owner) {
+  subscription OnCreateOrganization {
+    onCreateOrganization {
       id
       name
       creatorID
@@ -379,13 +376,12 @@ export const onCreateOrganization = /* GraphQL */ `
         }
         nextToken
       }
-      owner
     }
   }
 `;
 export const onUpdateOrganization = /* GraphQL */ `
-  subscription OnUpdateOrganization($owner: String!, $admins: String!) {
-    onUpdateOrganization(owner: $owner, admins: $admins) {
+  subscription OnUpdateOrganization {
+    onUpdateOrganization {
       id
       name
       creatorID
@@ -443,13 +439,12 @@ export const onUpdateOrganization = /* GraphQL */ `
         }
         nextToken
       }
-      owner
     }
   }
 `;
 export const onDeleteOrganization = /* GraphQL */ `
-  subscription OnDeleteOrganization($owner: String!) {
-    onDeleteOrganization(owner: $owner) {
+  subscription OnDeleteOrganization {
+    onDeleteOrganization {
       id
       name
       creatorID
@@ -507,7 +502,6 @@ export const onDeleteOrganization = /* GraphQL */ `
         }
         nextToken
       }
-      owner
     }
   }
 `;
@@ -619,7 +613,6 @@ export const onCreateAdmin = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       user {
         id
@@ -678,7 +671,6 @@ export const onUpdateAdmin = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       user {
         id
@@ -737,7 +729,6 @@ export const onDeleteAdmin = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       user {
         id
@@ -967,7 +958,6 @@ export const onCreateHost = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       event {
         id
@@ -1020,7 +1010,6 @@ export const onUpdateHost = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       event {
         id
@@ -1073,7 +1062,6 @@ export const onDeleteHost = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       event {
         id
@@ -1402,7 +1390,6 @@ export const onCreateOrgFollower = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       user {
         id
@@ -1461,7 +1448,6 @@ export const onUpdateOrgFollower = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       user {
         id
@@ -1520,7 +1506,6 @@ export const onDeleteOrgFollower = /* GraphQL */ `
         followers {
           nextToken
         }
-        owner
       }
       user {
         id

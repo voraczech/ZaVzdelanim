@@ -28,11 +28,7 @@ type User @model @searchable {
   followSpeaker: [SpeakerFollower] @connection(keyName: "SpeakerFollowerUser", fields: ["id"])
 }
 
-type Organization @model @searchable @auth(rules: [
-   { allow: owner, operations: [create, update, delete] },
-   { allow: owner, ownerField: "admins", operations: [update] }
-])
-  @key(name: "CreatorUser", fields: ["creatorID", "name"])
+type Organization @model @searchable @key(name: "CreatorUser", fields: ["creatorID", "name"])
 {
   id: ID!
   name: String!
