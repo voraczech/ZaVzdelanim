@@ -64,11 +64,16 @@ export default {
   components: { VButton },
   computed: {
     firstName() {
-      if (Object.keys(this.user).length !== 0) {
+      if (
+        Object.keys(this.userActivities).length !== 0 &&
+        this.userActivities.name !== null
+      ) {
+        return this.userActivities.name;
+      } else if (Object.keys(this.user).length) {
         return this.user.name.split(" ")[0];
       }
     },
-    ...mapState(["user"])
+    ...mapState(["user", "userActivities"])
   }
 };
 </script>

@@ -11,6 +11,31 @@
         class="ml-2"
       />
     </v-button>
+    <h2>Změna jména uživatele</h2>
+    <p class="text-sm font-semibold text-gray-600 mb-6">Jméno je důležité pro snadnější správu administrátorů organizací
+    </p>
+    <form
+      @submit.prevent="changeName"
+      class="max-w-lg"
+    >
+      <div class="flex flex-col mb-6">
+        <label
+          for="username"
+          class="font-bold mb-3"
+        >Jméno*</label>
+        <v-input
+          type="text"
+          id="username"
+          v-model="username"
+          placeholder="Jméno"
+          required
+        />
+      </div>
+      <v-button
+        class="mb-6"
+        type="submit"
+      >Změnit</v-button>
+    </form>
     <h2
       id="speaker"
       class="pt-6 mb-6"
@@ -124,7 +149,7 @@ import VButton from "@/components/atoms/Button";
 import VTextButton from "@/components/atoms/TextButton";
 import VInput from "@/components/atoms/Input";
 import VImage from "@/components/atoms/Image";
-import { updateSpeaker } from "../src/graphql/mutations";
+import { updateSpeaker, updateUser } from "../src/graphql/mutations";
 
 const createUserSpeaker = /* GraphQL */ `
   mutation createUserSpeaker($id: ID!, $userID: ID!, $name: String!) {
@@ -174,6 +199,7 @@ export default {
   },
   data() {
     return {
+      username: this.$store.state.userActivities.name || null,
       photoPickerConfig: {
         header: "Nová profilová fotka přednášejícího",
         title: "Nahrát",
@@ -207,6 +233,26 @@ export default {
     }
   },
   methods: {
+    async changeName() {
+      const { data } = await API.graphql(
+        graphqlOperation(updateUser, {
+          input: {
+            id: this.userActivities.id,
+            name: this.username
+          }
+        })
+      );
+
+      if (
+        data.updateUser.speaker.id !== null &&
+        this.$store.state.userActivities.speaker !== data.updateUser.speaker
+      ) {
+        this.$store.commit("setUserActivity", {
+          speaker: data.updateUser.speaker
+        });
+        this.$toast.success("Změna provedena!");
+      }
+    },
     async createUserSpeaker() {
       const { data } = await API.graphql(
         graphqlOperation(createUserSpeaker, {

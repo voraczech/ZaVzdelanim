@@ -87,12 +87,13 @@ export default async function ({ store, redirect }) {
     );
 
     let createUserDataResult;
-    // If there is no record in databace at all
+    // If there is no record in database at all
     if (userData.data.getUser === null) {
       createUserDataResult = await API.graphql(
         graphqlOperation(createUserData, {
           id: user.attributes.sub,
-          cognitoID: user.attributes.sub
+          cognitoID: user.attributes.sub,
+          name: user.attributes.name
         })
       );
     }
