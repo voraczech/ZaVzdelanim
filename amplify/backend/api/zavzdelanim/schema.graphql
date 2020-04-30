@@ -16,7 +16,7 @@ type Event @model
   speaking: [Speaking] @connection(keyName: "SpeakingEvent", fields: ["id"])
 }
 
-type User @model {
+type User @model @searchable {
   id: ID!
   cognitoId: String!
   name: String

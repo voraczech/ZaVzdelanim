@@ -365,6 +365,51 @@ export const searchEvents = /* GraphQL */ `
     }
   }
 `;
+export const searchUsers = /* GraphQL */ `
+  query SearchUsers(
+    $filter: SearchableUserFilterInput
+    $sort: SearchableUserSortInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    searchUsers(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        cognitoId
+        name
+        attendence {
+          nextToken
+        }
+        speaker {
+          id
+          name
+          avatar
+          bio
+          links
+        }
+        creator {
+          nextToken
+        }
+        admin {
+          nextToken
+        }
+        followOrganization {
+          nextToken
+        }
+        followSpeaker {
+          nextToken
+        }
+      }
+      nextToken
+      total
+    }
+  }
+`;
 export const searchOrganizations = /* GraphQL */ `
   query SearchOrganizations(
     $filter: SearchableOrganizationFilterInput
