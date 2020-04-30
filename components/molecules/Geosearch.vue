@@ -8,7 +8,7 @@
     selected-label="Vybráno"
     deselect-label="Stiskni k odebrání"
     tag-placeholder="Přidej nové místo"
-    :taggable="true"
+    :taggable="taggable"
     @tag="onTag"
     @select="$emit('select', $event)"
   >
@@ -26,7 +26,8 @@ export default {
   data() {
     return {
       value: "",
-      results: []
+      results: [],
+      taggable: true
     };
   },
   components: { VMultiselect },
