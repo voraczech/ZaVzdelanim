@@ -339,7 +339,7 @@ export default {
               );
             } catch (error) {
               this.$toast.error(
-                `Jejda, přednášející ${admin.name} nebyl odpojen. Pokud se událost upraví, raději zkontroluj.`
+                `Jejda, admin ${admin.name} nebyl odpojen. Pokud se organizace upraví, raději zkontroluj.`
               );
               console.error(error);
             }
