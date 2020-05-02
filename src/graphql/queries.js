@@ -92,6 +92,7 @@ export const getUser = /* GraphQL */ `
         name
         avatar
         bio
+        tags
         links
         speaking {
           nextToken
@@ -108,6 +109,7 @@ export const getUser = /* GraphQL */ `
           description
           logo
           links
+          tags
         }
         nextToken
       }
@@ -157,6 +159,7 @@ export const listUsers = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -194,6 +197,7 @@ export const getOrganization = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -212,6 +216,7 @@ export const getOrganization = /* GraphQL */ `
       description
       logo
       links
+      tags
       host {
         items {
           id
@@ -258,6 +263,7 @@ export const listOrganizations = /* GraphQL */ `
         description
         logo
         links
+        tags
         host {
           nextToken
         }
@@ -279,6 +285,7 @@ export const getSpeaker = /* GraphQL */ `
       name
       avatar
       bio
+      tags
       links
       speaking {
         items {
@@ -311,6 +318,7 @@ export const listSpeakers = /* GraphQL */ `
         name
         avatar
         bio
+        tags
         links
         speaking {
           nextToken
@@ -387,6 +395,7 @@ export const searchUsers = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -432,6 +441,7 @@ export const searchOrganizations = /* GraphQL */ `
         description
         logo
         links
+        tags
         host {
           nextToken
         }
@@ -465,6 +475,7 @@ export const searchSpeakers = /* GraphQL */ `
         name
         avatar
         bio
+        tags
         links
         speaking {
           nextToken
@@ -545,6 +556,7 @@ export const searchSpeakerFollowers = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
       }
@@ -577,6 +589,7 @@ export const searchOrgFollowers = /* GraphQL */ `
           description
           logo
           links
+          tags
         }
         user {
           id

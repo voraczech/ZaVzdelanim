@@ -152,6 +152,7 @@ export const createUser = /* GraphQL */ `
         name
         avatar
         bio
+        tags
         links
         speaking {
           nextToken
@@ -168,6 +169,7 @@ export const createUser = /* GraphQL */ `
           description
           logo
           links
+          tags
         }
         nextToken
       }
@@ -220,6 +222,7 @@ export const updateUser = /* GraphQL */ `
         name
         avatar
         bio
+        tags
         links
         speaking {
           nextToken
@@ -236,6 +239,7 @@ export const updateUser = /* GraphQL */ `
           description
           logo
           links
+          tags
         }
         nextToken
       }
@@ -288,6 +292,7 @@ export const deleteUser = /* GraphQL */ `
         name
         avatar
         bio
+        tags
         links
         speaking {
           nextToken
@@ -304,6 +309,7 @@ export const deleteUser = /* GraphQL */ `
           description
           logo
           links
+          tags
         }
         nextToken
       }
@@ -355,6 +361,7 @@ export const createOrganization = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -373,6 +380,7 @@ export const createOrganization = /* GraphQL */ `
       description
       logo
       links
+      tags
       host {
         items {
           id
@@ -421,6 +429,7 @@ export const updateOrganization = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -439,6 +448,7 @@ export const updateOrganization = /* GraphQL */ `
       description
       logo
       links
+      tags
       host {
         items {
           id
@@ -487,6 +497,7 @@ export const deleteOrganization = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -505,6 +516,7 @@ export const deleteOrganization = /* GraphQL */ `
       description
       logo
       links
+      tags
       host {
         items {
           id
@@ -542,6 +554,7 @@ export const createSpeaker = /* GraphQL */ `
       name
       avatar
       bio
+      tags
       links
       speaking {
         items {
@@ -572,6 +585,7 @@ export const updateSpeaker = /* GraphQL */ `
       name
       avatar
       bio
+      tags
       links
       speaking {
         items {
@@ -602,6 +616,7 @@ export const deleteSpeaker = /* GraphQL */ `
       name
       avatar
       bio
+      tags
       links
       speaking {
         items {
@@ -643,6 +658,7 @@ export const createAdmin = /* GraphQL */ `
         description
         logo
         links
+        tags
         host {
           nextToken
         }
@@ -665,6 +681,7 @@ export const createAdmin = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -704,6 +721,7 @@ export const updateAdmin = /* GraphQL */ `
         description
         logo
         links
+        tags
         host {
           nextToken
         }
@@ -726,6 +744,7 @@ export const updateAdmin = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -765,6 +784,7 @@ export const deleteAdmin = /* GraphQL */ `
         description
         logo
         links
+        tags
         host {
           nextToken
         }
@@ -787,6 +807,7 @@ export const deleteAdmin = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -847,6 +868,7 @@ export const createAttendence = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -907,6 +929,7 @@ export const updateAttendence = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -967,6 +990,7 @@ export const deleteAttendence = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -1006,6 +1030,7 @@ export const createHost = /* GraphQL */ `
         description
         logo
         links
+        tags
         host {
           nextToken
         }
@@ -1061,6 +1086,7 @@ export const updateHost = /* GraphQL */ `
         description
         logo
         links
+        tags
         host {
           nextToken
         }
@@ -1116,6 +1142,7 @@ export const deleteHost = /* GraphQL */ `
         description
         logo
         links
+        tags
         host {
           nextToken
         }
@@ -1185,6 +1212,7 @@ export const createSpeaking = /* GraphQL */ `
         name
         avatar
         bio
+        tags
         links
         speaking {
           nextToken
@@ -1231,6 +1259,7 @@ export const updateSpeaking = /* GraphQL */ `
         name
         avatar
         bio
+        tags
         links
         speaking {
           nextToken
@@ -1277,6 +1306,7 @@ export const deleteSpeaking = /* GraphQL */ `
         name
         avatar
         bio
+        tags
         links
         speaking {
           nextToken
@@ -1309,6 +1339,7 @@ export const createSpeakerFollower = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -1329,6 +1360,7 @@ export const createSpeakerFollower = /* GraphQL */ `
         name
         avatar
         bio
+        tags
         links
         speaking {
           nextToken
@@ -1361,6 +1393,7 @@ export const updateSpeakerFollower = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -1381,6 +1414,7 @@ export const updateSpeakerFollower = /* GraphQL */ `
         name
         avatar
         bio
+        tags
         links
         speaking {
           nextToken
@@ -1413,6 +1447,7 @@ export const deleteSpeakerFollower = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -1433,6 +1468,7 @@ export const deleteSpeakerFollower = /* GraphQL */ `
         name
         avatar
         bio
+        tags
         links
         speaking {
           nextToken
@@ -1465,6 +1501,7 @@ export const createOrgFollower = /* GraphQL */ `
         description
         logo
         links
+        tags
         host {
           nextToken
         }
@@ -1487,6 +1524,7 @@ export const createOrgFollower = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -1526,6 +1564,7 @@ export const updateOrgFollower = /* GraphQL */ `
         description
         logo
         links
+        tags
         host {
           nextToken
         }
@@ -1548,6 +1587,7 @@ export const updateOrgFollower = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
@@ -1587,6 +1627,7 @@ export const deleteOrgFollower = /* GraphQL */ `
         description
         logo
         links
+        tags
         host {
           nextToken
         }
@@ -1609,6 +1650,7 @@ export const deleteOrgFollower = /* GraphQL */ `
           name
           avatar
           bio
+          tags
           links
         }
         creator {
