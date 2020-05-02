@@ -4,7 +4,7 @@
       <nuxt-link
         to="/"
         class="text-white text-2xl font-bold"
-      >Za vzděláním!</nuxt-link>
+      >Za vzděláváním!</nuxt-link>
       <nuxt-link
         v-if="user"
         to="/settings"
@@ -19,6 +19,14 @@
       </nuxt-link>
     </header>
     <nav class="px-4 md:px-16 py-5 flex overflow-x-auto">
+      <nuxt-link
+        to="/"
+        class="header__navLink"
+      >
+        <unicon
+          name="presentation"
+          class="mr-2"
+        /> Můj přehled</nuxt-link>
       <nuxt-link
         to="/event"
         class="header__navLink"
