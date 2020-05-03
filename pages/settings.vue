@@ -83,6 +83,25 @@
           ></textarea>
         </div>
         <div class="flex flex-col mt-8">
+          <label
+            for="tags"
+            class="font-bold mb-3"
+          >Tagy</label>
+          <multiselect
+            id="tags"
+            v-model="tags"
+            :options="tagsOptions"
+            :multiple="true"
+            :taggable="true"
+            @tag="e => this.tags.push(e)"
+            tag-placeholder="Přidej nový tag"
+            placeholder="Vyber si tagy"
+            select-label="Stiskni k vybrání"
+            selected-label="Vybráno"
+            deselect-label="Stiskni k odebrání"
+          />
+        </div>
+        <div class="flex flex-col mt-8">
           <div
             v-for="(v, key) in $v.links.$each.$iter"
             :key="key"
@@ -128,10 +147,13 @@
         </div>
       </form>
       <h2 class="mt-24">Nebezpečná zóna</h2>
+      <p class="mb-2">Pak již už není cesty zpět, odebere se tvoje spojení, jako přednášející, ten bude ale dále
+        archivován.</p>
       <v-button
         design="alert"
         @click.native="deleteUserSpeaker()"
       >Už nechci být přednášející</v-button>
+
     </div>
   </div>
 </template>
@@ -144,6 +166,8 @@ import { required, url } from "vuelidate/lib/validators";
 import Auth from "@aws-amplify/auth";
 import { API, graphqlOperation } from "aws-amplify";
 import { AmplifyEventBus } from "aws-amplify-vue";
+
+import Multiselect from "vue-multiselect";
 
 import VButton from "@/components/atoms/Button";
 import VTextButton from "@/components/atoms/TextButton";
@@ -163,6 +187,7 @@ const createUserSpeaker = /* GraphQL */ `
         id
         name
         bio
+        tags
         links
       }
     }
@@ -171,9 +196,6 @@ const createUserSpeaker = /* GraphQL */ `
 
 const deleteUserSpeaker = /* GraphQL */ `
   mutation deleteUserSpeaker($id: ID!, $userID: ID!) {
-    deleteSpeaker(input: { id: $id }) {
-      id
-    }
     updateUser(input: { id: $userID, userSpeakerId: null }) {
       id
       speaker {
@@ -184,7 +206,7 @@ const deleteUserSpeaker = /* GraphQL */ `
 `;
 
 export default {
-  components: { VButton, VInput, VImage, VTextButton },
+  components: { VButton, VInput, VImage, VTextButton, Multiselect },
   created() {
     AmplifyEventBus.$on("fileUpload", img => {
       this.$toast.info("Úspěšně nahráno, ukládám… 💾");
@@ -203,7 +225,7 @@ export default {
       photoPickerConfig: {
         header: "Nová profilová fotka přednášejícího",
         title: "Nahrát",
-        path: `upload/speaker/`
+        path: `upload/speaker/${this.$store.state.userActivities && this.$store.state.userActivities.speaker}`
       },
       name:
         (this.$store.state.userActivities.speaker &&
@@ -213,10 +235,22 @@ export default {
         (this.$store.state.userActivities.speaker &&
           this.$store.state.userActivities.speaker.bio) ||
         null,
+      tags:
+        (this.$store.state.userActivities.speaker &&
+          JSON.parse(this.$store.state.userActivities.speaker.tags)) ||
+        [],
       links:
         (this.$store.state.userActivities.speaker &&
           JSON.parse(this.$store.state.userActivities.speaker.links)) ||
-        []
+        [],
+      tagsOptions: [
+        "Marketing",
+        "IT Development",
+        "Business",
+        "Osobní rozvoj",
+        "Inspirace",
+        "Design"
+      ]
     };
   },
   validations: {
@@ -303,6 +337,7 @@ export default {
             id: this.userActivities.speaker.id,
             name: this.name,
             bio: this.bio,
+            tags: this.tags.length === 0 ? null : JSON.stringify(this.tags),
             links: this.links.length === 0 ? null : JSON.stringify(this.links)
           }
         })
