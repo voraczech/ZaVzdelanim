@@ -18,6 +18,15 @@
     </template>
     <template>
       <p>{{ organization.description }}</p>
+      <p
+        v-if="!!organization.tags"
+        class="mt-6 font-light"
+      >#
+        <span
+          v-for="(tag, key) in JSON.parse(organization.tags)"
+          :key="key"
+        >{{tag}}{{JSON.parse(organization.tags).length === key+1 ? `` : `, `}}</span>
+      </p>
     </template>
     <template slot="aboveBox">
       <nuxt-link
@@ -100,6 +109,7 @@ const getOrg = /* GraphQL */ `
       name
       logo
       links
+      tags
       creatorID
       description
       admins {
