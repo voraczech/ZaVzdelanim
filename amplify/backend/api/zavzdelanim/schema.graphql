@@ -54,8 +54,7 @@ type Speaker @model @searchable{
   followers: [SpeakerFollower] @connection(keyName: "SpeakerFollowerSpeaker", fields: ["id"])
 }
 
-type Admin
-@model(queries: null)
+type Admin @model(queries: null)
   @key(name: "AdminOrganization", fields: ["organizationID", "userID"])
   @key(name: "AdminUser", fields: ["userID", "organizationID"]) {
   id: ID!
@@ -76,8 +75,7 @@ type Attendence @model(queries: null)
   user: User! @connection(fields: ["userID"])
 }
 
-type Host
-@model(queries: null)
+type Host @model(queries: null)
   @key(name: "HostEvent", fields: ["eventID", "organizationID"])
   @key(name: "HostOrganization", fields: ["organizationID", "eventID"]) {
   id: ID!
@@ -87,8 +85,7 @@ type Host
   event: Event! @connection(fields: ["eventID"])
 }
 
-type Speaking
-@model(queries: null)
+type Speaking @model(queries: null)
   @key(name: "SpeakingEvent", fields: ["eventID", "speakerID"])
   @key(name: "SpeakingSpeaker", fields: ["speakerID", "eventID"]) {
   id: ID!
@@ -98,8 +95,7 @@ type Speaking
   speaker: Speaker! @connection(fields: ["speakerID"])
 }
 
-type SpeakerFollower
-@model(queries: null) @searchable
+type SpeakerFollower @model(queries: null) @searchable
 @key(name: "SpeakerFollowerUser", fields: ["userID", "speakerID"])
 @key(name: "SpeakerFollowerSpeaker", fields: ["speakerID", "userID"]) {
   id: ID!
