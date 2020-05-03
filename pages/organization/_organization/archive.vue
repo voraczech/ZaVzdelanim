@@ -93,6 +93,7 @@ export default {
           name: `${this.name} [ARCHIVOVÁNA]`,
           description: `Tato organizace pozastavila svoji činnost`,
           links: null,
+          tags: null,
           logo: null
         };
 
