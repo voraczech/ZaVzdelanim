@@ -43,8 +43,7 @@ type Organization @model @searchable @key(name: "CreatorUser", fields: ["creator
   followers: [OrgFollower] @connection(keyName: "OrgFollowerOrg", fields: ["id"])
 }
 
-type Speaker @model
-@searchable{
+type Speaker @model @searchable{
   id: ID!
   name: String!
   avatar: String
