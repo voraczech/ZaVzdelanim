@@ -79,7 +79,7 @@ export default {
   },
   computed: {
     orderedEvents: function() {
-      return _.orderBy(this.events, "event.date");
+      return _.orderBy(this.events, "event.date", "desc");
     }
   }
 };
