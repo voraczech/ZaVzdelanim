@@ -22,63 +22,111 @@
         </v-text-button>
       </nuxt-link>
     </div>
-    <amplify-connect
-      :query="ListTodosQuery"
-      class="mt-8"
-    >
-      <template slot-scope="{loading, data, errors}">
-        <div v-if="loading">Načítám...</div>
-        <div v-if="errors.length > 0">
-          Chyba, to mě mrzí.
-        </div>
-        <div v-else-if="data.listSpeakers">
-          <div class="flex flex-wrap -mx-4">
-            <div
-              v-for="item in data.listSpeakers.items"
-              :key="item.id"
-              class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
-            >
-              <v-photo-text-card
-                :to="`/speaker/${item.id}`"
-                :name="item.name"
-                :photo="item.avatar"
-              />
-            </div>
+
+    <div class="flex flex-col md:flex-row md:items-end max-w-2xl">
+      <div class="searchItem mb-4 md:mb-0 md:mr-4">
+        <label
+          for="title"
+          class="searchItem__label"
+        >Název</label>
+        <v-input
+          v-model="searchTitle"
+          id="title"
+        />
+      </div>
+      <v-button @click.native="search">Hledej</v-button>
+    </div>
+    <div class="mt-8">
+      <div v-if="data">
+        <div class="flex flex-wrap -mx-4 ">
+          <div
+            v-for="item in data.items"
+            :key="item.id"
+            class="p-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
+          >
+            <v-photo-text-card
+              :to="`/speaker/${item.id}`"
+              :name="item.name"
+              :photo="item.avatar"
+            />
           </div>
         </div>
-      </template>
-    </amplify-connect>
+      </div>
+    </div>
   </div>
 </template>
 
+
 <script>
+import { API, graphqlOperation } from "aws-amplify";
 import { mapState } from "vuex";
 
+import VButton from "@/components/atoms/Button";
 import VTextButton from "@/components/atoms/TextButton";
+import VInput from "@/components/atoms/Input";
 import VPhotoTextCard from "@/components/molecules/PhotoTextCard";
+import Multiselect from "vue-multiselect";
 
-const ListEvents = `query ListSpeakers {
-  listSpeakers(limit:25){
-    items {
-      id
-      name
-      avatar
-    }
-  }
-}
-`;
+import { searchSpeakers } from "../../src/graphql/queries";
 
 export default {
+  async asyncData({ store }) {
+    if (!store.state.speakers.isSet) {
+      const filter = {};
+      const sort = { field: "name", direction: "asc" };
+      try {
+        const { data } = await API.graphql(
+          graphqlOperation(searchSpeakers, {
+            sort: sort,
+            limit: 100
+          })
+        );
+
+        store.commit("setSpeakers", data.searchSpeakers);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    return {
+      data: store.state.speakers
+    };
+  },
   components: {
+    VButton,
     VTextButton,
-    VPhotoTextCard
+    VInput,
+    VPhotoTextCard,
+    Multiselect
+  },
+  data() {
+    return {
+      data: null,
+      searchTitle: ""
+    };
   },
   computed: {
-    ListTodosQuery() {
-      return this.$Amplify.graphqlOperation(ListEvents);
-    },
+    ...mapState(["userActivities"])
+  },
+  methods: {
+    async search() {
+      let filter = {};
+      const sort = { field: "name", direction: "asc" };
 
-    ...mapState(["user", "userActivities"])
+      if (this.searchTitle.length > 0) {
+        filter = { ...filter, name: { wildcard: `${this.searchTitle}*` } };
+      }
+
+      const response = await API.graphql(
+        graphqlOperation(searchSpeakers, {
+          filter: filter,
+          sort: sort,
+          limit: 24
+        })
+      );
+      this.data = response.data.searchSpeakers;
+    }
   }
 };
 </script>
+
