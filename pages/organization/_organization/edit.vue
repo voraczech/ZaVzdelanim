@@ -54,6 +54,25 @@
         </div>
       </div>
       <div class="flex flex-col mt-8">
+        <label
+          for="tags"
+          class="font-bold mb-3"
+        >Tagy</label>
+        <multiselect
+          id="tags"
+          v-model="tags"
+          :options="tagsOptions"
+          :multiple="true"
+          :taggable="true"
+          @tag="e => this.tags.push(e)"
+          tag-placeholder="Přidej nový tag"
+          placeholder="Vyber si tagy"
+          select-label="Stiskni k vybrání"
+          selected-label="Vybráno"
+          deselect-label="Stiskni k odebrání"
+        />
+      </div>
+      <div class="flex flex-col mt-8">
         <div
           v-for="(v, key) in $v.links.$each.$iter"
           :key="key"
@@ -135,6 +154,7 @@ const getOrg = /* GraphQL */ `
       description
       logo
       links
+      tags
       creatorID
       admins {
         items {
@@ -188,7 +208,8 @@ export default {
       adminsSelect: organization.admins.items.map(item => {
         return { adminId: item.id, ...item.user };
       }),
-      links: JSON.parse(organization.links) || []
+      links: JSON.parse(organization.links) || [],
+      tags: JSON.parse(organization.tags) || []
     };
   },
   data() {
@@ -199,8 +220,17 @@ export default {
       s3ImagePath: "",
       photoUrl: "",
       storageOptions: {},
-      error: ""
+      error: "",
       // end file
+      tags: [],
+      tagsOptions: [
+        "Marketing",
+        "IT Development",
+        "Business",
+        "Osobní rozvoj",
+        "Inspirace",
+        "Design"
+      ]
     };
   },
   validations: {
@@ -301,7 +331,11 @@ export default {
           links:
             this.links && this.links.length === 0
               ? null
-              : JSON.stringify(this.links)
+              : JSON.stringify(this.links),
+          tags:
+            this.tags && this.tags.length === 0
+              ? null
+              : JSON.stringify(this.tags)
         };
 
         if (imageUploadResponse) {
