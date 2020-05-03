@@ -5,8 +5,8 @@ const userOutput = `
 id
 cognitoId
 name
-followOrganization{items{organization{name,host(limit: 4){items{event{id,title,date,image,speaking{items{speaker{name}}}}}}}}}
-followSpeaker{items{speaker{name,speaking(limit: 4){items{event{id,title,date,image,speaking{items{speaker{name}}}}}}}}}
+followOrganization{items{organization{id,name,host(limit: 4){items{event{id,title,date,image,speaking{items{speaker{name}}}}}}}}}
+followSpeaker{items{speaker{id,name,speaking(limit: 4){items{event{id,title,date,image,speaking{items{speaker{name}}}}}}}}}
 attendence{
   items{
     event {
@@ -30,6 +30,7 @@ speaker{
   avatar
   bio
   links
+  tags
   speaking{
     items{
       event {
