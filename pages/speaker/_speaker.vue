@@ -33,6 +33,15 @@
           >{{link.url}}</a>
         </p>
       </div>
+      <p
+        v-if="!!speaker.tags"
+        class="mt-6 font-light"
+      >#
+        <span
+          v-for="(tag, key) in JSON.parse(speaker.tags)"
+          :key="key"
+        >{{tag}}{{JSON.parse(speaker.tags).length === key+1 ? `` : `, `}}</span>
+      </p>
     </template>
     <template slot="aboveBox">
 
@@ -82,6 +91,7 @@ const getSpeaker = /* GraphQL */ `
       bio
       avatar
       links
+      tags
       followers(userID: { eq: $userID }) {
         items {
           id

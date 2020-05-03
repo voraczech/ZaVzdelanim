@@ -4,7 +4,7 @@
       <div class="searchItem mb-4 md:mb-0 md:mr-4">
         <label
           for="title"
-          class="label"
+          class="searchItem__label"
         >Název</label>
         <v-input
           v-model="searchTitle"
@@ -14,7 +14,7 @@
       <div class="searchItem mb-4 md:mb-0 md:mr-4">
         <label
           for="place"
-          class="label"
+          class="searchItem__label"
         >Místo</label>
         <v-geosearch
           @select="e => this.searchLocation = e"
@@ -25,7 +25,7 @@
       <div class="searchItem mb-4 md:mb-0 md:mr-4">
         <label
           for="date"
-          class="label"
+          class="searchItem__label"
         >Od data</label>
         <datetime
           id="date"
@@ -37,7 +37,7 @@
       <div class="searchItem mb-4 md:mb-0 md:mr-4">
         <label
           for="tags"
-          class="label"
+          class="searchItem__label"
         >Tagy</label>
         <multiselect
           id="tags"
@@ -202,13 +202,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.label {
-  @apply text-sm tracking-wide font-medium mb-2;
-}
-
-.searchItem {
-  @apply flex flex-col flex-1;
-}
-</style>

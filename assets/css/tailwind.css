@@ -48,6 +48,14 @@ textarea:hover, textarea:focus, input:hover, input:focus, input:not(input:focus.
   @apply shadow
 }
 
+.searchItem {
+  @apply flex flex-col flex-1;
+}
+
+.searchItem__label{
+  @apply text-sm tracking-wide font-medium mb-2;
+}
+
 @font-face {
   font-family: 'Inter';
   font-style:  normal;
