@@ -90,6 +90,24 @@
         </div>
       </div>
     </section>
+    <section
+      v-else
+      class="max-w-2xl"
+    >
+      <p>Vypadá to, že tu nic není 🤷‍♂️. Podívej se na <nuxt-link
+          to="/events"
+          class="font-semibold"
+        >přednášky</nuxt-link>, jestli tě něco neosloví
+        v nejbližší době. Pokud ne, pořád to jistí <nuxt-link
+          to="/organization"
+          class="font-semibold"
+        >přehled organizací</nuxt-link> nebo
+        <nuxt-link
+          to="/speaker"
+          class="font-semibold"
+        >seznam přednášejících</nuxt-link>
+      </p>
+    </section>
   </div>
 </template>
 
