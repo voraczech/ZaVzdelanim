@@ -28,7 +28,7 @@
         <label
           for="title"
           class="searchItem__label"
-        >Název</label>
+        >Jméno</label>
         <v-input
           v-model="searchTitle"
           id="title"

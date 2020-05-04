@@ -147,7 +147,7 @@
         </div>
       </form>
       <h2 class="mt-24">Nebezpečná zóna</h2>
-      <p class="mb-2">Pak již už není cesty zpět, odebere se tvoje spojení, jako přednášející, ten bude ale dále
+      <p class="mb-2">Pak již už není cesty zpět, odebere se tvoje spojení jako přednášející, ten bude ale dále
         archivován.</p>
       <v-button
         design="alert"
