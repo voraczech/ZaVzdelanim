@@ -67,22 +67,20 @@ import VInput from "@/components/atoms/Input";
 import VPhotoTextCard from "@/components/molecules/PhotoTextCard";
 import Multiselect from "vue-multiselect";
 
-import { searchSpeakers } from "../../src/graphql/queries";
+import { searchSpeakers, listSpeakers } from "../../src/graphql/queries";
 
 export default {
   async asyncData({ store }) {
     if (!store.state.speakers.isSet) {
       const filter = {};
-      const sort = { field: "name", direction: "asc" };
       try {
         const { data } = await API.graphql(
-          graphqlOperation(searchSpeakers, {
-            sort: sort,
-            limit: 100
+          graphqlOperation(listSpeakers, {
+            limit: 1000
           })
         );
 
-        store.commit("setSpeakers", data.searchSpeakers);
+        store.commit("setSpeakers", data.listSpeakers);
       } catch (error) {
         console.error(error);
       }
@@ -114,17 +112,17 @@ export default {
       const sort = { field: "name", direction: "asc" };
 
       if (this.searchTitle.length > 0) {
-        filter = { ...filter, name: { wildcard: `${this.searchTitle}*` } };
+        filter = { ...filter, name: { contains: `${this.searchTitle}` } };
       }
 
       const response = await API.graphql(
-        graphqlOperation(searchSpeakers, {
+        graphqlOperation(listSpeakers, {
           filter: filter,
           sort: sort,
-          limit: 24
+          limit: 1000
         })
       );
-      this.data = response.data.searchSpeakers;
+      this.data = response.data.listSpeakers;
     }
   }
 };
