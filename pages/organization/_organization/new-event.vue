@@ -14,8 +14,14 @@
         v-model.trim="$v.title.$model"
         placeholder="Moje úžasná akce"
       />
-      <div v-if="!$v.title.required && $v.title.$error">Název je nutný</div>
-      <div v-if="!$v.title.minLength && $v.title.$error">Jméno musí mít aspoň {{$v.title.$params.minLength.min}} znaků.
+      <div
+        v-if="!$v.title.required && $v.title.$error"
+        class="text-red-700"
+      >Název je nutný</div>
+      <div
+        v-if="!$v.title.minLength && $v.title.$error"
+        class="text-red-700"
+      >Jméno musí mít aspoň {{$v.title.$params.minLength.min}} znaků.
       </div>
       <label for="description">Popis</label>
       <textarea
@@ -85,7 +91,7 @@
               v-model.trim="v.name.$model"
             />
             <div
-              class="error"
+               class="text-red-700"
               v-if="!v.name.required && v.$error"
             >Každý má nějaké jméno.</div>
             <textarea
@@ -166,7 +172,7 @@
       />
       <v-button type="submit">Odeslat</v-button>
       <div
-        class="text-sm font-semibold text-red-600"
+        class="text-sm font-semibold text-red-700"
         v-if="$v.$error"
       >Formulář není správně vyplněn. Zkrontroluj to, prosím.</div>
     </form>

@@ -14,7 +14,10 @@
         v-model.trim="$v.name.$model"
         placeholder="Moje úžasná organizace"
       />
-      <div v-if="!$v.name.required && $v.name.$error">Název je nutný</div>
+      <div
+        v-if="!$v.name.required && $v.name.$error"
+        class="text-red-700"
+      >Název je nutný</div>
       <label for="description">Popis</label>
       <textarea
         id="description"
@@ -84,11 +87,11 @@
             v-model.trim="v.url.$model"
           />
           <div
-            class="error"
+            class="text-red-700"
             v-if="!v.url.required && v.$error"
           >Zadej URL.</div>
           <div
-            class="error"
+            class="text-red-700"
             v-if="!v.url.url && v.$error"
           >Zadej platnou URL.</div>
         </div>
@@ -115,7 +118,7 @@
       </div>
       <v-button type="submit">Odeslat</v-button>
       <div
-        class="text-sm font-semibold text-red-600"
+        class="text-sm font-semibold text-red-700"
         v-if="$v.$error"
       >Formulář není správně vyplněn. Zkrontroluj to, prosím.</div>
     </form>

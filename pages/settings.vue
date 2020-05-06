@@ -67,7 +67,10 @@
             placeholder="Jméno"
             required
           />
-          <div v-if="!$v.name.required && $v.name.$error">Název je nutný</div>
+          <div
+            v-if="!$v.name.required && $v.name.$error"
+            class="text-red-700"
+          >Název je nutný</div>
         </div>
         <div class="flex flex-col mb-6">
           <label
@@ -113,11 +116,11 @@
               v-model.trim="v.url.$model"
             />
             <div
-              class="error"
+               class="text-red-700"
               v-if="!v.url.required && v.$error"
             >Zadej URL.</div>
             <div
-              class="error"
+               class="text-red-700"
               v-if="!v.url.url && v.$error"
             >Zadej platnou URL.</div>
           </div>
