@@ -29,7 +29,7 @@
         /> Můj přehled</nuxt-link>
       <nuxt-link
         to="/event"
-        class="header__navLink"
+        class="header__navLink header__navLink--group"
       >
         <unicon
           name="presentation"
@@ -37,7 +37,7 @@
         /> Přednášky</nuxt-link>
       <nuxt-link
         to="/speaker"
-        class="header__navLink"
+        class="header__navLink header__navLink--group"
       >
         <unicon
           name="podium"
@@ -45,7 +45,7 @@
         /> Přednášející</nuxt-link>
       <nuxt-link
         to="/organization"
-        class="header__navLink"
+        class="header__navLink header__navLink--group"
       >
         <unicon
           name="building"
@@ -53,7 +53,7 @@
         /> Organizace</nuxt-link>
       <nuxt-link
         to="/settings"
-        class="header__navLink"
+        class="header__navLink header__navLink--group"
       >
         <unicon
           name="cog"
@@ -95,7 +95,11 @@ export default {
   @apply text-gray-900;
 }
 
-.header__navLink.link--active {
-  @apply text-gray-900;
+.header__navLink.link--exactActive {
+  @apply text-gray-900 font-semibold;
+}
+
+.header__navLink--group.link--active {
+  @apply text-gray-900 font-semibold;
 }
 </style>
