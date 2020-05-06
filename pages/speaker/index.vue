@@ -106,6 +106,11 @@ export default {
   computed: {
     ...mapState(["userActivities"])
   },
+  head() {
+    return {
+      title: `Přednášející`
+    };
+  },
   methods: {
     async search() {
       let filter = {};

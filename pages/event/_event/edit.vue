@@ -328,6 +328,11 @@ export default {
       video: ""
     };
   },
+  head() {
+    return {
+      title: `Editace události`
+    };
+  },
   validations: {
     title: {
       required,

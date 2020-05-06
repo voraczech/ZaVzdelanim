@@ -180,7 +180,11 @@ export default {
           : null
     };
   },
-
+  head() {
+    return {
+      title: this.organization.name
+    };
+  },
   computed: {
     ...mapState(["user"])
   },

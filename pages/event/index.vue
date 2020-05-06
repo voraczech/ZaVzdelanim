@@ -166,6 +166,11 @@ export default {
       ]
     };
   },
+  head() {
+    return {
+      title: `Přednášky`
+    };
+  },
   computed: {
     ...mapState(["user", "userActivities"])
   },

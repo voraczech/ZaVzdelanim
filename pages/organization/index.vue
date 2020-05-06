@@ -121,6 +121,11 @@ export default {
       ]
     };
   },
+  head() {
+    return {
+      title: `Organizace`
+    };
+  },
   methods: {
     async search() {
       let filter = {};

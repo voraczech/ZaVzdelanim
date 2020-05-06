@@ -111,7 +111,11 @@ export default {
       hosts: event.host.items
     };
   },
-
+  head() {
+    return {
+      title: `Odstranění události`
+    };
+  },
   components: { VButton },
   methods: {
     async del() {

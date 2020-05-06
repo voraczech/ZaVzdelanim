@@ -298,6 +298,11 @@ export default {
       }
     }
   },
+  head() {
+    return {
+      title: `Nová událost`
+    };
+  },
   components: {
     VButton,
     VInput,

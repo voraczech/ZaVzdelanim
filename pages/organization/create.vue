@@ -39,6 +39,11 @@ export default {
       name: ""
     };
   },
+  head() {
+    return {
+      title: `Nová organizace`
+    };
+  },
   components: { VButton, VInput },
   computed: {
     ...mapState(["user"]),

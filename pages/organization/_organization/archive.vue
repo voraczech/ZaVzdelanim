@@ -63,7 +63,11 @@ export default {
       })
     };
   },
-
+  head() {
+    return {
+      title: `Archivace organizace`
+    };
+  },
   components: { VButton },
   methods: {
     async archive() {

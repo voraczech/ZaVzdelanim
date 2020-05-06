@@ -219,13 +219,19 @@ export default {
     },
     ...mapState(["user", "userActivities"])
   },
+  head() {
+    return {
+      title: `Nastavení`
+    };
+  },
   data() {
     return {
       username: this.$store.state.userActivities.name || null,
       photoPickerConfig: {
         header: "Nová profilová fotka přednášejícího",
         title: "Nahrát",
-        path: `upload/speaker/${this.$store.state.userActivities && this.$store.state.userActivities.speaker}`
+        path: `upload/speaker/${this.$store.state.userActivities &&
+          this.$store.state.userActivities.speaker}`
       },
       name:
         (this.$store.state.userActivities.speaker &&

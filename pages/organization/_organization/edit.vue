@@ -233,6 +233,11 @@ export default {
       ]
     };
   },
+  head() {
+    return {
+      title: `Úprava organizace`
+    };
+  },
   validations: {
     name: {
       required

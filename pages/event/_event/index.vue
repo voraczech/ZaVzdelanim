@@ -257,6 +257,11 @@ export default {
           : null
     };
   },
+  head() {
+    return {
+      title: this.event.title
+    };
+  },
   computed: {
     ...mapState(["user"])
   },

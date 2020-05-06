@@ -144,7 +144,11 @@ export default {
 
     return { speakerId };
   },
-
+  head() {
+    return {
+      title: this.speaker.name
+    };
+  },
   computed: {
     ...mapState(["user"])
   },
