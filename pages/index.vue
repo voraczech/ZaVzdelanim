@@ -112,15 +112,143 @@
 </template>
 
 <script>
-import VPhotoTextCard from "@/components/molecules/PhotoTextCard";
-import VEventCard from "@/components/molecules/EventCard";
+import { API, graphqlOperation } from "aws-amplify";
 import { mapState } from "vuex";
 
+import VPhotoTextCard from "@/components/molecules/PhotoTextCard";
+import VEventCard from "@/components/molecules/EventCard";
+
+const getUserActivities = /* GraphQL */ `
+  query getUserData($id: ID!) {
+    getUser(id: $id) {
+      id
+      cognitoId
+      name
+      followOrganization {
+        items {
+          organization {
+            id
+            name
+            host(limit: 4) {
+              items {
+                event {
+                  id
+                  title
+                  date
+                  image
+                  speaking {
+                    items {
+                      speaker {
+                        name
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      followSpeaker {
+        items {
+          speaker {
+            id
+            name
+            speaking(limit: 4) {
+              items {
+                event {
+                  id
+                  title
+                  date
+                  image
+                  speaking {
+                    items {
+                      speaker {
+                        name
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      attendence {
+        items {
+          event {
+            id
+            title
+            date
+            image
+            speaking {
+              items {
+                speaker {
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+      speaker {
+        id
+        name
+        avatar
+        bio
+        links
+        tags
+        speaking {
+          items {
+            event {
+              id
+              title
+              date
+              speaking {
+                items {
+                  speaker {
+                    name
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      creator {
+        items {
+          id
+          name
+          logo
+        }
+      }
+      admin {
+        items {
+          organization {
+            id
+            name
+            logo
+          }
+        }
+      }
+    }
+  }
+`;
+
 export default {
-  components: { VPhotoTextCard, VEventCard },
-  computed: {
-    ...mapState(["user", "userActivities"])
+  async asyncData({ store }) {
+    const userData = await API.graphql(
+      graphqlOperation(getUserActivities, {
+        id: store.state.user.sub
+      })
+    );
+
+    return {
+      userActivities: userData.data.getUser
+    };
   },
+  components: { VPhotoTextCard, VEventCard },
+
   created() {
     this.$store.dispatch("sortAttendence");
   }

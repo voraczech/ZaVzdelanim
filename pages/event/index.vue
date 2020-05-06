@@ -171,9 +171,6 @@ export default {
       title: `Přednášky`
     };
   },
-  computed: {
-    ...mapState(["user", "userActivities"])
-  },
   methods: {
     async search() {
       let filter = {};
