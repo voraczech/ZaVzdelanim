@@ -195,7 +195,7 @@ const createUserSpeaker = /* GraphQL */ `
 `;
 
 const deleteUserSpeaker = /* GraphQL */ `
-  mutation deleteUserSpeaker($id: ID!, $userID: ID!) {
+  mutation deleteUserSpeaker($userID: ID!) {
     updateUser(input: { id: $userID, userSpeakerId: null }) {
       id
       speaker {
