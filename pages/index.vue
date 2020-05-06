@@ -94,7 +94,7 @@
       v-else
       class="max-w-2xl"
     >
-      <p>Vypadá to, že tu nic není 🤷‍♂️. Podívej se na <nuxt-link
+      <p>Něco chybí? Podívej se na <nuxt-link
           to="/events"
           class="font-semibold"
         >přednášky</nuxt-link>, jestli tě něco neosloví
@@ -105,7 +105,7 @@
         <nuxt-link
           to="/speaker"
           class="font-semibold"
-        >seznam přednášejících</nuxt-link>
+        >seznam přednášejících</nuxt-link>.
       </p>
     </section>
   </div>
