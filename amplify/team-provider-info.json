@@ -54,7 +54,7 @@
         "categories": {
             "auth": {
                 "zavzdelanim319b6db7": {
-                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"603059646969612\",\"client_secret\":\"298356ec7c68d5a55582c3e9d2a2c01d\"},{\"ProviderName\":\"Google\",\"client_id\":\"581132806556-33a6so7hvi81l7bqub23ke7g3pcmpe42.apps.googleusercontent.com\",\"client_secret\":\"Gf5eg6KpzQEpoP6zZPZHf4z3\"}]"
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"603059646969612\",\"client_secret\":\"298356ec7c68d5a55582c3e9d2a2c01d\"},{\"ProviderName\":\"Google\",\"client_id\":\"615412979361-7qpmdn6pdatg8nma4jlsj5eeh5tm23uc.apps.googleusercontent.com\",\"client_secret\":\"yLdoL_MbnSFWaG7yclTEh6us\"}]"
                 }
             }
         }
