@@ -250,32 +250,7 @@ export default {
   components: { VPhotoTextCard, VEventCard },
 
   created() {
-    this.sortAttendence();
-  },
-  methods: {
-    sortAttendence() {
-      function compare(a, b) {
-        // Use toUpperCase() to ignore character casing
-        const eventA = a.event.date;
-        const eventB = b.event.date;
-
-        let comparison = 0;
-        if (eventA > eventB) {
-          comparison = 1;
-        } else if (eventA < eventB) {
-          comparison = -1;
-        }
-        return comparison;
-      }
-
-      const date = new Date().toISOString();
-
-      this.userActivities.attendence.items = [
-        ...this.userActivities.attendence.items
-      ]
-        .filter(event => event.event.date > date)
-        .sort(compare);
-    }
+    this.$store.dispatch("sortAttendence");
   }
 };
 </script>
