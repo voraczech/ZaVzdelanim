@@ -18,5 +18,45 @@
                 }
             }
         }
+    },
+    "zvzd": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-zavzdelanim-zvzd-143902-authRole",
+            "UnauthRoleArn": "arn:aws:iam::063392365812:role/amplify-zavzdelanim-zvzd-143902-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::063392365812:role/amplify-zavzdelanim-zvzd-143902-authRole",
+            "Region": "eu-central-1",
+            "DeploymentBucketName": "amplify-zavzdelanim-zvzd-143902-deployment",
+            "UnauthRoleName": "amplify-zavzdelanim-zvzd-143902-unauthRole",
+            "StackName": "amplify-zavzdelanim-zvzd-143902",
+            "StackId": "arn:aws:cloudformation:eu-central-1:063392365812:stack/amplify-zavzdelanim-zvzd-143902/bb8e00c0-905f-11ea-ba95-02ea990c0932",
+            "AmplifyAppId": "d3i061ekbr8flf"
+        },
+        "categories": {
+            "auth": {
+                "zavzdelanim319b6db7": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"2464686983779813\",\"client_secret\":\"89e6e46838b64aa4420931bf9b83f270\"},{\"ProviderName\":\"Google\",\"client_id\":\"1006764180499-fj3q1a4o92ukbf6ijg3l4q7dh6gm9bcb.apps.googleusercontent.com\",\"client_secret\":\"nLKnvLxiFkIhvdG-o8C_HmZ-\"}]"
+                }
+            }
+        }
+    },
+    "zv": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-zavzdelanim-zv-145957-authRole",
+            "UnauthRoleArn": "arn:aws:iam::063392365812:role/amplify-zavzdelanim-zv-145957-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::063392365812:role/amplify-zavzdelanim-zv-145957-authRole",
+            "Region": "eu-central-1",
+            "DeploymentBucketName": "amplify-zavzdelanim-zv-145957-deployment",
+            "UnauthRoleName": "amplify-zavzdelanim-zv-145957-unauthRole",
+            "StackName": "amplify-zavzdelanim-zv-145957",
+            "StackId": "arn:aws:cloudformation:eu-central-1:063392365812:stack/amplify-zavzdelanim-zv-145957/a77ddda0-9062-11ea-8238-063da53eea2a",
+            "AmplifyAppId": "d3i061ekbr8flf"
+        },
+        "categories": {
+            "auth": {
+                "zavzdelanim319b6db7": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"603059646969612\",\"client_secret\":\"298356ec7c68d5a55582c3e9d2a2c01d\"},{\"ProviderName\":\"Google\",\"client_id\":\"581132806556-33a6so7hvi81l7bqub23ke7g3pcmpe42.apps.googleusercontent.com\",\"client_secret\":\"Gf5eg6KpzQEpoP6zZPZHf4z3\"}]"
+                }
+            }
+        }
     }
 }
