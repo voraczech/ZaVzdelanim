@@ -3,13 +3,10 @@
     <div class="flex flex-col-reverse md:flex-row md:-mx-2">
       <div class="mt-5 md:mt-0 md:w-2/3 md:px-2">
         <div class="rounded shadow-sm bg-white">
-          <div
-            v-if="image"
-            class="relative pb-2/3"
-          >
+          <div v-if="image">
             <v-image
               :path="image"
-              class="absolute rounded-b-none h-full w-full object-cover"
+              class="rounded-b-none w-full"
             />
           </div>
           <div class="p-12">
