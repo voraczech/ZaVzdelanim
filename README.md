@@ -41,4 +41,4 @@ $ yarn start
 $ yarn generate
 ```
 
-Další informace poskyjí [NuxtJS docs](https://nuxtjs.org).
+Další informace poskytují [NuxtJS docs](https://nuxtjs.org).
