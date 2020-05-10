@@ -13,10 +13,10 @@
 
 ## Instalace
 
-Preferovaným způsobem je instalace yarn balíčků (ty by ale měly být zahrnuty) a následné lokální spuštění
+Preferovaným způsobem je instalace balíčků přes yarn a následné lokální spuštění
 
 ``` bash
-# instalace, neměla by být třeba
+# instalace balíčků
 $ yarn
 
 # spuštění na localhost:3000
@@ -27,7 +27,7 @@ $ yarn nuxt
 Případně lze použít i následující příkazy, jsou uvedeny pouze informativně
 
 ``` bash
-# alternativní příkaz instalace
+# alternativní příkaz instalace balíčků
 $ yarn install
 
 # alternativní příkaz spuštění na localhost:3000
