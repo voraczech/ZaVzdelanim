@@ -9,10 +9,12 @@
           type="text"
           placeholder="Jméno organizace"
           v-model="name"
+          required
         />
         <v-button
-          :disabled="loading"
+          :disabled="name.length === 0"
           @click.native="mutate"
+          class="mt-4"
         >Vytvořit organizaci</v-button>
       </template>
     </amplify-connect>
@@ -26,12 +28,15 @@ import { mapState } from "vuex";
 import VInput from "@/components/atoms/Input";
 import VButton from "@/components/atoms/Button";
 
-const CreateOrg = `
-mutation CreateOrganization($id: ID!, $name: String!, $creatorID: ID!) {
-createOrganization(input: {id: $id, name: $name, creatorID: $creatorID}) {
-  id
-}
-}`;
+import { required } from "vuelidate/lib/validators";
+
+const CreateOrg = /* GraphQL */ `
+  mutation CreateOrganization($id: ID!, $name: String!, $creatorID: ID!) {
+    createOrganization(input: { id: $id, name: $name, creatorID: $creatorID }) {
+      id
+    }
+  }
+`;
 
 export default {
   data() {
