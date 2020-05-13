@@ -75,12 +75,13 @@ export default {
       const filter = {};
       try {
         const { data } = await API.graphql(
-          graphqlOperation(listSpeakers, {
-            limit: 1000
+          graphqlOperation(searchSpeakers, {
+            limit: 1000,
+            sort: { field: "name", direction: "asc" }
           })
         );
 
-        store.commit("setSpeakers", data.listSpeakers);
+        store.commit("setSpeakers", data.searchSpeakers);
       } catch (error) {
         console.error(error);
       }
@@ -115,19 +116,27 @@ export default {
     async search() {
       let filter = {};
       const sort = { field: "name", direction: "asc" };
+      let data;
 
       if (this.searchTitle.length > 0) {
-        filter = { ...filter, name: { contains: `${this.searchTitle}` } };
-      }
+        filter = { ...filter, name: { wildcard: `${this.searchTitle}*` } };
 
-      const response = await API.graphql(
-        graphqlOperation(listSpeakers, {
-          filter: filter,
-          sort: sort,
-          limit: 1000
-        })
-      );
-      this.data = response.data.listSpeakers;
+        data = await API.graphql(
+          graphqlOperation(searchSpeakers, {
+            filter: filter,
+            sort: sort,
+            limit: 1000
+          })
+        );
+      } else {
+        data = await API.graphql(
+          graphqlOperation(searchSpeakers, {
+            sort: sort,
+            limit: 1000
+          })
+        );
+      }
+      this.data = data.data.searchSpeakers;
     }
   }
 };
