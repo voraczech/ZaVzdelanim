@@ -5,6 +5,7 @@
 @import 'tailwindcss/utilities';
 
 /* purgecss start ignore */
+@import "vue-datetime/dist/vue-datetime.css";
 @import "vue-multiselect/dist/vue-multiselect.min.css";
 
 *:focus, button:focus {
