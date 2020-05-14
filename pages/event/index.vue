@@ -83,7 +83,6 @@ import VGeosearch from "@/components/molecules/Geosearch";
 import Multiselect from "vue-multiselect";
 
 import { Datetime } from "vue-datetime";
-import "vue-datetime/dist/vue-datetime.css";
 
 const searchEvents = /* GraphQL */ `
   query SearchEvents(

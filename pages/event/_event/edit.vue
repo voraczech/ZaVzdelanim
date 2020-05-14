@@ -183,7 +183,6 @@ import { required, minLength } from "vuelidate/lib/validators";
 import { v4 as uuidv4 } from "uuid";
 
 import { Datetime } from "vue-datetime";
-import "vue-datetime/dist/vue-datetime.css";
 
 import VButton from "@/components/atoms/Button";
 import VInput from "@/components/atoms/Input";
